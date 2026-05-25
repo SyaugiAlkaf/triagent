@@ -35,7 +35,10 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  body { overflow: hidden; }
+  body { overflow: auto; }
+  @media (min-width: 1024px) { body { overflow: hidden; } }
+  .cockpit-scroll::-webkit-scrollbar { height: 0; }
+  .cockpit-scroll { scrollbar-width: none; }
 
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }

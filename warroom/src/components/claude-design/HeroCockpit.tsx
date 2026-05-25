@@ -82,7 +82,7 @@ export function HeroCockpit({ onToggleChaos }: HeroCockpitProps) {
 
   return (
     <header
-      className="relative h-[56px] glass rounded-lg flex items-center gap-2.5 px-3.5 overflow-hidden min-w-0"
+      className="relative h-[56px] glass rounded-lg flex items-center gap-2.5 px-3.5 overflow-x-auto overflow-y-hidden min-w-0 cockpit-scroll"
       style={{
         background: "var(--color-bg-elevated)",
         border: "1px solid var(--color-border)",
@@ -382,9 +382,9 @@ function TokenBudget({ spent, budget }: { spent: number; budget: number }) {
         ? "var(--color-warning)"
         : "var(--color-text-mid)";
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 flex-shrink-0">
       <div
-        className="relative w-[80px] h-1.5 rounded-full overflow-hidden"
+        className="relative w-[60px] lg:w-[80px] h-1.5 rounded-full overflow-hidden"
         style={{ background: "var(--color-bg-sunken)" }}
       >
         <div
@@ -396,9 +396,8 @@ function TokenBudget({ spent, budget }: { spent: number; budget: number }) {
           style={{ left: "85%", background: "var(--color-border-strong)" }}
         />
       </div>
-      <span className="font-mono text-[12px] tabular text-text-strong">
-        {(spent / 1000).toFixed(1)}
-        <span className="text-text-dim">k tok</span>
+      <span className="font-mono text-[12px] tabular text-text-strong whitespace-nowrap">
+        {(spent / 1000).toFixed(1)}k<span className="text-text-dim hidden md:inline"> tok</span>
       </span>
     </div>
   );
@@ -466,7 +465,7 @@ function VerdictCapsule({ result }: { result: Result }) {
         : "var(--color-danger)";
   return (
     <div
-      className="inline-flex items-center gap-1.5 px-2 h-8 rounded-md font-mono text-[11px] tracking-[0.14em]"
+      className="inline-flex items-center gap-1.5 px-2 h-8 rounded-md font-mono text-[11px] tracking-[0.14em] flex-shrink-0"
       style={{
         border: `1px solid color-mix(in oklch, ${c} 30%, transparent)`,
         background: `color-mix(in oklch, ${c} 6%, transparent)`,
@@ -487,7 +486,7 @@ function VerdictCapsule({ result }: { result: Result }) {
 function InfoBadge({ text }: { text: string }) {
   return (
     <span
-      className="inline-flex w-4 h-4 items-center justify-center rounded text-text-dim hover:text-text"
+      className="hidden lg:inline-flex w-4 h-4 items-center justify-center rounded text-text-dim hover:text-text"
       title={text}
     >
       <Info size={11} />

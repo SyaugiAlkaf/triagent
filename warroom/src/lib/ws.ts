@@ -1,10 +1,19 @@
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import { useStore } from '@/store/store'
 import type { WSEvent } from '@/types'
+import { isDemoMode, startDemoStream, subscribeDemo } from '@/lib/demo-mode'
 
 let socket: ReconnectingWebSocket | null = null
+let demoStarted = false
 
 export function ensureSocket() {
+  if (isDemoMode()) {
+    if (demoStarted) return null
+    demoStarted = true
+    subscribeDemo((ev) => useStore.getState().applyWsEvent(ev))
+    startDemoStream()
+    return null
+  }
   if (socket) return socket
   const proto = window.location.protocol === 'https:' ? 'wss' : 'ws'
   const url = `${proto}://${window.location.host}/ws`

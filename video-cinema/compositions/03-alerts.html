@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="_styles.css">
 </head>
 <body>
@@ -100,7 +100,7 @@
     </div>
 
     <div class="b03-line" data-line="4" style="display:flex; align-items:baseline; gap:10px; padding-top:14px; border-top:1px solid rgba(162,89,255,0.2);">
-      <span class="b03-line-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; width:0; font-size:28px; color:#c8b3ff; font-weight:600; letter-spacing:0.02em; vertical-align:middle;">&rarr; all recoverable</span>
+      <span class="b03-line-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; width:0; font-size:28px; color:#c8b3ff; font-weight:600; letter-spacing:0.02em; vertical-align:middle;">&rarr; ai investigates every alert</span>
       <span id="b03-caret" style="display:inline-block; width:5px; height:26px; background:#c8b3ff; box-shadow:0 0 12px rgba(200,179,255,0.6); opacity:0;"></span>
     </div>
 
@@ -209,7 +209,7 @@
   // Commentary
   tl.to('#b03 #b03-commentary', { opacity: 1, duration: 0.4 }, 0.4);
 
-  const lineStarts = [0.50, 1.00, 1.50, 2.10];
+  const lineStarts = [0.50, 1.00, 1.50, 0.30];
   lineEls.forEach((el, i) => {
     const stepCount = Math.max(10, Math.round(lineWidths[i] / 18));
     tl.to(el, { width: lineWidths[i], duration: 0.5, ease: `steps(${stepCount})` }, lineStarts[i]);

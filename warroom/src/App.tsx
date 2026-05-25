@@ -9,6 +9,7 @@ import { DesignSystemStyles } from '@/components/claude-design/design-system'
 import EvalModal from '@/components/EvalModal'
 import LoginScreen from '@/components/LoginScreen'
 import { ensureSocket } from '@/lib/ws'
+import { isDemoMode } from '@/lib/demo-mode'
 import { useStore } from '@/store/store'
 import { Toaster, toast } from 'sonner'
 
@@ -77,13 +78,30 @@ export default function App() {
     setTimeout(() => setAuthPhase('authed'), 800)
   }
 
+  const demo = isDemoMode()
+
   return (
-    <div className="h-screen w-screen flex flex-col bg-bg text-text overflow-hidden">
+    <div className="min-h-screen w-screen flex flex-col bg-bg text-text lg:h-screen lg:overflow-hidden">
       <DesignSystemStyles />
+      {demo && (
+        <div
+          className="px-3 py-1.5 text-[11px] tracking-[0.22em] font-mono uppercase flex items-center justify-center gap-3"
+          style={{
+            background: 'linear-gradient(90deg, rgba(162,89,255,0.18), rgba(162,89,255,0.06))',
+            borderBottom: '1px solid rgba(162,89,255,0.35)',
+            color: '#c8b3ff',
+          }}
+        >
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#c8b3ff', boxShadow: '0 0 8px #c8b3ff' }} />
+          demo mode · scripted scenarios · no backend
+          <span className="opacity-50">·</span>
+          <a href="https://github.com/triagent" target="_blank" rel="noreferrer" className="underline opacity-80 hover:opacity-100">github</a>
+        </div>
+      )}
       <div className="px-3 pt-3">
         <HeroCockpit onToggleChaos={() => setChaosOpen((o) => !o)} />
       </div>
-      <main className="flex-1 grid grid-cols-[340px_1fr] gap-3 px-3 pt-3 overflow-hidden min-h-0">
+      <main className="flex-1 grid grid-cols-1 md:grid-cols-[280px_1fr] lg:grid-cols-[340px_1fr] gap-3 px-3 pt-3 min-h-0 lg:overflow-hidden">
         <AlertInbox />
         <IncidentDetail />
       </main>
@@ -91,8 +109,8 @@ export default function App() {
         <TickerStrip />
       </div>
       <section
-        className="relative mx-3 mb-3 mt-2 rounded-lg overflow-hidden border border-border"
-        style={{ height: 372, background: 'var(--color-bg-elevated)' }}
+        className="relative mx-3 mb-3 mt-2 rounded-lg overflow-hidden border border-border hidden md:block"
+        style={{ height: 'clamp(240px, 38vh, 372px)', background: 'var(--color-bg-elevated)' }}
       >
         <TopologyScene />
       </section>

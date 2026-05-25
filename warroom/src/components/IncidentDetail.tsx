@@ -108,6 +108,12 @@ export default function IncidentDetail() {
   }, [activeSlug])
 
   useEffect(() => {
+    const onOpenReplay = () => setReplayOpen(true)
+    window.addEventListener('triagent:open-replay-modal', onOpenReplay as EventListener)
+    return () => window.removeEventListener('triagent:open-replay-modal', onOpenReplay as EventListener)
+  }, [])
+
+  useEffect(() => {
     if (tab === 'trace' && traceRef.current) {
       traceRef.current.scrollTop = traceRef.current.scrollHeight
     }

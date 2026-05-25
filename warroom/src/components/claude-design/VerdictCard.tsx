@@ -211,9 +211,7 @@ function EnsembleBadge({ ensemble }: { ensemble: Ensemble }) {
 
 function CollapsedDebrief({ result }: { result: Result }) {
   const onOpenTrace = () => {
-    document
-      .querySelector("[data-trace-feed-scroll]")
-      ?.scrollTo({ top: 0, behavior: "smooth" });
+    window.dispatchEvent(new CustomEvent("triagent:open-replay-modal"));
   };
   return (
     <div className="flex items-center gap-3 px-6 py-3">
@@ -780,9 +778,7 @@ function CostBreakdown({ by }: { by: Record<string, number> }) {
 
 function Remediation({ result }: { result: Result }) {
   const onOpenTrace = () => {
-    document
-      .querySelector("[data-trace-feed-scroll]")
-      ?.scrollTo({ top: 0, behavior: "smooth" });
+    window.dispatchEvent(new CustomEvent("triagent:open-replay-modal"));
   };
   const onExportReceipt = () => {
     const receipt = {

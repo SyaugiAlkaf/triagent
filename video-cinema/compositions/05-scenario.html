@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="_styles.css">
 </head>
 <body>
@@ -55,7 +55,7 @@
     </div>
 
     <!-- Trace area -->
-    <div id="b05-trace" style="position:relative; margin-top:14px; padding:18px 22px; background:#0e131b; border:1px solid #1d2330; border-radius:10px; font-family:'JetBrains Mono', monospace; font-size:13px; line-height:1.7; color:#c4ccd9; min-height:300px;">
+    <div id="b05-trace" style="position:relative; margin-top:14px; padding:18px 22px; background:#0e131b; border:1px solid #1d2330; border-radius:10px; font-family:'Geist Mono', monospace; font-size:13px; line-height:1.7; color:#c4ccd9; min-height:300px;">
 
       <div class="trace-row" data-kind="normal" style="opacity:0;"><span style="color:#6b7484;">[t=0.00]</span> <span style="color:#9aa0ad;">investigate.start</span> · scenario=dns-chaos</div>
       <div class="trace-row" data-kind="normal" style="opacity:0;"><span style="color:#6b7484;">[t=0.42]</span> <span style="color:#9aa0ad;">llm.call</span> provider=<span style="color:#f2f5fa;">groq/llama-3.1-70b</span></div>
@@ -136,7 +136,7 @@
     </div>
 
     <div style="display:flex; align-items:baseline; gap:10px; padding-top:18px; border-top:1px solid rgba(162,89,255,0.2);">
-      <span class="b05-c-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; width:0; font-size:26px; color:#c8b3ff; font-weight:600; letter-spacing:0.02em; vertical-align:middle;">&rarr; recovered</span>
+      <span class="b05-c-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; width:0; font-size:26px; color:#c8b3ff; font-weight:600; letter-spacing:0.02em; vertical-align:middle;">&rarr; self-healed</span>
       <span id="b05-c-caret" style="display:inline-block; width:5px; height:24px; background:#c8b3ff; box-shadow:0 0 12px rgba(200,179,255,0.6); opacity:0;"></span>
     </div>
 
@@ -210,7 +210,7 @@
     TRACE_START + 6 * ROW_GAP - 0.05,
     TRACE_START + 7 * ROW_GAP - 0.05,
     TRACE_START + 11 * ROW_GAP - 0.05,
-    TRACE_START + 12 * ROW_GAP + 0.4
+    0.5
   ];
   cLineEls.forEach((el, i) => {
     const steps = Math.max(10, Math.round(cLineWidths[i] / 18));

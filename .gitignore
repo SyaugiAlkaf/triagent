@@ -71,7 +71,11 @@ docs/overnight-*.md
 docs/wake-up-*.md
 docs/war-room-build-report.md
 docs/devpost-form-draft.md
+docs/devpost-form.md
+docs/devpost-pitch.md
+docs/devpost-about.md
 docs/demo-script.md
+ABOUT.md
 
 # --- secrets — HARD RULE (see ~/.claude/rules/security.md) ---
 .env.*
@@ -85,3 +89,4 @@ service-account*.json
 .vault-token
 .kube/
 kubeconfig*
+docs/devpost.md

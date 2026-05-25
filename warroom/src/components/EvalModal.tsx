@@ -39,7 +39,7 @@ export function EvalModal() {
         </div>
 
         <img
-          src="/static/eval/chaos_eval.png"
+          src="/chaos_eval.png"
           alt="Chaos resilience: baseline vs triagent across four chaos modes"
           className="mt-5 w-full rounded-lg border border-border bg-bg-card"
         />

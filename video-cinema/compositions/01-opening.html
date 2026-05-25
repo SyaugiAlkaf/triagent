@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="_styles.css">
 </head>
 <body>
@@ -62,7 +62,7 @@
   const chars = ['T','R','I','A','G','E','N','T'];
   const cumWidths = [];
   const ghostSpan = document.createElement('span');
-  ghostSpan.style.cssText = 'position:absolute; visibility:hidden; white-space:pre; font-family:Inter,system-ui,sans-serif; font-size:96px; font-weight:700; letter-spacing:-0.02em; line-height:1;';
+  ghostSpan.style.cssText = 'position:absolute; visibility:hidden; white-space:pre; font-family:Geist,system-ui,sans-serif; font-size:96px; font-weight:700; letter-spacing:-0.02em; line-height:1;';
   document.body.appendChild(ghostSpan);
   for (let i = 0; i < chars.length; i++) {
     ghostSpan.textContent = chars.slice(0, i + 1).join('');
