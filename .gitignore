@@ -66,6 +66,12 @@ docs/weekly_kpi/
 docs/daily/
 customers/
 video/CLAUDE.md
+video/AGENTS.md
+docs/overnight-*.md
+docs/wake-up-*.md
+docs/war-room-build-report.md
+docs/devpost-form-draft.md
+docs/demo-script.md
 
 # --- secrets — HARD RULE (see ~/.claude/rules/security.md) ---
 .env.*
