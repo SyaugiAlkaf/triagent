@@ -1,0 +1,52 @@
+:root {
+  --bg-dark: #0a0a0c;
+  --bg-light: #f7f8fa;
+  --ink: #0e0f12;
+  --ink-mid: #5b6068;
+  --accent: #a259ff;
+  --accent-2: #5d9cf5;
+  --pink: #ff7eb3;
+  --success: #30d158;
+  --danger: #ff453a;
+}
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--ink); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+.clip { opacity: 0; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+.serif { font-family: 'Instrument Serif', serif; font-style: italic; }
+
+.beat-root { position: absolute; inset: 0; }
+.bg-light { position: absolute; inset: 0; background: var(--bg-light); }
+.bg-dark  { position: absolute; inset: 0; background: var(--bg-dark); }
+
+#cursor, .cursor {
+  position: absolute; width: 64px; height: 80px; pointer-events: none; z-index: 70;
+  left: 0; top: 0; transform-origin: 16px 12px; transform: translate(-25%, -10%);
+  will-change: transform, left, top;
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35));
+}
+
+.stage { position: absolute; inset: 0; transform-origin: 960px 540px;
+  will-change: transform, opacity; }
+.screen { position: absolute; inset: 0; background-size: cover; background-position: top left; opacity: 0; }
+
+.ripple { position: absolute; width: 16px; height: 16px; border: 3px solid var(--accent);
+  border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 65; opacity: 0; }
+
+.wipe { position: absolute; border-radius: 50%; transform: translate(-50%, -50%) scale(0);
+  pointer-events: none; z-index: 90; will-change: transform, opacity; }
+
+.kinetic-row { position: absolute; width: 100%; text-align: center;
+  will-change: transform, opacity; opacity: 0; }
+.kw { display: inline-block; opacity: 0; transform: translateY(40px); will-change: transform, opacity; }
+.kw-accent { color: var(--accent); }
+.kw-blue { color: var(--accent-2); }
+.kw-dn { color: var(--danger); }
+.kw-gr { color: var(--success); }
+
+.orb { position: absolute; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #d4b3ff 0%, #a259ff 55%, #6d28d9 100%);
+  box-shadow: 0 0 80px 24px rgba(162,89,255,0.35);
+  pointer-events: none; z-index: 80; opacity: 0; transform: translate(-50%, -50%);
+  will-change: transform, opacity, width, height; }

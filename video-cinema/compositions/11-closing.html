@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div id="b11" data-composition-id="b11" data-start="0" data-duration="4.5" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:#0a0a0c;">
+
+  <!-- Radial violet glow behind -->
+  <div id="b11-halo" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) scale(0.6); width:1200px; height:1200px; border-radius:50%; background:radial-gradient(circle, rgba(162,89,255,0.22), transparent 60%); opacity:0; filter:blur(40px);"></div>
+
+  <!-- Center stack: mark + TRIAGENT + powered-by + URL -->
+  <div id="b11-stack" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:38px;">
+
+    <div id="b11-mark-row" style="display:flex; align-items:center; gap:24px; opacity:0; transform:scale(0.88);">
+      <div style="width:108px; height:108px; border-radius:28px; background:linear-gradient(135deg,#b380ff,#7c3aed); display:flex; align-items:center; justify-content:center; box-shadow:0 22px 70px -10px rgba(162,89,255,0.6), 0 0 0 1px rgba(255,255,255,0.06) inset;">
+        <svg width="58" height="58" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4L26 22H6L16 4Z" stroke="white" stroke-width="2.6" stroke-linejoin="round"/>
+          <circle cx="16" cy="18" r="2.8" fill="white"/>
+        </svg>
+      </div>
+      <span style="font-size:108px; font-weight:700; letter-spacing:-0.02em; color:#f5f5f7; line-height:1;">TRIAGENT</span>
+    </div>
+
+    <div id="b11-power" class="mono" style="font-size:20px; font-weight:500; letter-spacing:0.34em; color:#9aa0ad; padding:16px 26px; background:rgba(162,89,255,0.06); border:1px solid rgba(162,89,255,0.22); border-radius:999px; white-space:nowrap; opacity:0;">
+      POWERED BY TRUEFOUNDRY
+    </div>
+
+    <div id="b11-tag" style="display:flex; flex-direction:column; align-items:center; gap:6px; opacity:0;">
+      <span style="font-size:22px; font-weight:400; color:#c4ccd9; letter-spacing:0.02em;">Your k8s incident agent.</span>
+      <span style="font-size:22px; font-weight:600; color:#c8b3ff; letter-spacing:0.02em;">Built to survive chaos.</span>
+    </div>
+
+    <div id="b11-url" class="mono" style="font-size:14px; font-weight:500; letter-spacing:0.22em; color:#6b7484; opacity:0;">
+      github.com/triagent
+    </div>
+
+  </div>
+
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  window.__timelines['b11'] = tl;
+
+  // Compressed timing — 5.5s → 4.5s
+  // Halo bloom
+  tl.to('#b11 #b11-halo',
+    { opacity: 1, scale: 1, duration: 0.85, ease: 'power3.out' }, 0.0);
+
+  // Logo pops in
+  tl.to('#b11 #b11-mark-row',
+    { opacity: 1, scale: 1, duration: 0.75, ease: 'back.out(1.7)' }, 0.15);
+
+  // Powered-by
+  tl.fromTo('#b11 #b11-power',
+    { opacity: 0, y: 16 },
+    { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0.8);
+
+  // Tagline
+  tl.fromTo('#b11 #b11-tag',
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 1.2);
+
+  // URL
+  tl.to('#b11 #b11-url',
+    { opacity: 1, duration: 0.45 }, 1.7);
+
+  // Brief breathing
+  tl.to('#b11 #b11-mark-row',
+    { y: -6, duration: 0.9, ease: 'sine.inOut', yoyo: true, repeat: 1 }, 2.3);
+
+  // Fade out
+  tl.to(['#b11 #b11-stack', '#b11 #b11-halo'],
+    { opacity: 0, duration: 0.55, ease: 'power3.in' }, 3.9);
+</script>
+</body>
+</html>

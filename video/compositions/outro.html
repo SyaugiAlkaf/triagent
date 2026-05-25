@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Triagent · Outro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=block"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0b0e13; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="triagent-outro"
+      data-composition-id="triagent-outro"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="10"
+    >
+      <div class="stage">
+        <div class="grid"></div>
+        <div class="vignette"></div>
+
+        <div class="header">
+          <div class="kicker">CHAOS-PROOF · OBSERVABLE · COST-AWARE</div>
+          <h1 class="headline">
+            <span class="seg seg-1">Six features.</span>
+            <span class="seg seg-2">Three primitives.</span>
+            <span class="seg seg-3">Real TrueFoundry.</span>
+          </h1>
+        </div>
+
+        <div class="columns">
+          <section class="col col-a">
+            <div class="col-num">01</div>
+            <h2 class="col-title">Six features</h2>
+            <ul class="bullets">
+              <li><span class="dot"></span>Brownout-aware fallback chain</li>
+              <li><span class="dot"></span>MCP tool quarantine</li>
+              <li><span class="dot"></span>Latency-aware routing · EWMA</li>
+              <li><span class="dot"></span>AI observability + session replay</li>
+              <li><span class="dot"></span>Token budget breaker + cost attribution</li>
+              <li><span class="dot"></span>Eval harness with chaos injection</li>
+            </ul>
+          </section>
+
+          <section class="col col-b">
+            <div class="col-num">02</div>
+            <h2 class="col-title">Three primitives TF doesn't ship</h2>
+            <ul class="bullets primitives">
+              <li><span class="dot accent"></span>Cross-provider ensemble verify</li>
+              <li><span class="dot accent"></span>Cost-aware fallback policy</li>
+              <li><span class="dot accent"></span>Counterfactual replay</li>
+            </ul>
+            <div class="diff-card">
+              <div class="diff-label">RESULT</div>
+              <div class="diff-stat">
+                <div class="diff-num"><span class="num-fail">0%</span> → <span class="num-pass">100%</span></div>
+                <div class="diff-sub">baseline collapses · triagent holds across 120 chaos runs</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="col col-c">
+            <div class="col-num">03</div>
+            <h2 class="col-title">Real TrueFoundry, live</h2>
+            <div class="chain">
+              <div class="hop"><span class="hop-tag">PRIMARY</span><span class="hop-name">GROQ</span></div>
+              <div class="arrow">→</div>
+              <div class="hop"><span class="hop-tag">FALLBACK</span><span class="hop-name">OLLAMA</span></div>
+              <div class="arrow">→</div>
+              <div class="hop hop-tf"><span class="hop-tag">GATEWAY</span><span class="hop-name">TFOUNDRY</span></div>
+              <div class="arrow">→</div>
+              <div class="hop"><span class="hop-tag">CACHE</span><span class="hop-name">MOCK</span></div>
+            </div>
+            <div class="chain-note">
+              Four-deep brownout-aware chain. TrueFoundry AI Gateway as the third hop, env-gated.
+            </div>
+          </section>
+        </div>
+
+        <div class="footer">
+          <div class="mark">
+            <svg viewBox="0 0 14 14" width="44" height="44">
+              <path d="M2 11 L7 2 L12 11" stroke="#a259ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              <circle cx="7" cy="8.5" r="1.3" fill="#a259ff" />
+            </svg>
+          </div>
+          <div class="wordmark">TRIAGENT</div>
+          <div class="footer-rule"></div>
+          <div class="footer-meta">github.com/syaugi/triagent · DevNetwork [AI+ML] 2026 · TrueFoundry Resilient Agents</div>
+        </div>
+      </div>
+
+      <style>
+        #triagent-outro .stage {
+          width: 1920px; height: 1080px; position: relative; overflow: hidden;
+          background: #0b0e13;
+          font-family: 'Inter', sans-serif;
+          color: #c4ccd9;
+        }
+        #triagent-outro .grid {
+          position: absolute; inset: 0; pointer-events: none;
+          background-image:
+            linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+          background-size: 96px 96px, 96px 96px;
+          opacity: 0;
+        }
+        #triagent-outro .vignette {
+          position: absolute; inset: 0; pointer-events: none;
+          background: radial-gradient(ellipse at center, rgba(11,14,19,0) 30%, rgba(11,14,19,0.85) 95%);
+          opacity: 0;
+        }
+
+        #triagent-outro .header {
+          position: absolute;
+          left: 96px; right: 96px; top: 96px;
+          opacity: 0;
+        }
+        #triagent-outro .kicker {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 16px;
+          letter-spacing: 0.32em;
+          color: #a259ff;
+          font-weight: 600;
+          margin-bottom: 16px;
+        }
+        #triagent-outro .headline {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 64px;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          color: #f2f5fa;
+          line-height: 1.1;
+        }
+        #triagent-outro .headline .seg { display: inline-block; margin-right: 24px; opacity: 0; }
+        #triagent-outro .headline .seg-3 { color: #a259ff; }
+
+        #triagent-outro .columns {
+          position: absolute;
+          left: 96px; right: 96px; top: 304px;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 36px;
+        }
+        #triagent-outro .col {
+          background: #131820;
+          border: 1px solid #232a37;
+          border-radius: 12px;
+          padding: 28px 28px 24px;
+          opacity: 0;
+          min-height: 480px;
+          position: relative;
+        }
+        #triagent-outro .col-num {
+          position: absolute;
+          right: 24px; top: 20px;
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 14px;
+          letter-spacing: 0.22em;
+          color: #6b7484;
+          font-weight: 600;
+        }
+        #triagent-outro .col-title {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 22px;
+          letter-spacing: 0.06em;
+          font-weight: 700;
+          color: #f2f5fa;
+          margin-bottom: 22px;
+          padding-right: 60px;
+        }
+        #triagent-outro .bullets {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+        #triagent-outro .bullets li {
+          font-family: 'Inter', sans-serif;
+          font-size: 19px;
+          line-height: 1.35;
+          color: #c4ccd9;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        #triagent-outro .bullets .dot {
+          width: 8px; height: 8px;
+          border-radius: 50%;
+          background: #9aa3b2;
+          flex-shrink: 0;
+        }
+        #triagent-outro .bullets .dot.accent {
+          background: #a259ff;
+          box-shadow: 0 0 8px rgba(162,89,255,0.6);
+        }
+        #triagent-outro .primitives li {
+          font-size: 22px;
+          font-weight: 500;
+          color: #f2f5fa;
+          margin-bottom: 8px;
+        }
+        #triagent-outro .diff-card {
+          margin-top: 28px;
+          background: #0a0d12;
+          border: 1px solid #313a4d;
+          border-radius: 8px;
+          padding: 16px 18px;
+        }
+        #triagent-outro .diff-label {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 11px;
+          letter-spacing: 0.22em;
+          color: #6b7484;
+          margin-bottom: 8px;
+          font-weight: 600;
+        }
+        #triagent-outro .diff-num {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 36px;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          color: #f2f5fa;
+        }
+        #triagent-outro .num-fail { color: #e85a5a; }
+        #triagent-outro .num-pass { color: #3fbf7f; }
+        #triagent-outro .diff-sub {
+          margin-top: 6px;
+          font-size: 13px;
+          color: #9aa3b2;
+        }
+
+        #triagent-outro .chain {
+          display: grid;
+          grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+          gap: 8px;
+          align-items: stretch;
+          margin-bottom: 22px;
+        }
+        #triagent-outro .hop {
+          background: #0a0d12;
+          border: 1px solid #232a37;
+          border-radius: 6px;
+          padding: 12px 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          align-items: flex-start;
+        }
+        #triagent-outro .hop-tf {
+          border-color: rgba(162, 89, 255, 0.45);
+          background: color-mix(in oklch, #a259ff 8%, #0a0d12);
+        }
+        #triagent-outro .hop-tag {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 9.5px;
+          letter-spacing: 0.18em;
+          color: #6b7484;
+          font-weight: 600;
+        }
+        #triagent-outro .hop-name {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 16px;
+          letter-spacing: 0.08em;
+          color: #f2f5fa;
+          font-weight: 700;
+        }
+        #triagent-outro .hop-tf .hop-name { color: #a259ff; }
+        #triagent-outro .arrow {
+          align-self: center;
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 18px;
+          color: #6b7484;
+        }
+        #triagent-outro .chain-note {
+          font-size: 14.5px;
+          line-height: 1.45;
+          color: #9aa3b2;
+        }
+
+        #triagent-outro .footer {
+          position: absolute;
+          left: 0; right: 0; bottom: 56px;
+          display: flex; align-items: center; justify-content: center;
+          gap: 18px;
+          opacity: 0;
+        }
+        #triagent-outro .footer .mark {
+          width: 56px; height: 56px;
+          display: grid; place-items: center;
+          background: #0a0d12;
+          border: 1.5px solid rgba(162, 89, 255, 0.5);
+          border-radius: 10px;
+        }
+        #triagent-outro .footer .wordmark {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 30px;
+          letter-spacing: 0.22em;
+          font-weight: 700;
+          color: #f2f5fa;
+        }
+        #triagent-outro .footer-rule {
+          width: 1.5px; height: 36px;
+          background: linear-gradient(180deg, transparent, #313a4d, transparent);
+        }
+        #triagent-outro .footer-meta {
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 14px;
+          letter-spacing: 0.14em;
+          color: #6b7484;
+        }
+      </style>
+
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          const root = '#triagent-outro';
+
+          tl.fromTo(`${root} .grid`,     { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.0);
+          tl.fromTo(`${root} .vignette`, { opacity: 0 }, { opacity: 1, duration: 0.8 }, 0.0);
+
+          tl.fromTo(`${root} .header`,
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.20);
+
+          tl.fromTo(`${root} .headline .seg-1`,
+            { opacity: 0, y: 18 },
+            { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.45);
+          tl.fromTo(`${root} .headline .seg-2`,
+            { opacity: 0, y: 18 },
+            { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.70);
+          tl.fromTo(`${root} .headline .seg-3`,
+            { opacity: 0, y: 18 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.95);
+
+          tl.fromTo(`${root} .col-a`,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 1.25);
+          tl.fromTo(`${root} .col-b`,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 1.50);
+          tl.fromTo(`${root} .col-c`,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 1.75);
+
+          tl.fromTo(`${root} .footer`,
+            { opacity: 0, y: 14 },
+            { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 2.50);
+
+          tl.to(
+            [
+              `${root} .header`,
+              `${root} .columns`,
+              `${root} .footer`,
+              `${root} .grid`,
+              `${root} .vignette`,
+            ],
+            { opacity: 0, duration: 0.6, ease: "power2.in" },
+            9.2
+          );
+
+          window.__timelines = window.__timelines || {};
+          window.__timelines["triagent-outro"] = tl;
+        })();
+      </script>
+    </div>
+  </body>
+</html>

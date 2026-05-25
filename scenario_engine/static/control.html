@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Triagent Scenario Engine - Control</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0a0b0f;
+      --card: #161922;
+      --border: #232733;
+      --text: #cdd2dd;
+      --dim: #6b7280;
+      --strong: #f5f7fb;
+      --accent: #a259ff;
+      --danger: #f87171;
+      --success: #34d399;
+      --warning: #fbbf24;
+    }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 14px ui-sans-serif, system-ui, sans-serif; padding: 32px; }
+    h1 { color: var(--strong); font-weight: 600; letter-spacing: -0.02em; margin: 0 0 4px; }
+    .sub { color: var(--dim); margin-bottom: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 14px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .card.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+    .row { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+    .name { font-weight: 600; color: var(--strong); }
+    .tag { font: 11px ui-monospace, Menlo, monospace; padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--dim); }
+    .severity-P1 { color: var(--danger); border-color: var(--danger); }
+    .severity-P2 { color: var(--warning); border-color: var(--warning); }
+    .summary { color: var(--text); font-size: 13px; line-height: 1.45; }
+    .actions { display: flex; gap: 8px; margin-top: auto; }
+    button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+      transition: background 80ms ease;
+    }
+    button:hover { background: var(--card); border-color: var(--accent); color: var(--strong); }
+    button.primary { background: var(--accent); border-color: var(--accent); color: white; }
+    button.primary:hover { background: #b573ff; }
+    button.ghost { color: var(--dim); }
+    .status { font: 11px ui-monospace, Menlo, monospace; color: var(--dim); }
+    .status.live { color: var(--success); }
+    header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+    .reset { color: var(--dim); }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>scenario engine // control plane</h1>
+      <div class="sub">trigger an incident. the war room poll loop on :8000 picks it up within 2s and pushes an /ws alert.</div>
+    </div>
+    <button class="ghost reset" onclick="reset()">reset all</button>
+  </header>
+  <div id="grid" class="grid"></div>
+
+  <script>
+    async function load() {
+      const r = await fetch('/scenarios');
+      const body = await r.json();
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      for (const s of body.scenarios) {
+        const card = document.createElement('div');
+        card.className = 'card' + (s.active ? ' active' : '');
+        card.innerHTML = `
+          <div class="row">
+            <span class="name">${s.name}</span>
+            <span class="tag severity-${s.severity}">${s.severity}</span>
+          </div>
+          <div class="status ${s.active ? 'live' : ''}">${s.active ? 'LIVE - triggered ' + new Date(s.triggered_at * 1000).toLocaleTimeString() : 'idle'}</div>
+          <div class="summary">${s.summary}</div>
+          <div class="status">slug: ${s.slug} · ns: ${s.namespace}</div>
+          <div class="actions">
+            <button class="primary" onclick="trigger('${s.slug}')">Trigger</button>
+            <button onclick="clearOne('${s.slug}')">Clear</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+    }
+    async function trigger(slug) {
+      await fetch('/scenarios/trigger/' + slug, { method: 'POST' });
+      await load();
+    }
+    async function clearOne(slug) {
+      await fetch('/scenarios/clear/' + slug, { method: 'POST' });
+      await load();
+    }
+    async function reset() {
+      await fetch('/scenarios/reset', { method: 'POST' });
+      await load();
+    }
+    load();
+    setInterval(load, 2000);
+  </script>
+</body>
+</html>

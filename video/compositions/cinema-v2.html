@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Triagent · cinema v2</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --text: #f5f5f7;
+    --text-dim: #86868b;
+    --accent: #a259ff;
+    --success: #30d158;
+    --warning: #ff9f0a;
+    --danger: #ff453a;
+  }
+  html, body, #triagent-cinema {
+    margin: 0; width: 1920px; height: 1080px;
+    overflow: hidden; background: var(--bg);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  .clip { opacity: 0; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .serif { font-family: 'Instrument Serif', serif; font-style: italic; }
+  /* The "stage" — wraps the captured warroom screenshot. Scaled by the timeline. */
+  #stage {
+    position: absolute;
+    inset: 0;
+    transform-origin: 960px 540px;
+    will-change: transform;
+  }
+  .screen {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: top left;
+    opacity: 0;
+  }
+  /* Synthetic cursor — arrow + soft shadow. */
+  #cursor {
+    position: absolute;
+    width: 28px; height: 36px;
+    pointer-events: none;
+    z-index: 50;
+    left: 0; top: 0;
+    transform: translate(-50%, -50%);
+    will-change: transform, left, top;
+  }
+  #cursor svg { display: block; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.55)); }
+  /* Click ripple */
+  .ripple {
+    position: absolute;
+    width: 16px; height: 16px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 49;
+    opacity: 0;
+  }
+  /* Caption pill */
+  .caption {
+    position: absolute;
+    padding: 8px 18px;
+    background: rgba(15,15,18,0.85);
+    backdrop-filter: blur(20px);
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: var(--text-dim);
+    opacity: 0;
+    z-index: 60;
+  }
+  /* Headline overlay (big serif quote) */
+  .headline {
+    position: absolute;
+    z-index: 70;
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div id="triagent-cinema"
+     data-composition-id="triagent-cinema"
+     data-start="0"
+     data-duration="78"
+     data-track-index="0"
+     data-width="1920"
+     data-height="1080"
+     class="clip relative overflow-hidden"
+     style="background: var(--bg);">
+
+  <div id="stage">
+    <div id="scr-empty"   class="screen" style="background-image: url('../assets/screens-v2/01-empty.png');"></div>
+    <div id="scr-trace"   class="screen" style="background-image: url('../assets/screens-v2/02-trace-running.png');"></div>
+    <div id="scr-verdict" class="screen" style="background-image: url('../assets/screens-v2/03-verdict-tab.png');"></div>
+    <div id="scr-cost"    class="screen" style="background-image: url('../assets/screens-v2/04-cost-tab.png');"></div>
+    <div id="scr-chaos"   class="screen" style="background-image: url('../assets/screens-v2/07-chaos-drawer.png');"></div>
+    <div id="scr-killed"  class="screen" style="background-image: url('../assets/screens-v2/05-tf-killed.png');"></div>
+    <div id="scr-replay"  class="screen" style="background-image: url('../assets/screens-v2/06-replay-modal.png');"></div>
+    <div id="scr-eval"    class="screen" style="background-image: url('../assets/screens-v2/08-eval-modal.png');"></div>
+
+    <!-- Click ripples (one per beat) -->
+    <div id="r1" class="ripple"></div>
+    <div id="r2" class="ripple"></div>
+    <div id="r3" class="ripple"></div>
+    <div id="r4" class="ripple"></div>
+    <div id="r5" class="ripple"></div>
+    <div id="r6" class="ripple"></div>
+    <div id="r7" class="ripple"></div>
+
+    <!-- The synthetic cursor -->
+    <div id="cursor" style="left: 1700px; top: 300px;">
+      <svg width="28" height="36" viewBox="0 0 28 36" fill="none">
+        <path d="M3 2 L3 27 L9 22 L13 32 L17 30 L13 20 L21 20 Z"
+              fill="white" stroke="black" stroke-width="1.5" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Captions / headlines (not transformed by stage) -->
+  <div id="cap1" class="caption" style="bottom: 60px; left: 50%; transform: translateX(-50%);">CURSOR → OOMKILLED ALERT</div>
+  <div id="cap2" class="caption" style="bottom: 60px; left: 50%; transform: translateX(-50%);">CURSOR → VERDICT TAB</div>
+  <div id="cap3" class="caption" style="bottom: 60px; left: 50%; transform: translateX(-50%);">CURSOR → COST TAB</div>
+  <div id="cap4" class="caption" style="bottom: 60px; left: 50%; transform: translateX(-50%);">CURSOR → INJECT CHAOS</div>
+  <div id="cap5" class="caption" style="bottom: 60px; left: 50%; transform: translateX(-50%);">CURSOR → KILL TF·GROQ</div>
+  <div id="cap6" class="caption" style="bottom: 60px; left: 50%; transform: translateX(-50%);">CURSOR → REPLAY</div>
+  <div id="cap7" class="caption" style="bottom: 60px; left: 50%; transform: translateX(-50%);">CURSOR → EVAL CHART</div>
+
+  <!-- Closing headline -->
+  <div id="closing" class="headline" style="inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg);">
+    <div class="flex items-center gap-5" style="transform: scale(0.96);">
+      <div class="w-16 h-16 rounded-2xl flex items-center justify-center"
+           style="background: linear-gradient(135deg, #b380ff, #7c3aed); box-shadow: 0 8px 32px rgba(162,89,255,0.4);">
+        <svg width="34" height="34" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4L26 22H6L16 4Z" stroke="white" stroke-width="2.4" stroke-linejoin="round"/>
+          <circle cx="16" cy="18" r="2.5" fill="white"/>
+        </svg>
+      </div>
+      <div class="text-[60px] font-semibold tracking-[0.04em]">TRIAGENT</div>
+    </div>
+    <div class="serif text-[28px] mt-9 text-center">resilient k8s incident response on truefoundry.</div>
+    <div class="mono text-[12px] tracking-[0.22em] mt-5 flex items-center gap-4" style="color: var(--text-dim);">
+      <span>github.com/syaugi/triagent</span>
+      <span style="color: var(--accent);">·</span>
+      <span>DEVNETWORK AI+ML 2026</span>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  /* ============================================================
+     cinema v2 — synthetic cursor walkthrough with zoom-on-click
+     ============================================================ */
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.inOut" } });
+  window.__timelines["triagent-cinema"] = tl;
+
+  const root = "#triagent-cinema";
+
+  // All screens initially hidden, empty visible
+  tl.set(`${root} .screen`, { opacity: 0 }, 0);
+  tl.set(`${root} #scr-empty`, { opacity: 1 }, 0);
+  tl.set(`${root} .ripple`, { opacity: 0, scale: 1 }, 0);
+
+  // Outer reveal
+  tl.fromTo(root, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0);
+
+  /* Helper: stage zoom toward (x, y) of viewport. Negative duration
+     means hold for that long after, then ease back. */
+  function zoomTo(time, x, y, scale = 1.25, hold = 1.0) {
+    tl.set(`${root} #stage`, { transformOrigin: `${x}px ${y}px` }, time);
+    tl.to(`${root} #stage`, { scale, duration: 0.6, ease: "power2.out" }, time);
+    tl.to(`${root} #stage`, { scale: 1, duration: 0.7, ease: "power2.inOut" }, time + 0.6 + hold);
+  }
+
+  function moveCursor(time, x, y, duration = 1.2) {
+    tl.to(`${root} #cursor`, { left: x, top: y, duration, ease: "power2.inOut" }, time);
+  }
+
+  function clickRipple(time, ripple, x, y) {
+    tl.set(`${root} ${ripple}`, { left: x, top: y, opacity: 0.9, scale: 0.6 }, time);
+    tl.to(`${root} ${ripple}`, { scale: 3.2, opacity: 0, duration: 0.7, ease: "power2.out" }, time);
+  }
+
+  function swap(time, fromSel, toSel) {
+    tl.to(`${root} ${fromSel}`, { opacity: 0, duration: 0.35 }, time);
+    tl.to(`${root} ${toSel}`,   { opacity: 1, duration: 0.35 }, time);
+  }
+
+  function caption(time, sel, holdAfterEnter = 1.4) {
+    tl.to(`${root} ${sel}`, { opacity: 1, y: 0, duration: 0.4 }, time);
+    tl.to(`${root} ${sel}`, { opacity: 0, duration: 0.4 }, time + 0.4 + holdAfterEnter);
+  }
+
+  /* ─── BEAT 0 (0-3s) — Cursor enters, drifts toward inbox ─── */
+  // cursor starts at (1700, 300) per CSS default
+  moveCursor(0.4, 600, 400, 1.6);
+  moveCursor(2.2, 300, 280, 1.0);
+
+  /* ─── BEAT 1 (3-9s) — Hover + click OOMKilled alert (182, 213) ─── */
+  caption(3.0, "#cap1", 1.6);
+  moveCursor(3.0, 182, 213, 1.0);                  // glide onto alert
+  zoomTo(4.4, 182, 213, 1.35, 1.6);                // zoom in on alert
+  clickRipple(5.4, "#r1", 182, 213);               // click
+  swap(5.5, "#scr-empty", "#scr-trace");           // screen → trace running
+
+  /* ─── BEAT 2 (8-15s) — Cursor browses the trace then to VERDICT tab ─── */
+  moveCursor(8.0, 700, 350, 1.2);                  // drift over trace area
+  moveCursor(9.5, 900, 280, 1.0);
+  caption(10.5, "#cap2", 1.2);
+  moveCursor(10.7, 426, 163, 1.0);                 // VERDICT tab
+  zoomTo(11.8, 426, 163, 1.30, 1.5);
+  clickRipple(12.8, "#r2", 426, 163);
+  swap(12.9, "#scr-trace", "#scr-verdict");
+
+  /* ─── BEAT 3 (15-22s) — Zoom on 87% confidence area, then COST tab ─── */
+  moveCursor(15.5, 720, 360, 1.0);                 // hover the confidence arc
+  zoomTo(16.6, 720, 360, 1.35, 1.8);               // zoom on 87% number
+  // pause, let viewer read
+
+  /* ─── BEAT 4 (20-27s) — Click COST tab (636, 163) ─── */
+  caption(20.4, "#cap3", 1.2);
+  moveCursor(20.6, 636, 163, 0.9);
+  zoomTo(21.6, 636, 163, 1.30, 1.4);
+  clickRipple(22.6, "#r3", 636, 163);
+  swap(22.7, "#scr-verdict", "#scr-cost");
+
+  /* ─── BEAT 5 (26-33s) — Zoom on cost number ($0.00038) ─── */
+  moveCursor(25.8, 800, 380, 0.9);                 // toward cost bars
+  zoomTo(26.6, 800, 380, 1.35, 1.8);               // zoom on cost breakdown
+
+  /* ─── BEAT 6 (31-39s) — Click CHAOS button (open drawer) ─── */
+  caption(30.8, "#cap4", 1.0);
+  moveCursor(31.0, 1700, 40, 1.1);                 // up to top-right chaos button
+  zoomTo(32.0, 1700, 40, 1.30, 1.4);
+  clickRipple(33.0, "#r4", 1700, 40);
+  swap(33.1, "#scr-cost", "#scr-chaos");
+
+  /* ─── BEAT 7 (36-44s) — Click tf-primary kill switch (chaos drawer kill switch ≈ 1850, 280) ─── */
+  caption(36.0, "#cap5", 1.0);
+  moveCursor(36.2, 1850, 280, 1.1);                // into chaos drawer
+  zoomTo(37.4, 1850, 280, 1.40, 1.6);              // zoom on kill switch
+  clickRipple(38.6, "#r5", 1850, 280);
+  swap(38.7, "#scr-chaos", "#scr-killed");
+
+  /* ─── BEAT 8 (42-50s) — Pan to topology, show red-slashed TF·Groq ─── */
+  moveCursor(41.6, 1700, 880, 1.1);                // down to topology area
+  zoomTo(42.7, 1700, 880, 1.35, 2.0);              // zoom on red sweep on TF·Groq cloud
+
+  /* ─── BEAT 9 (47-55s) — Click REPLAY (1853, 163) ─── */
+  caption(47.0, "#cap6", 1.0);
+  moveCursor(47.2, 1853, 163, 1.0);
+  zoomTo(48.2, 1853, 163, 1.30, 1.4);
+  clickRipple(49.2, "#r6", 1853, 163);
+  swap(49.3, "#scr-killed", "#scr-replay");
+
+  /* ─── BEAT 10 (52-60s) — Cursor over scrubber in replay modal ─── */
+  moveCursor(52.6, 540, 670, 1.0);                 // toward scrubber
+  zoomTo(53.6, 540, 670, 1.30, 1.8);               // zoom in on scrubber playhead
+
+  /* ─── BEAT 11 (58-66s) — Click EVAL button (1790, 40) ─── */
+  caption(57.8, "#cap7", 1.0);
+  moveCursor(58.0, 1790, 40, 1.1);
+  zoomTo(59.1, 1790, 40, 1.30, 1.4);
+  clickRipple(60.1, "#r7", 1790, 40);
+  swap(60.2, "#scr-replay", "#scr-eval");
+
+  /* ─── BEAT 12 (63-71s) — Zoom on bar chart (centered ~960, 460) ─── */
+  moveCursor(63.5, 960, 460, 1.0);                 // hover the chart
+  zoomTo(64.5, 960, 460, 1.35, 2.4);               // zoom on the 0% / 100% bars
+
+  /* ─── BEAT 13 (70-78s) — Closing ─── */
+  tl.set(`${root} #closing`, { opacity: 0 }, 70);
+  tl.to(`${root} #stage`, { opacity: 0, duration: 0.6 }, 70.5);
+  tl.to(`${root} #closing`, { opacity: 1, duration: 0.8 }, 70.8);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div id="b06" data-composition-id="b06" data-start="0" data-duration="2.0" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:#0a0a0c; overflow:hidden;">
+
+  <!-- Pane — EXACT clone of beat 5 end pose + structure. Animation zooms in on REPLAY button. -->
+  <div id="b06-pane" style="position:absolute; left:600px; top:50%; width:1180px; min-height:760px; padding:22px; background:#131820; border:1px solid #232a37; border-radius:16px; box-shadow:0 32px 90px -20px rgba(0,0,0,0.7); overflow:hidden;">
+
+    <!-- Header card — alert-3 morphed state (same as beat 5 end) -->
+    <div style="position:relative; display:flex; flex-direction:column; gap:8px; padding:30px 36px; border-radius:14px; background:rgba(162,89,255,0.06); border:1px solid rgba(162,89,255,0.35); box-shadow:0 0 0 1px rgba(162,89,255,0.3), 0 0 28px rgba(162,89,255,0.18); overflow:visible;">
+      <span style="position:absolute; left:0; top:8px; bottom:8px; width:5px; border-radius:0 3px 3px 0; background:#a259ff;"></span>
+
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px;">
+        <div style="display:flex; align-items:baseline; gap:14px;">
+          <span class="mono" style="font-size:14px; font-weight:700; letter-spacing:0.18em; color:#e8a23e;">P2</span>
+          <span style="font-size:20px; font-weight:500; color:#f2f5fa;">CoreDNS misconfig · chaos-amplified</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="mono" style="font-size:12px; color:#6b7484; padding:8px 14px; border:1px solid #232a37; border-radius:8px;">verdict</span>
+          <span class="mono" style="font-size:12px; color:#6b7484; padding:8px 14px; border:1px solid #232a37; border-radius:8px;">cost</span>
+          <span id="b06-replay-btn" class="mono" style="font-size:12px; color:#c8b3ff; padding:8px 18px; border:1px solid rgba(162,89,255,0.45); background:rgba(162,89,255,0.08); border-radius:8px; font-weight:700; letter-spacing:0.12em;">REPLAY</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Failure strip -->
+    <div style="display:flex; gap:12px; padding-top:18px;">
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 14px; background:rgba(232,90,90,0.08); border:1px solid rgba(232,90,90,0.4); border-radius:8px;">
+        <span style="width:8px; height:8px; border-radius:50%; background:#e85a5a; box-shadow:0 0 10px #e85a5a;"></span>
+        <span class="mono" style="font-size:12px; color:#f2b5b5; letter-spacing:0.08em;">PROVIDER · groq · DOWN</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 14px; background:rgba(232,90,90,0.08); border:1px solid rgba(232,90,90,0.4); border-radius:8px;">
+        <span style="width:8px; height:8px; border-radius:50%; background:#e85a5a; box-shadow:0 0 10px #e85a5a;"></span>
+        <span class="mono" style="font-size:12px; color:#f2b5b5; letter-spacing:0.08em;">TOOL · kubectl · QUARANTINED</span>
+      </div>
+    </div>
+
+    <!-- Trace area — all 12 rows visible (matches beat 5 end after RESTORE phase) -->
+    <div style="position:relative; margin-top:14px; padding:18px 22px; background:#0e131b; border:1px solid #1d2330; border-radius:10px; font-family:'JetBrains Mono', monospace; font-size:13px; line-height:1.7; color:#c4ccd9; min-height:300px;">
+      <div><span style="color:#6b7484;">[t=0.00]</span> <span style="color:#9aa0ad;">investigate.start</span> · scenario=dns-chaos</div>
+      <div><span style="color:#6b7484;">[t=0.42]</span> <span style="color:#9aa0ad;">llm.call</span> provider=<span style="color:#f2f5fa;">groq/llama-3.1-70b</span></div>
+      <div><span style="color:#6b7484;">[t=0.51]</span> <span style="color:#e85a5a;">llm.error</span> · groq · upstream 503 · brownout detected</div>
+      <div><span style="color:#6b7484;">[t=0.53]</span> <span style="color:#a259ff; font-weight:600;">resilient.move</span> provider_fallback · groq → <span style="color:#f2f5fa;">ollama/llama-3</span> · via tf-gateway</div>
+      <div><span style="color:#6b7484;">[t=0.78]</span> <span style="color:#9aa0ad;">llm.ok</span> · ollama · 256 tok</div>
+      <div><span style="color:#6b7484;">[t=1.02]</span> <span style="color:#9aa0ad;">tool.call</span> kubectl get pods -n triagent-dns</div>
+      <div><span style="color:#6b7484;">[t=1.11]</span> <span style="color:#e85a5a;">tool.error</span> · kubectl · exit=137 · poisoned by chaos</div>
+      <div><span style="color:#6b7484;">[t=1.13]</span> <span style="color:#a259ff; font-weight:600;">resilient.move</span> tool_substitute · kubectl → <span style="color:#f2f5fa;">prometheus.query</span> · quarantine kubectl 60s</div>
+      <div><span style="color:#6b7484;">[t=1.41]</span> <span style="color:#9aa0ad;">prometheus.query</span> coredns_dns_request_count_total[5m]</div>
+      <div><span style="color:#6b7484;">[t=1.66]</span> <span style="color:#9aa0ad;">hypothesis</span> · coredns Corefile reloaded with invalid forward stanza</div>
+      <div><span style="color:#6b7484;">[t=1.92]</span> <span style="color:#9aa0ad;">prometheus.query</span> coredns_panic_count_total</div>
+      <div><span style="color:#6b7484;">[t=2.18]</span> <span style="color:#7eba6f;">verdict.ready</span> · 3 hops · cost=$0.00041</div>
+    </div>
+
+    <!-- RCA card — visible with root cause highlight (matches beat 5 end) -->
+    <div style="position:relative; margin-top:14px; padding:22px 26px; background:linear-gradient(135deg, rgba(162,89,255,0.10), rgba(162,89,255,0.02)); border:1px solid rgba(162,89,255,0.4); border-radius:12px;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6.5" stroke="#a259ff" stroke-width="1.4"/>
+          <path d="M8 4.5 V8.5 L10.5 10" stroke="#a259ff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="mono" style="font-size:11px; font-weight:700; letter-spacing:0.18em; color:#c8b3ff;">ROOT CAUSE</span>
+      </div>
+      <div style="font-size:18px; line-height:1.55; color:#f2f5fa; font-weight:400;">
+        CoreDNS reloaded with an
+        <span style="position:relative; display:inline-block; padding:2px 8px; border-radius:6px; background:rgba(162,89,255,0.22); color:#ffffff; box-shadow:inset 0 0 0 1px rgba(162,89,255,0.5);">invalid Corefile forward stanza</span>
+        pointing at an unresolvable upstream, so every cluster lookup fell back to the stale local zone — chaos-killed kubectl masked the symptom; Prometheus saw the panic count spike.
+      </div>
+    </div>
+  </div>
+
+  <!-- Left commentary — also matches beat 5 end (all lines typed, summary + caret visible) -->
+  <div id="b06-commentary" style="position:absolute; left:80px; top:50%; transform:translateY(-50%); width:480px; display:flex; flex-direction:column; gap:26px; opacity:1;">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="width:10px; height:10px; border-radius:50%; background:#a259ff; box-shadow:0 0 14px #a259ff;"></span>
+      <span class="mono" style="font-size:13px; letter-spacing:0.32em; color:#9aa0ad; font-weight:600;">AGENT NARRATION</span>
+    </div>
+    <div style="display:flex; align-items:baseline; gap:14px;">
+      <span class="mono" style="font-size:13px; color:#6b7484; flex-shrink:0; width:60px;">[0.51s]</span>
+      <span class="b06-c-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; font-size:20px; color:#f2b5b5; font-weight:500; vertical-align:middle;">Groq · brownout</span>
+    </div>
+    <div style="display:flex; align-items:baseline; gap:14px;">
+      <span class="mono" style="font-size:13px; color:#6b7484; flex-shrink:0; width:60px;">[0.53s]</span>
+      <span class="b06-c-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; font-size:20px; color:#c8b3ff; font-weight:500; vertical-align:middle;">&rarr; rerouted to ollama</span>
+    </div>
+    <div style="display:flex; align-items:baseline; gap:14px;">
+      <span class="mono" style="font-size:13px; color:#6b7484; flex-shrink:0; width:60px;">[1.11s]</span>
+      <span class="b06-c-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; font-size:20px; color:#f2b5b5; font-weight:500; vertical-align:middle;">kubectl · poisoned</span>
+    </div>
+    <div style="display:flex; align-items:baseline; gap:14px;">
+      <span class="mono" style="font-size:13px; color:#6b7484; flex-shrink:0; width:60px;">[1.13s]</span>
+      <span class="b06-c-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; font-size:20px; color:#c8b3ff; font-weight:500; vertical-align:middle;">&rarr; prometheus substituted</span>
+    </div>
+    <div style="display:flex; align-items:baseline; gap:14px;">
+      <span class="mono" style="font-size:13px; color:#6b7484; flex-shrink:0; width:60px;">[2.18s]</span>
+      <span class="b06-c-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; font-size:20px; color:#7eba6f; font-weight:500; vertical-align:middle;">verdict ready</span>
+    </div>
+    <div style="display:flex; align-items:baseline; gap:10px; padding-top:18px; border-top:1px solid rgba(162,89,255,0.2);">
+      <span class="b06-c-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; font-size:26px; color:#c8b3ff; font-weight:600; letter-spacing:0.02em; vertical-align:middle;">&rarr; recovered</span>
+      <span style="display:inline-block; width:5px; height:24px; background:#c8b3ff; box-shadow:0 0 12px rgba(200,179,255,0.6);"></span>
+    </div>
+  </div>
+
+  <!-- 3D cursor — starts off-screen bottom-right, drifts in to land on REPLAY at viewport center -->
+  <div id="b06-cursor" style="position:absolute; left:2050px; top:780px; pointer-events:none; z-index:60; opacity:0;">
+    <div id="b06-cursor-3d" style="filter:drop-shadow(0 22px 32px rgba(0,0,0,0.65)) drop-shadow(-8px 10px 12px rgba(162,89,255,0.28));">
+      <svg width="96" height="120" viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="b06-cursor-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffffff"/>
+            <stop offset="0.6" stop-color="#e8eaf0"/>
+            <stop offset="1" stop-color="#9da3b3"/>
+          </linearGradient>
+        </defs>
+        <path d="M9 4 v15 l-2 -1 q-3 -1.5 -4 1 v3 q0 1.5 1 3 l5 8 q1 2 3 2 h10 q2 0 3 -2 l2 -7 q0.5 -2 0.5 -4 v-4 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-9 q0 -2 -2 -2 t-2 2 z"
+              fill="url(#b06-cursor-grad)" stroke="#1a1a1f" stroke-width="2.2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <div id="b06-ripple" style="position:absolute; width:32px; height:32px; border:4px solid #a259ff; border-radius:50%; transform:translate(-50%,-50%); pointer-events:none; opacity:0; z-index:55;"></div>
+
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  window.__timelines['b06'] = tl;
+
+  // ── Pane pose IDENTICAL to beat 5 end (same origin '50% 50%' so static rotation looks the same)
+  gsap.set('#b06 #b06-pane', {
+    yPercent: -50,
+    rotationY: -14,
+    rotation: 3,
+    transformPerspective: 1200,
+    transformOrigin: '50% 50%'
+  });
+
+  // Cursor 3D pose — softer tilt for a more natural look (was 28/-22/-10)
+  gsap.set('#b06 #b06-cursor-3d', {
+    transformPerspective: 600,
+    rotationX: 18,
+    rotationY: -15,
+    rotation: -7,
+    scale: 0,
+    transformOrigin: '27px 12px'
+  });
+
+  // ── ZOOM IN: scale 3 + un-tilt + translate so REPLAY button lands at viewport center.
+  //    Math: at scale 1, button is at viewport (~1679, 228). After scale-3 around pane center
+  //    (1190, 540), button moves to (2657, -396). Translate (-1697, 936) brings it to (960, 540).
+  tl.to('#b06 #b06-pane', {
+    scale: 3,
+    rotationY: 0,
+    rotation: 0,
+    x: -1697,
+    y: 936,
+    duration: 1.2,
+    ease: 'power3.inOut'
+  }, 0);
+
+  // Left commentary fades out as zoom takes over (it'd get covered by the scaled pane anyway)
+  tl.to('#b06 #b06-commentary',
+    { opacity: 0, duration: 0.45, ease: 'power2.in' }, 0.2);
+
+  // Cursor drifts in from off-screen bottom-right, lands on the REPLAY button (now at viewport center)
+  tl.to('#b06 #b06-cursor', { opacity: 1, duration: 0.18, ease: 'power2.out' }, 0.85);
+  tl.to('#b06 #b06-cursor',
+    { left: 933, top: 528, duration: 0.5, ease: 'power2.inOut' }, 0.85);
+  tl.to('#b06 #b06-cursor-3d',
+    { scale: 1.18, duration: 0.22, ease: 'back.out(2.0)' }, 0.95);
+  tl.to('#b06 #b06-cursor-3d',
+    { scale: 1.0, duration: 0.14, ease: 'power2.in' }, 1.18);
+
+  // Click press
+  tl.to('#b06 #b06-cursor-3d', { scale: 0.88, duration: 0.10, ease: 'power2.in' }, 1.42);
+  tl.to('#b06 #b06-cursor-3d', { scale: 1.06, duration: 0.13, ease: 'back.out(2.2)' }, 1.52);
+  tl.to('#b06 #b06-cursor-3d', { scale: 1.0,  duration: 0.18, ease: 'power2.out' }, 1.65);
+
+  // Ripple
+  tl.set('#b06 #b06-ripple', { left: 960, top: 540, opacity: 0.95, scale: 0.4 }, 1.45);
+  tl.to('#b06 #b06-ripple', { scale: 10, opacity: 0, duration: 0.45, ease: 'power3.out' }, 1.45);
+
+  // End fade: cursor + the whole pane fade out, so b07's modal-grow is visible at start
+  tl.to('#b06 #b06-cursor', { opacity: 0, duration: 0.25, ease: 'power2.in' }, 1.75);
+  tl.to('#b06 #b06-pane',   { opacity: 0, duration: 0.25, ease: 'power2.in' }, 1.75);
+</script>
+</body>
+</html>

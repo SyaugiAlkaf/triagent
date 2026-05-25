@@ -1,0 +1,38 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css"></head><body>
+<div id="b01" data-composition-id="b01" data-start="0" data-duration="7" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:var(--bg-light);">
+  <div class="bg-light"></div>
+  <div id="cursor" style="left:1860px;top:360px;"><svg width="64" height="80" viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg"><path d="M9 4 v15 l-2 -1 q-3 -1.5 -4 1 v3 q0 1.5 1 3 l5 8 q1 2 3 2 h10 q2 0 3 -2 l2 -7 q0.5 -2 0.5 -4 v-4 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-9 q0 -2 -2 -2 t-2 2 z" fill="#ffffff" stroke="#1a1a1f" stroke-width="2" stroke-linejoin="round"/></svg></div>
+  <div id="orb" class="orb" style="left:960px;top:540px;width:28px;height:28px;"></div>
+  <div id="k0a" class="kinetic-row" data-text="your k8s incident agent" style="top:380px;font-size:92px;font-weight:700;letter-spacing:-0.02em;"></div>
+  <div id="k0b" class="kinetic-row" data-text="built to <accent>survive chaos</accent>" style="top:500px;font-size:92px;font-weight:700;letter-spacing:-0.02em;"></div>
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="_helpers.js"></script>
+<script>
+document.querySelectorAll('#cursor').forEach(c => c.innerHTML = window.__cinema.cursorSvg);
+const R = '#b01';
+const { tl, kineticIn, kineticOut } = window.__cinema.setup(R, 'b01');
+tl.set(`${R} .kinetic-row`, { opacity: 0 }, 0);
+tl.set(`${R} #orb`, { opacity: 0 }, 0);
+tl.set(`${R} #cursor`, { left: 1860, top: 360, rotation: -15 }, 0);
+tl.fromTo(R, { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+// Cursor swoops left while line 1 reveals
+tl.to(`${R} #cursor`, { left: 280, top: 360, rotation: 0, duration: 1.6, ease: 'power2.inOut' }, 0.4);
+kineticIn(0.6, '#k0a', 0, 0.055);
+// Drop to line 2
+tl.to(`${R} #cursor`, { left: 280, top: 500, rotation: 0, duration: 0.5, ease: 'power2.inOut' }, 2.0);
+tl.to(`${R} #cursor`, { left: 1680, top: 500, rotation: 15, duration: 1.5, ease: 'power2.inOut' }, 2.5);
+kineticIn(2.7, '#k0b', 0, 0.06);
+// Exit
+tl.to(`${R} #cursor`, { left: 1920, top: 540, rotation: 0, duration: 0.6, ease: 'power2.in' }, 5.6);
+kineticOut(6.0, '#k0a');
+kineticOut(6.05, '#k0b');
+// Shared orb appears at the end (handoff to wipe)
+tl.set(`${R} #orb`, { left: 960, top: 540, width: 28, height: 28, opacity: 0 }, 6.3);
+tl.to(`${R} #orb`, { opacity: 1, duration: 0.25 }, 6.3);
+tl.to(`${R} #orb`, { width: 60, height: 60, duration: 0.4, ease: 'back.out(2)' }, 6.55);
+</script>
+</body></html>

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div id="b10" data-composition-id="b10" data-start="0" data-duration="8" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:#0a0a0c; overflow:hidden;">
+
+  <!-- Headline -->
+  <div id="b10-header" style="position:absolute; top:100px; left:50%; transform:translateX(-50%); text-align:center; opacity:0;">
+    <div class="mono" style="font-size:13px; letter-spacing:0.32em; color:#a259ff; font-weight:600;">WEBHOOK INGEST</div>
+    <div style="font-size:52px; font-weight:700; color:#f5f5f7; margin-top:10px; letter-spacing:-0.02em;">Any source fires. One agent investigates.</div>
+  </div>
+
+  <!-- Brand wall — 5×3 grid of 15 real-brand integration cards -->
+  <div id="b10-grid" style="position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); display:grid; grid-template-columns:repeat(5, 200px); grid-template-rows:repeat(3, 130px); gap:20px; opacity:0;">
+
+    <!-- Row 1 -->
+    <div class="b10-card" style="background:#06ac38;">
+      <svg viewBox="0 0 32 32" fill="white"><rect x="10" y="6" width="5" height="20" rx="1"/><rect x="17" y="6" width="5" height="16" rx="1"/></svg>
+      <span>PagerDuty</span>
+    </div>
+    <div class="b10-card" style="background:#4a154b;">
+      <svg viewBox="0 0 32 32" fill="white">
+        <rect x="5" y="14" width="9" height="4" rx="2"/>
+        <rect x="14" y="5" width="4" height="9" rx="2"/>
+        <rect x="18" y="14" width="9" height="4" rx="2"/>
+        <rect x="14" y="18" width="4" height="9" rx="2"/>
+        <rect x="14" y="14" width="4" height="4" rx="1"/>
+      </svg>
+      <span>Slack</span>
+    </div>
+    <div class="b10-card" style="background:#172b4d;">
+      <svg viewBox="0 0 32 32" fill="none" stroke="white" stroke-width="3.5"><circle cx="16" cy="16" r="9.5"/></svg>
+      <span>Opsgenie</span>
+    </div>
+    <div class="b10-card" style="background:#632ca6;">
+      <svg viewBox="0 0 32 32" fill="white">
+        <circle cx="16" cy="18" r="9"/>
+        <polygon points="9,12 10,5 14,11" fill="white"/>
+        <polygon points="23,12 22,5 18,11" fill="white"/>
+        <circle cx="13" cy="17" r="1.2" fill="#632ca6"/>
+        <circle cx="19" cy="17" r="1.2" fill="#632ca6"/>
+      </svg>
+      <span>Datadog</span>
+    </div>
+    <div class="b10-card" style="background:#f46800;">
+      <svg viewBox="0 0 32 32" fill="white">
+        <path d="M16 4 C10 4 5 9 5 15 c0 2 0 4 1 5 l3-2 c-1-1-1-2-1-3 c0-4 3-7 8-7 c4 0 7 3 7 7 c0 2-1 4-3 5 H10 v3 H18 c5 0 9-4 9-9 c0-6-5-10-11-10z"/>
+      </svg>
+      <span>Grafana</span>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="b10-card" style="background:#e6522c;">
+      <svg viewBox="0 0 32 32" fill="white">
+        <path d="M16 4 C13 8 11 12 13 16 C10 15 8 17 8 21 C8 25 11 28 16 28 C21 28 24 25 24 21 C24 17 22 15 19 16 C21 12 19 8 16 4z"/>
+      </svg>
+      <span>Prometheus</span>
+    </div>
+    <div class="b10-card" style="background:#362d59;">
+      <svg viewBox="0 0 32 32" fill="white">
+        <path d="M16 5 L4 26 H10 L8 22 H14 L11 17 L16 9 L23 22 H18 L20 26 H28 L16 5z"/>
+      </svg>
+      <span>Sentry</span>
+    </div>
+    <div class="b10-card" style="background:#00b67a;">
+      <svg viewBox="0 0 32 32" fill="none" stroke="white" stroke-width="3" stroke-linecap="round">
+        <path d="M4 18 Q9 6 14 18 T24 18 Q26 18 28 16"/>
+      </svg>
+      <span>New Relic</span>
+    </div>
+    <div class="b10-card" style="background:#f5b400;">
+      <svg viewBox="0 0 32 32" fill="none" stroke="white" stroke-width="2.5" stroke-linejoin="round">
+        <polygon points="16,4 27,10 27,22 16,28 5,22 5,10"/>
+      </svg>
+      <span>Honeycomb</span>
+    </div>
+    <div class="b10-card" style="background:#24292e;">
+      <svg viewBox="0 0 32 32" fill="white">
+        <path d="M16 4 C9.4 4 4 9.4 4 16 C4 21.3 7.4 25.7 12.1 27.3 C12.7 27.4 12.9 27 12.9 26.7 V24.6 C9.6 25.3 8.9 23 8.9 23 C8.4 21.7 7.7 21.4 7.7 21.4 C6.6 20.6 7.8 20.6 7.8 20.6 C9 20.7 9.6 21.9 9.6 21.9 C10.6 23.7 12.3 23.2 12.9 22.9 C13 22.1 13.3 21.6 13.7 21.3 C11.1 21 8.4 20 8.4 15.6 C8.4 14.3 8.8 13.3 9.6 12.5 C9.5 12.2 9.1 11 9.7 9.4 C9.7 9.4 10.7 9.1 12.9 10.6 C13.9 10.3 14.9 10.2 16 10.2 S18.1 10.3 19.1 10.6 C21.3 9.1 22.3 9.4 22.3 9.4 C22.9 11 22.5 12.2 22.4 12.5 C23.2 13.3 23.6 14.3 23.6 15.6 C23.6 20 20.9 21 18.3 21.3 C18.8 21.7 19.2 22.5 19.2 23.6 V26.7 C19.2 27 19.4 27.4 20 27.3 C24.7 25.7 28 21.3 28 16 C28 9.4 22.6 4 16 4z"/>
+      </svg>
+      <span>GitHub</span>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="b10-card" style="background:#fc6d26;">
+      <svg viewBox="0 0 32 32" fill="white">
+        <path d="M16 28 L4 16 L6.5 8 L9 14 H23 L25.5 8 L28 16z"/>
+      </svg>
+      <span>GitLab</span>
+    </div>
+    <div class="b10-card" style="background:#ff9900;">
+      <svg viewBox="0 0 50 32" fill="#232f3e">
+        <text x="0" y="22" font-family="Inter, sans-serif" font-size="20" font-weight="800">aws</text>
+        <path d="M0 28 Q15 30 30 28" stroke="#232f3e" stroke-width="1.5" fill="none"/>
+      </svg>
+      <span>AWS</span>
+    </div>
+    <div class="b10-card" style="background:#5865f2;">
+      <svg viewBox="0 0 32 32" fill="white">
+        <path d="M24 7 C22 6 20 5.5 18 5.3 L17.7 6 C19.5 6.3 21.1 6.9 22.5 7.8 C20.5 6.9 18.3 6.5 16 6.5 S11.5 6.9 9.5 7.8 C10.9 6.9 12.5 6.3 14.3 6 L14 5.3 C12 5.5 10 6 8 7 C5 11 4 15 4.5 19 C7 21 9 22 11 22.5 L11.7 21 C10.7 20.6 9.7 20 9 19.3 C9.2 19.4 12 21 16 21 S22.8 19.4 23 19.3 C22.3 20 21.3 20.6 20.3 21 L21 22.5 C23 22 25 21 27.5 19 C28 14 26.5 10 24 7z M12.5 17 C11.3 17 10.3 16 10.3 14.7 S11.3 12.5 12.5 12.5 S14.8 13.5 14.8 14.7 S13.7 17 12.5 17z M19.5 17 C18.3 17 17.3 16 17.3 14.7 S18.3 12.5 19.5 12.5 S21.8 13.5 21.8 14.7 S20.7 17 19.5 17z"/>
+      </svg>
+      <span>Discord</span>
+    </div>
+    <div class="b10-card" style="background:#a259ff;">
+      <svg viewBox="0 0 32 32" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+        <path d="M12 12 L8 16 A4 4 0 1 0 12 20"/>
+        <path d="M20 20 L24 16 A4 4 0 1 0 20 12"/>
+        <line x1="13" y1="17" x2="19" y2="15"/>
+      </svg>
+      <span>Webhook</span>
+    </div>
+    <div class="b10-card" style="background:#5e6ad2;">
+      <svg viewBox="0 0 32 32" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none">
+        <line x1="6" y1="20" x2="20" y2="6"/>
+        <line x1="10" y1="24" x2="24" y2="10"/>
+        <line x1="14" y1="28" x2="28" y2="14"/>
+      </svg>
+      <span>Linear</span>
+    </div>
+
+  </div>
+
+  <!-- Bottom counter + tagline -->
+  <div id="b10-footer" style="position:absolute; bottom:90px; left:50%; transform:translateX(-50%); text-align:center; opacity:0;">
+    <div style="display:flex; align-items:baseline; justify-content:center; gap:14px;">
+      <span class="mono" style="font-size:56px; font-weight:800; color:#c8b3ff; letter-spacing:-0.02em;">
+        <span id="b10-count">0</span><span style="color:#a259ff;">+</span>
+      </span>
+      <span class="mono" style="font-size:18px; color:#9aa0ad; letter-spacing:0.24em; font-weight:600;">INTEGRATIONS</span>
+    </div>
+    <div style="font-size:16px; color:#6b7484; margin-top:8px;">Webhook ingest · All routed through TrueFoundry</div>
+  </div>
+
+  <style>
+    .b10-card {
+      width: 200px; height: 130px;
+      border-radius: 16px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px;
+      box-shadow:
+        0 10px 24px -6px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.22),
+        inset 0 -3px 8px rgba(0,0,0,0.22);
+      position: relative;
+      overflow: hidden;
+    }
+    .b10-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 40%, rgba(0,0,0,0.18) 100%);
+      pointer-events: none;
+    }
+    .b10-card > svg {
+      width: 40px; height: 40px;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+      position: relative; z-index: 1;
+    }
+    .b10-card > span {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 14px; font-weight: 700; color: #ffffff;
+      letter-spacing: -0.01em;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      position: relative; z-index: 1;
+    }
+  </style>
+
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  window.__timelines['b10'] = tl;
+
+  // Initial poses
+  gsap.set('#b10 .b10-card', { scale: 0.6, opacity: 0, y: 30 });
+
+  // ── Headline fades in
+  tl.to('#b10 #b10-header',
+    { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0.1);
+
+  // Grid container becomes visible
+  tl.to('#b10 #b10-grid', { opacity: 1, duration: 0.3 }, 0.4);
+
+  // Cards stagger-pop in — tighter stagger to fit shorter beat (was 0.06)
+  tl.to('#b10 .b10-card',
+    { scale: 1, opacity: 1, y: 0, duration: 0.45, stagger: 0.04, ease: 'back.out(1.7)' }, 0.5);
+
+  // ── Bottom counter ticks 0 → 40
+  tl.to('#b10 #b10-footer',
+    { opacity: 1, duration: 0.4, ease: 'power2.out' }, 1.4);
+  const cnt = { v: 0 };
+  tl.to(cnt, {
+    v: 40, duration: 1.0, ease: 'power3.out',
+    onUpdate: () => {
+      const el = document.querySelector('#b10 #b10-count');
+      if (el) el.textContent = Math.round(cnt.v);
+    }
+  }, 1.5);
+
+  // Number pulses after settling
+  tl.to('#b10 #b10-count',
+    { scale: 1.12, color: '#ffffff', duration: 0.28, ease: 'sine.inOut',
+      yoyo: true, repeat: 1, transformOrigin: 'center' }, 2.6);
+
+  // Subtle floating — single yoyo cycle, shorter
+  document.querySelectorAll('#b10 .b10-card').forEach((card, i) => {
+    tl.to(card,
+      { y: '-=5', duration: 1.0 + (i % 4) * 0.1, ease: 'sine.inOut', yoyo: true, repeat: 1 },
+      1.8 + i * 0.03);
+  });
+
+  // ── Fade out before b11 (compressed for 5.51s beat — was 7.3 → 7.85)
+  tl.to(['#b10 #b10-header', '#b10 #b10-grid', '#b10 #b10-footer'],
+    { opacity: 0, y: -15, duration: 0.5, ease: 'power3.in' }, 4.7);
+</script>
+</body>
+</html>

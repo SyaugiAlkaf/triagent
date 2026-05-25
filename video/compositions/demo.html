@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Triagent · Demo Reel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=block"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0b0e13; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="triagent-demo"
+      data-composition-id="triagent-demo"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="155"
+    >
+      <div class="stage">
+        <div class="grid"></div>
+
+        <!-- =============================================================
+             SHARED: persistent COCKPIT (visible from scene 02 onward)
+             ============================================================= -->
+        <header id="cockpit" class="cockpit">
+          <div class="cp-brand">
+            <div class="cp-logo">
+              <svg viewBox="0 0 14 14" width="22" height="22">
+                <path d="M2 11 L7 2 L12 11" stroke="#a259ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <circle cx="7" cy="8.5" r="1.4" fill="#a259ff"/>
+              </svg>
+            </div>
+            <div>
+              <div class="cp-mark">TRIAGENT</div>
+              <div class="cp-timer">00:24:47</div>
+            </div>
+          </div>
+          <div class="cp-div"></div>
+          <div class="cp-chips">
+            <div class="cp-chip" data-chip="tf-primary"><span class="dot"></span>TF·GROQ<span class="ms">142</span></div>
+            <div class="cp-chip" data-chip="tf-verify"><span class="dot"></span>TF·GEMINI<span class="ms">986</span></div>
+            <div class="cp-chip" data-chip="tf-tertiary"><span class="dot"></span>TF·OPENROUTER<span class="ms">312</span></div>
+            <div class="cp-chip" data-chip="mock"><span class="dot"></span>MOCK<span class="ms">8</span></div>
+          </div>
+          <div class="cp-div"></div>
+          <div class="cp-tools">
+            <div class="cp-tool" data-tool="kubectl"><span class="dot"></span>KUBECTL</div>
+            <div class="cp-tool" data-tool="prom"><span class="dot"></span>PROM</div>
+            <div class="cp-tool" data-tool="loki"><span class="dot"></span>LOKI</div>
+          </div>
+          <div class="cp-div"></div>
+          <div class="cp-budget">
+            <div class="cp-bar"><div class="cp-fill" id="cp-fill"></div></div>
+            <span class="cp-bud-text"><span id="cp-tokens">9.4</span><span class="dim">k tok</span></span>
+          </div>
+          <div style="flex:1"></div>
+          <div class="cp-defcon" id="cp-defcon">
+            <span class="dot"></span><span class="dc-label">DEFCON</span><span class="dc-level" id="dc-level">5</span>
+          </div>
+          <div class="cp-ws"><span class="dot"></span>OPEN</div>
+          <div class="cp-chaos" id="cp-chaos">CHAOS</div>
+          <div class="cp-eval">EVAL</div>
+        </header>
+
+        <!-- =============================================================
+             SHARED: persistent SIDEBAR (AlertInbox)
+             ============================================================= -->
+        <aside id="alerts" class="alerts">
+          <div class="al-head">
+            <div class="al-title">ALERTS<span class="dim">· <span id="al-count">0</span></span></div>
+          </div>
+          <div class="al-list" id="al-list">
+            <!-- Alerts injected via GSAP -->
+          </div>
+          <div class="al-foot">alertmanager-prod<span class="dim" style="float:right">live</span></div>
+        </aside>
+
+        <!-- =============================================================
+             SHARED: TRACE FEED in the middle
+             ============================================================= -->
+        <section id="trace" class="trace">
+          <div class="tr-head">
+            <div class="tr-title">INCIDENT · <span id="tr-scenario" class="text-strong">—</span></div>
+            <div id="tr-status" class="tr-status">IDLE</div>
+          </div>
+          <div class="tr-body">
+            <div id="tr-orig" class="tr-col"></div>
+            <div id="tr-cf" class="tr-col tr-cf"></div>
+          </div>
+          <div id="tr-verdict" class="tr-verdict"></div>
+        </section>
+
+        <!-- =============================================================
+             SHARED: TOPOLOGY on the right (2D abstraction)
+             ============================================================= -->
+        <section id="topology" class="topology">
+          <div class="tp-head">TOPOLOGY · LIVE TRAFFIC</div>
+          <svg viewBox="0 0 460 720" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+            <!-- edges -->
+            <g id="tp-edges" stroke-linecap="round">
+              <path id="edge-a-gw" d="M 230 380 L 230 220" stroke="#3a4254" stroke-width="2" stroke-dasharray="4 6"/>
+              <path id="edge-gw-tf-primary" d="M 230 220 L 380 80" stroke="#3a4254" stroke-width="2" stroke-dasharray="4 6"/>
+              <path id="edge-gw-tf-verify" d="M 230 220 L 380 200" stroke="#3a4254" stroke-width="2" stroke-dasharray="4 6"/>
+              <path id="edge-gw-tf-tertiary" d="M 230 220 L 380 320" stroke="#3a4254" stroke-width="2" stroke-dasharray="4 6"/>
+              <path id="edge-a-kc" d="M 230 380 L 80 320" stroke="#3a4254" stroke-width="2" stroke-dasharray="4 6"/>
+              <path id="edge-a-pr" d="M 230 380 L 80 460" stroke="#3a4254" stroke-width="2" stroke-dasharray="4 6"/>
+              <path id="edge-a-lk" d="M 230 380 L 80 600" stroke="#3a4254" stroke-width="2" stroke-dasharray="4 6"/>
+            </g>
+            <!-- nodes -->
+            <g id="tp-nodes">
+              <g class="node" data-node="agent">
+                <circle cx="230" cy="380" r="38" fill="#a259ff"/>
+                <text x="230" y="450" text-anchor="middle" font-family="JetBrains Mono" font-size="14" fill="#f2f5fa" font-weight="700">AGENT</text>
+              </g>
+              <g class="node" data-node="gateway">
+                <circle cx="230" cy="220" r="26" fill="#a259ff" stroke="#c4ccd9" stroke-width="1.5"/>
+                <text x="230" y="180" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#f2f5fa" font-weight="700">TF GATEWAY</text>
+                <text x="230" y="166" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#9aa3b2" font-weight="500">gateway.truefoundry.ai</text>
+              </g>
+              <g class="node" data-node="tf-primary">
+                <circle cx="380" cy="80" r="20" fill="#3fbf7f"/>
+                <text x="380" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#c4ccd9" font-weight="600">TF·GROQ</text>
+              </g>
+              <g class="node" data-node="tf-verify">
+                <circle cx="380" cy="200" r="20" fill="#5d9cf5"/>
+                <text x="380" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#c4ccd9" font-weight="600">TF·GEMINI</text>
+              </g>
+              <g class="node" data-node="tf-tertiary">
+                <circle cx="380" cy="320" r="20" fill="#a259ff"/>
+                <text x="380" y="290" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#c4ccd9" font-weight="600">TF·OPENROUTER</text>
+              </g>
+              <g class="node" data-node="kubectl">
+                <circle cx="80" cy="320" r="20" fill="#9aa3b2"/>
+                <text x="80" y="290" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#c4ccd9" font-weight="600">KUBECTL</text>
+              </g>
+              <g class="node" data-node="prom">
+                <circle cx="80" cy="460" r="20" fill="#9aa3b2"/>
+                <text x="80" y="498" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#c4ccd9" font-weight="600">PROMETHEUS</text>
+              </g>
+              <g class="node" data-node="loki">
+                <circle cx="80" cy="600" r="20" fill="#9aa3b2"/>
+                <text x="80" y="638" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#c4ccd9" font-weight="600">LOKI</text>
+              </g>
+            </g>
+          </svg>
+        </section>
+
+        <!-- =============================================================
+             OVERLAYS — switched on/off by GSAP per scene
+             ============================================================= -->
+
+        <!-- BEAT MARKER — corner badge -->
+        <div id="beat-marker" class="beat-marker">
+          <span class="bm-num">BEAT 01</span>
+          <span class="bm-label">LOGIN GATE</span>
+        </div>
+
+        <!-- LoginScreen overlay -->
+        <div id="login" class="login">
+          <pre id="wave" class="wave"></pre>
+          <div class="login-vignette"></div>
+          <div class="login-stamp tl">TRIAGENT v0.4.2 · BUILD 8c2f1a</div>
+          <div class="login-stamp tr">SECURE TERMINAL · TLS 1.3</div>
+          <div class="login-stamp bl">SRE WAR ROOM</div>
+          <div class="login-stamp br">AUTHORIZED PERSONNEL ONLY</div>
+          <div class="login-card">
+            <div class="lc-head">
+              <div class="lc-logo">
+                <svg viewBox="0 0 14 14" width="20" height="20">
+                  <path d="M2 11 L7 2 L12 11" stroke="#a259ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  <circle cx="7" cy="8.5" r="1.4" fill="#a259ff"/>
+                </svg>
+              </div>
+              <div>
+                <div class="lc-brand">TRIAGENT</div>
+                <div class="lc-sub">SRE WAR ROOM · LOGIN</div>
+              </div>
+            </div>
+            <div class="lc-row"><div class="lc-label">Operator</div><div class="lc-input">operator</div></div>
+            <div class="lc-row"><div class="lc-label">Access Key</div><div class="lc-input lc-key">••••••••••••</div></div>
+            <div class="lc-button" id="lc-button">LOGIN · ENTER WAR ROOM →</div>
+            <div class="lc-meta"><span><span class="dot mini"></span> mTLS · ed25519 · verified</span><span>session-id 8c2f1a</span></div>
+          </div>
+        </div>
+
+        <!-- EVAL modal -->
+        <div id="eval-modal" class="eval-modal">
+          <div class="em-card">
+            <div class="em-kicker">CHAOS EVAL · 120 RUNS</div>
+            <h2 class="em-title">baseline collapses · triagent holds</h2>
+            <div class="em-sub">3 scenarios × 4 chaos modes × 2 systems × 5 replicas</div>
+            <div class="em-bars">
+              <div class="em-mode"><div class="em-mode-name">NO CHAOS</div><div class="em-bar-row"><div class="em-bar baseline" style="width:100%">100%</div></div><div class="em-bar-row"><div class="em-bar triagent" style="width:100%">100%</div></div></div>
+              <div class="em-mode"><div class="em-mode-name">PROVIDER KILL</div><div class="em-bar-row"><div class="em-bar baseline em-zero">0%</div></div><div class="em-bar-row"><div class="em-bar triagent" style="width:100%">100%</div></div></div>
+              <div class="em-mode"><div class="em-mode-name">TOOL KILL</div><div class="em-bar-row"><div class="em-bar baseline em-zero">0%</div></div><div class="em-bar-row"><div class="em-bar triagent" style="width:100%">100%</div></div></div>
+              <div class="em-mode"><div class="em-mode-name">COMBINED</div><div class="em-bar-row"><div class="em-bar baseline em-zero">0%</div></div><div class="em-bar-row"><div class="em-bar triagent" style="width:100%">100%</div></div></div>
+            </div>
+            <div class="em-legend">
+              <span class="em-key"><span class="em-key-sw baseline"></span> baseline · single-provider gateway · no fallback</span>
+              <span class="em-key"><span class="em-key-sw triagent"></span> triagent · full resilience layer</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CALLOUT BUBBLE — narration aid -->
+        <div id="callout" class="callout">
+          <div class="co-text">callout text here</div>
+        </div>
+      </div>
+
+      <style>
+        #triagent-demo {
+          font-family: 'Inter', sans-serif;
+          color: #c4ccd9;
+        }
+        #triagent-demo .stage {
+          width: 1920px; height: 1080px; position: relative; overflow: hidden;
+          background: #0b0e13;
+        }
+        #triagent-demo .text-strong { color: #f2f5fa; }
+        #triagent-demo .dim { color: #6b7484; }
+        #triagent-demo .grid {
+          position: absolute; inset: 0; pointer-events: none;
+          background-image:
+            linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+          background-size: 96px 96px;
+        }
+        #triagent-demo .dot {
+          display: inline-block;
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: #3fbf7f;
+          margin-right: 6px;
+          vertical-align: middle;
+        }
+        #triagent-demo .dot.mini { width: 5px; height: 5px; }
+
+        /* ========================= COCKPIT ========================= */
+        #triagent-demo .cockpit {
+          position: absolute;
+          top: 24px; left: 24px; right: 24px; height: 76px;
+          background: #131820;
+          border: 1px solid #232a37;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 0 22px;
+          opacity: 0;
+        }
+        #triagent-demo .cp-brand { display: flex; align-items: center; gap: 12px; }
+        #triagent-demo .cp-logo {
+          width: 48px; height: 48px;
+          background: #0a0d12;
+          border: 1.5px solid rgba(162, 89, 255, 0.45);
+          border-radius: 10px;
+          display: grid; place-items: center;
+        }
+        #triagent-demo .cp-mark {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 20px; font-weight: 700; letter-spacing: 0.16em;
+          color: #f2f5fa; line-height: 1;
+        }
+        #triagent-demo .cp-timer {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 14px; tabular-nums: var(--font-feature-settings);
+          color: #6b7484; margin-top: 4px;
+        }
+        #triagent-demo .cp-div { width: 1px; height: 44px; background: #232a37; }
+        #triagent-demo .cp-chips, #triagent-demo .cp-tools { display: flex; gap: 8px; }
+        #triagent-demo .cp-chip, #triagent-demo .cp-tool {
+          background: #0a0d12;
+          border: 1px solid #232a37;
+          border-radius: 8px;
+          padding: 0 12px;
+          height: 42px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 14px;
+          letter-spacing: 0.08em;
+          color: #f2f5fa;
+          font-weight: 600;
+        }
+        #triagent-demo .cp-chip .ms {
+          color: #9aa3b2;
+          font-size: 13px;
+          font-weight: 500;
+          margin-left: 6px;
+        }
+        #triagent-demo .cp-chip.killed {
+          background: color-mix(in oklch, #e85a5a 10%, transparent);
+          border-color: color-mix(in oklch, #e85a5a 35%, transparent);
+        }
+        #triagent-demo .cp-chip.killed .dot { background: #e85a5a; }
+        #triagent-demo .cp-chip.killed .ms { color: #e85a5a; }
+        #triagent-demo .cp-tool.killed {
+          background: color-mix(in oklch, #e8a23e 12%, transparent);
+          border-color: color-mix(in oklch, #e8a23e 38%, transparent);
+          color: #e8a23e;
+        }
+        #triagent-demo .cp-tool.killed .dot { background: #e8a23e; }
+        #triagent-demo .cp-budget {
+          display: flex; align-items: center; gap: 12px;
+        }
+        #triagent-demo .cp-bar {
+          width: 130px; height: 6px;
+          background: #0a0d12;
+          border-radius: 3px;
+          overflow: hidden;
+          position: relative;
+        }
+        #triagent-demo .cp-fill {
+          height: 100%;
+          width: 47%;
+          background: #5d9cf5;
+        }
+        #triagent-demo .cp-bud-text {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 14px; color: #f2f5fa; font-weight: 600;
+        }
+        #triagent-demo .cp-defcon {
+          display: flex; align-items: center; gap: 8px;
+          padding: 0 14px; height: 42px;
+          border-radius: 8px;
+          font-family: 'JetBrains Mono', monospace;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          font-size: 13px;
+          color: #3fbf7f;
+          border: 1px solid color-mix(in oklch, #3fbf7f 42%, transparent);
+          background: color-mix(in oklch, #3fbf7f 7%, transparent);
+        }
+        #triagent-demo .cp-defcon .dot { background: currentColor; }
+        #triagent-demo .cp-defcon .dc-level {
+          font-size: 22px; letter-spacing: 0.04em;
+        }
+        #triagent-demo .cp-defcon.dc-1 { color: #e85a5a; border-color: color-mix(in oklch, #e85a5a 58%, transparent); background: color-mix(in oklch, #e85a5a 14%, transparent); }
+        #triagent-demo .cp-defcon.dc-2 { color: #e85a5a; border-color: color-mix(in oklch, #e85a5a 40%, transparent); background: color-mix(in oklch, #e85a5a  8%, transparent); }
+        #triagent-demo .cp-defcon.dc-3 { color: #e8a23e; border-color: color-mix(in oklch, #e8a23e 44%, transparent); background: color-mix(in oklch, #e8a23e  8%, transparent); }
+        #triagent-demo .cp-defcon.dc-4 { color: #5d9cf5; border-color: color-mix(in oklch, #5d9cf5 42%, transparent); background: color-mix(in oklch, #5d9cf5  7%, transparent); }
+        #triagent-demo .cp-defcon.dc-5 { color: #3fbf7f; border-color: color-mix(in oklch, #3fbf7f 42%, transparent); background: color-mix(in oklch, #3fbf7f  7%, transparent); }
+        #triagent-demo .cp-ws {
+          display: flex; align-items: center;
+          padding: 0 14px; height: 42px;
+          border-radius: 8px;
+          background: #0a0d12;
+          border: 1px solid #232a37;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px;
+          color: #c4ccd9;
+          font-weight: 600;
+          letter-spacing: 0.16em;
+        }
+        #triagent-demo .cp-chaos {
+          padding: 0 18px; height: 42px;
+          background: #0a0d12;
+          border: 1px solid #232a37;
+          border-radius: 8px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 14px;
+          color: #f2f5fa;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          display: flex; align-items: center;
+        }
+        #triagent-demo .cp-chaos.active {
+          background: color-mix(in oklch, #e85a5a 18%, #131820);
+          border-color: color-mix(in oklch, #e85a5a 55%, transparent);
+          color: #e85a5a;
+        }
+        #triagent-demo .cp-eval {
+          padding: 0 18px; height: 42px;
+          background: #a259ff;
+          border: 1px solid color-mix(in oklch, #a259ff 80%, white);
+          color: white;
+          border-radius: 8px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 14px;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          display: flex; align-items: center;
+        }
+
+        /* ========================= ALERTS ========================= */
+        #triagent-demo .alerts {
+          position: absolute;
+          top: 124px; left: 24px;
+          width: 380px;
+          bottom: 24px;
+          background: #131820;
+          border: 1px solid #232a37;
+          border-radius: 12px;
+          padding: 14px;
+          display: flex;
+          flex-direction: column;
+          opacity: 0;
+        }
+        #triagent-demo .al-head {
+          display: flex; align-items: center; justify-content: space-between;
+          margin-bottom: 14px;
+        }
+        #triagent-demo .al-title {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px; letter-spacing: 0.14em; color: #c4ccd9; font-weight: 600;
+        }
+        #triagent-demo .al-list {
+          flex: 1;
+          display: flex; flex-direction: column; gap: 8px;
+        }
+        #triagent-demo .al-card {
+          background: transparent;
+          border: 1px solid transparent;
+          border-radius: 8px;
+          padding: 10px 12px;
+          display: flex; align-items: center; gap: 10px;
+          position: relative;
+          opacity: 0;
+        }
+        #triagent-demo .al-card::before {
+          content: ""; position: absolute;
+          left: 0; top: 8px; bottom: 8px;
+          width: 3px; border-radius: 0 3px 3px 0;
+          background: #e85a5a;
+        }
+        #triagent-demo .al-card.p2::before { background: #e8a23e; }
+        #triagent-demo .al-card.active {
+          background: color-mix(in oklch, #a259ff 8%, transparent);
+          border-color: color-mix(in oklch, #a259ff 40%, transparent);
+        }
+        #triagent-demo .al-sev {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px; letter-spacing: 0.14em; font-weight: 700;
+          color: #e85a5a;
+          min-width: 22px;
+        }
+        #triagent-demo .al-card.p2 .al-sev { color: #e8a23e; }
+        #triagent-demo .al-name {
+          font-size: 14.5px; color: #f2f5fa;
+          flex: 1; font-weight: 500;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        #triagent-demo .al-ns, #triagent-demo .al-age {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px; color: #6b7484;
+        }
+        #triagent-demo .al-foot {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px; color: #6b7484;
+          padding-top: 10px;
+          border-top: 1px solid #232a37;
+        }
+
+        /* ========================= TRACE ========================= */
+        #triagent-demo .trace {
+          position: absolute;
+          top: 124px; left: 420px;
+          right: 524px;
+          bottom: 24px;
+          background: #0b0e13;
+          border: 1px solid #232a37;
+          border-radius: 12px;
+          display: flex;
+          flex-direction: column;
+          opacity: 0;
+          overflow: hidden;
+        }
+        #triagent-demo .tr-head {
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 14px 18px;
+          border-bottom: 1px solid #232a37;
+        }
+        #triagent-demo .tr-title {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px; letter-spacing: 0.14em; color: #6b7484;
+          font-weight: 600;
+        }
+        #triagent-demo .tr-status {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px; letter-spacing: 0.18em; font-weight: 700;
+          padding: 4px 10px; border-radius: 4px;
+          color: #6b7484;
+          background: #131820;
+          border: 1px solid #232a37;
+        }
+        #triagent-demo .tr-status.running { color: #5d9cf5; background: color-mix(in oklch, #5d9cf5 10%, transparent); border-color: color-mix(in oklch, #5d9cf5 35%, transparent); }
+        #triagent-demo .tr-status.done { color: #3fbf7f; background: color-mix(in oklch, #3fbf7f 10%, transparent); border-color: color-mix(in oklch, #3fbf7f 35%, transparent); }
+        #triagent-demo .tr-body {
+          flex: 1;
+          display: grid;
+          grid-template-columns: 1fr 0fr;
+          gap: 0;
+          overflow: auto;
+          padding: 6px 0;
+          transition: grid-template-columns 0.5s;
+        }
+        #triagent-demo .tr-body.split { grid-template-columns: 1fr 1fr; }
+        #triagent-demo .tr-col {
+          padding: 4px 12px;
+          display: flex; flex-direction: column;
+          font-family: 'JetBrains Mono', monospace;
+        }
+        #triagent-demo .tr-col.tr-cf { border-left: 1px solid #232a37; opacity: 0; }
+        #triagent-demo .tr-body.split .tr-cf { opacity: 1; }
+        #triagent-demo .tr-row {
+          display: flex; gap: 10px;
+          padding: 6px 8px;
+          border-left: 2px solid #232a37;
+          font-size: 12.5px;
+          line-height: 1.4;
+          align-items: baseline;
+          opacity: 0;
+        }
+        #triagent-demo .tr-row.plan { color: #5d9cf5; border-left-color: rgba(93,156,245,0.4); }
+        #triagent-demo .tr-row.tool { color: #c4ccd9; border-left-color: #313a4d; }
+        #triagent-demo .tr-row.llm { color: #c4ccd9; border-left-color: rgba(93,156,245,0.4); }
+        #triagent-demo .tr-row.fallback { color: #a259ff; border-left-color: rgba(162,89,255,0.5); }
+        #triagent-demo .tr-row.substitute { color: #a259ff; border-left-color: rgba(162,89,255,0.5); }
+        #triagent-demo .tr-row.quarantine { color: #e8a23e; border-left-color: rgba(232,162,62,0.5); }
+        #triagent-demo .tr-row.chaos { color: #e85a5a; border-left-color: rgba(232,90,90,0.5); }
+        #triagent-demo .tr-row.skip { color: #e8a23e; border-left-color: rgba(232,162,62,0.6); }
+        #triagent-demo .tr-row.ensemble { color: #3fbf7f; border-left-color: rgba(63,191,127,0.4); }
+        #triagent-demo .tr-row .tr-idx {
+          color: #6b7484;
+          min-width: 28px;
+          text-align: right;
+        }
+        #triagent-demo .tr-row .tr-kind {
+          min-width: 130px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+        #triagent-demo .tr-row .tr-prov {
+          color: #6b7484;
+          min-width: 60px;
+        }
+        #triagent-demo .tr-row .tr-det {
+          color: #c4ccd9;
+          flex: 1;
+        }
+        #triagent-demo .tr-row .tr-ms {
+          color: #6b7484;
+          text-align: right;
+        }
+
+        /* ============== VERDICT CARD inside trace ============== */
+        #triagent-demo .tr-verdict {
+          background: #131820;
+          border-top: 1px solid #232a37;
+          padding: 16px 18px;
+          opacity: 0;
+        }
+        #triagent-demo .vc-head {
+          display: flex; align-items: center; gap: 10px;
+          margin-bottom: 12px;
+        }
+        #triagent-demo .vc-pill {
+          padding: 4px 10px; border-radius: 4px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 11px; letter-spacing: 0.14em; font-weight: 700;
+          color: #3fbf7f;
+          border: 1px solid color-mix(in oklch, #3fbf7f 45%, transparent);
+          background: color-mix(in oklch, #3fbf7f 10%, transparent);
+        }
+        #triagent-demo .vc-ensemble {
+          padding: 4px 10px; border-radius: 4px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 11px; letter-spacing: 0.12em; font-weight: 700;
+          color: #3fbf7f;
+          border: 1px solid color-mix(in oklch, #3fbf7f 45%, transparent);
+          background: color-mix(in oklch, #3fbf7f 8%, transparent);
+        }
+        #triagent-demo .vc-ensemble .pair {
+          color: #6b7484; font-weight: 500; margin-left: 6px;
+        }
+        #triagent-demo .vc-scen {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px; color: #9aa3b2;
+        }
+        #triagent-demo .vc-body {
+          display: grid;
+          grid-template-columns: 96px 1fr;
+          gap: 18px;
+          align-items: start;
+        }
+        #triagent-demo .vc-conf {
+          width: 96px; height: 96px;
+          border-radius: 50%;
+          background: conic-gradient(from -45deg, #3fbf7f 0%, #3fbf7f 64%, #1d212c 64%, #1d212c 75%, #131820 75%);
+          display: grid; place-items: center;
+          position: relative;
+        }
+        #triagent-demo .vc-conf-num {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 26px; font-weight: 700; color: #f2f5fa;
+        }
+        #triagent-demo .vc-rc {
+          font-size: 16px; color: #f2f5fa; font-weight: 500; line-height: 1.4;
+        }
+        #triagent-demo .vc-tags {
+          margin-top: 8px;
+          display: flex; gap: 6px;
+          font-family: 'JetBrains Mono', monospace; font-size: 11px;
+        }
+        #triagent-demo .vc-tag {
+          background: #0a0d12;
+          border: 1px solid #232a37;
+          padding: 3px 8px; border-radius: 3px;
+          color: #c4ccd9;
+        }
+        #triagent-demo .vc-tag .dim { color: #6b7484; }
+        #triagent-demo .vc-stats {
+          margin-top: 14px;
+          display: grid; grid-template-columns: 1fr 1fr 1fr;
+          background: #0a0d12;
+          border-radius: 6px;
+          overflow: hidden;
+          border: 1px solid #232a37;
+        }
+        #triagent-demo .vc-stat {
+          padding: 12px 14px;
+          border-right: 1px solid #232a37;
+        }
+        #triagent-demo .vc-stat:last-child { border-right: none; }
+        #triagent-demo .vc-stat-l {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 10.5px; letter-spacing: 0.16em; color: #6b7484; font-weight: 600;
+          margin-bottom: 4px;
+        }
+        #triagent-demo .vc-stat-v {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 18px; color: #f2f5fa; font-weight: 700;
+        }
+        #triagent-demo .vc-stat-v .dim {
+          color: #6b7484; font-weight: 500; font-size: 13px;
+        }
+
+        /* ========================= TOPOLOGY ========================= */
+        #triagent-demo .topology {
+          position: absolute;
+          top: 124px; right: 24px;
+          width: 480px;
+          bottom: 24px;
+          background: #131820;
+          border: 1px solid #232a37;
+          border-radius: 12px;
+          padding: 14px;
+          opacity: 0;
+          display: flex; flex-direction: column;
+        }
+        #triagent-demo .tp-head {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px; letter-spacing: 0.14em; color: #6b7484; font-weight: 600;
+          margin-bottom: 8px;
+        }
+        #triagent-demo #tp-nodes .node circle {
+          transition: fill 0.4s;
+        }
+        #triagent-demo #tp-nodes .node.alarm circle { fill: #e85a5a; }
+        #triagent-demo #tp-nodes .node.warning circle { fill: #e8a23e; }
+        #triagent-demo #tp-nodes .node.active circle { fill: #a259ff; }
+        #triagent-demo #tp-edges path { transition: stroke 0.3s; }
+
+        /* ========================= LOGIN ========================= */
+        #triagent-demo .login {
+          position: absolute; inset: 0;
+          background: #0b0e13;
+          z-index: 200;
+          opacity: 1;
+        }
+        #triagent-demo .wave {
+          position: absolute; inset: 0;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 14px; line-height: 17px;
+          text-align: center; white-space: pre;
+          background: linear-gradient(135deg, #a259ff 0%, #7c3aed 40%, #9aa3b2 75%, #6b7484 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          opacity: 0.6;
+          margin: 0;
+        }
+        #triagent-demo .login-vignette {
+          position: absolute;
+          left: 50%; top: 50%;
+          transform: translate(-50%, -50%);
+          width: 620px; height: 460px;
+          background: radial-gradient(ellipse at center, color-mix(in oklch, #0b0e13 78%, transparent) 30%, transparent 75%);
+        }
+        #triagent-demo .login-stamp {
+          position: absolute;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 14px; letter-spacing: 0.16em; color: #6b7484;
+        }
+        #triagent-demo .login-stamp.tl { top: 30px; left: 36px; }
+        #triagent-demo .login-stamp.tr { top: 30px; right: 36px; }
+        #triagent-demo .login-stamp.bl { bottom: 30px; left: 36px; }
+        #triagent-demo .login-stamp.br { bottom: 30px; right: 36px; }
+        #triagent-demo .login-card {
+          position: absolute;
+          left: 50%; top: 50%;
+          transform: translate(-50%, -50%);
+          width: 480px;
+          background: #131820;
+          border: 1px solid #313a4d;
+          border-radius: 10px;
+          padding: 36px 40px;
+          box-shadow: 0 30px 90px -30px rgba(0,0,0,0.85),
+                      0 0 0 1px color-mix(in oklch, #a259ff 18%, transparent);
+        }
+        #triagent-demo .lc-head { display: flex; gap: 14px; margin-bottom: 28px; align-items: center; }
+        #triagent-demo .lc-logo {
+          width: 42px; height: 42px;
+          background: #0a0d12;
+          border: 1.5px solid rgba(162, 89, 255, 0.5);
+          border-radius: 8px;
+          display: grid; place-items: center;
+        }
+        #triagent-demo .lc-brand {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 18px; font-weight: 700; letter-spacing: 0.16em; color: #f2f5fa; line-height: 1;
+        }
+        #triagent-demo .lc-sub {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px; letter-spacing: 0.14em; color: #6b7484; margin-top: 6px;
+        }
+        #triagent-demo .lc-row { margin-bottom: 14px; }
+        #triagent-demo .lc-label {
+          font-family: 'JetBrains Mono', monospace; text-transform: uppercase;
+          font-size: 11px; letter-spacing: 0.14em; color: #9aa3b2; font-weight: 600;
+          margin-bottom: 6px;
+        }
+        #triagent-demo .lc-input {
+          background: #0a0d12;
+          border: 1px solid #232a37;
+          border-radius: 4px;
+          padding: 10px 12px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 14px; color: #f2f5fa;
+        }
+        #triagent-demo .lc-input.lc-key { letter-spacing: 0.15em; }
+        #triagent-demo .lc-button {
+          background: #a259ff;
+          border: 1px solid color-mix(in oklch, #a259ff 80%, white);
+          color: white;
+          border-radius: 4px;
+          padding: 12px 0;
+          text-align: center;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px; font-weight: 700; letter-spacing: 0.14em;
+          margin-top: 18px;
+        }
+        #triagent-demo .lc-meta {
+          margin-top: 16px;
+          display: flex; justify-content: space-between;
+          font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6b7484;
+        }
+        #triagent-demo .lc-meta .dot { background: #3fbf7f; }
+
+        /* ========================= EVAL MODAL ========================= */
+        #triagent-demo .eval-modal {
+          position: absolute; inset: 0;
+          background: rgba(11, 14, 19, 0.85);
+          backdrop-filter: blur(8px);
+          z-index: 150;
+          opacity: 0;
+          display: grid; place-items: center;
+        }
+        #triagent-demo .em-card {
+          width: 1100px;
+          background: #131820;
+          border: 1px solid #313a4d;
+          border-radius: 14px;
+          padding: 38px 42px;
+        }
+        #triagent-demo .em-kicker {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px; letter-spacing: 0.22em; color: #a259ff; font-weight: 700;
+          margin-bottom: 12px;
+        }
+        #triagent-demo .em-title {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 36px; font-weight: 700; color: #f2f5fa;
+          letter-spacing: 0.02em; line-height: 1.15;
+        }
+        #triagent-demo .em-sub {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 14px; color: #9aa3b2; margin-top: 10px;
+        }
+        #triagent-demo .em-bars {
+          margin-top: 26px;
+          display: flex; flex-direction: column; gap: 14px;
+        }
+        #triagent-demo .em-mode {
+          display: grid;
+          grid-template-columns: 200px 1fr;
+          gap: 16px;
+          align-items: center;
+        }
+        #triagent-demo .em-mode-name {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px; letter-spacing: 0.18em; color: #c4ccd9; font-weight: 600;
+        }
+        #triagent-demo .em-bar-row {
+          background: #0a0d12;
+          border-radius: 4px;
+          height: 28px;
+          margin: 2px 0;
+          overflow: hidden;
+          position: relative;
+        }
+        #triagent-demo .em-bar {
+          height: 100%;
+          background: #e85a5a;
+          color: white;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px;
+          font-weight: 700;
+          padding: 0 12px;
+          line-height: 28px;
+          width: 0%;
+        }
+        #triagent-demo .em-bar.em-zero {
+          width: 60px !important;
+          background: color-mix(in oklch, #e85a5a 30%, #0a0d12);
+          color: #e85a5a;
+        }
+        #triagent-demo .em-bar.triagent { background: #3fbf7f; }
+        #triagent-demo .em-legend {
+          margin-top: 22px;
+          display: flex; gap: 30px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px; color: #9aa3b2;
+        }
+        #triagent-demo .em-key { display: flex; align-items: center; gap: 8px; }
+        #triagent-demo .em-key-sw {
+          width: 14px; height: 14px; border-radius: 3px;
+          background: #e85a5a;
+          display: inline-block;
+        }
+        #triagent-demo .em-key-sw.triagent { background: #3fbf7f; }
+
+        /* ========================= BEAT MARKER + CALLOUT ========================= */
+        #triagent-demo .beat-marker {
+          position: absolute;
+          top: 24px; right: 24px;
+          z-index: 100;
+          padding: 8px 14px;
+          background: #0a0d12;
+          border: 1px solid rgba(162, 89, 255, 0.45);
+          border-radius: 6px;
+          font-family: 'JetBrains Mono', monospace;
+          color: #c4ccd9;
+          font-size: 12px;
+          letter-spacing: 0.14em;
+          display: none;
+          gap: 10px;
+          align-items: center;
+        }
+        #triagent-demo .beat-marker.show { display: flex; }
+        #triagent-demo .bm-num {
+          color: #a259ff;
+          font-weight: 700;
+        }
+        #triagent-demo .bm-label {
+          color: #f2f5fa;
+          font-weight: 600;
+        }
+        #triagent-demo .callout {
+          position: absolute;
+          left: 50%;
+          bottom: 86px;
+          transform: translateX(-50%);
+          background: rgba(10, 13, 18, 0.92);
+          border: 1px solid rgba(162, 89, 255, 0.4);
+          border-radius: 8px;
+          padding: 14px 22px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 15px;
+          letter-spacing: 0.06em;
+          color: #f2f5fa;
+          max-width: 1200px;
+          text-align: center;
+          opacity: 0;
+          z-index: 90;
+          box-shadow: 0 20px 60px -20px rgba(0,0,0,0.7);
+        }
+        #triagent-demo .callout .co-text strong {
+          color: #a259ff;
+          font-weight: 700;
+        }
+      </style>
+
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+
+          // ────────────────────────────────────────────────────────
+          // ASCII wave for LoginScreen — pre-rendered to textContent
+          // ────────────────────────────────────────────────────────
+          const WAVE_CHARS = ' .:-=+*#%@';
+          function renderWave(t, cols, rows) {
+            let out = '';
+            for (let y = 0; y < rows; y++) {
+              for (let x = 0; x < cols; x++) {
+                const a = Math.sin(x * 0.18 + t * 0.0045);
+                const b = Math.sin(y * 0.30 + t * 0.0033 + 1.4);
+                const v = (a + b) * 0.5;
+                const norm = (v + 1) / 2;
+                if (norm < 0.4) { out += ' '; continue; }
+                const local = (norm - 0.4) / 0.6;
+                const idx = Math.floor(local * (WAVE_CHARS.length - 1));
+                out += WAVE_CHARS[idx];
+              }
+              out += '\n';
+            }
+            return out;
+          }
+          // Sample wave at composition start (frame 0); GSAP can't drive
+          // rAF during deterministic render, so we burn a static frame.
+          // Real demo uses live rAF on the LoginScreen component.
+          const wave = document.querySelector('#triagent-demo #wave');
+          if (wave) wave.textContent = renderWave(0, 180, 60);
+          // Animate the wave subtly across scene 1 via tl.to setting textContent
+          // is unsupported by GSAP — instead we just oscillate opacity to give
+          // a "breathing" feel.
+
+          // ────────────────────────────────────────────────────────
+          // ALERTS — programmatic creation
+          // ────────────────────────────────────────────────────────
+          function addAlert(sel, idx, sev, name, ns, age) {
+            const list = document.querySelector(sel);
+            const card = document.createElement('div');
+            card.className = `al-card ${sev === 'P2' ? 'p2' : ''}`;
+            card.id = `al-${idx}`;
+            card.innerHTML = `
+              <span class="al-sev">${sev}</span>
+              <span class="al-name">${name}</span>
+              <span class="al-ns">${ns}</span>
+              <span class="al-age">${age}</span>
+            `;
+            list.appendChild(card);
+          }
+          addAlert('#triagent-demo #al-list', 0, 'P1', 'CrashLoopBackOff: missing env var', 'triagent-demo', '2m');
+          addAlert('#triagent-demo #al-list', 1, 'P1', 'OOMKilled cascade',                 'triagent-demo', '5m');
+          addAlert('#triagent-demo #al-list', 2, 'P2', 'CoreDNS misconfig',                 'triagent-demo', '12m');
+
+          // ────────────────────────────────────────────────────────
+          // TRACE ROWS — programmatic
+          // ────────────────────────────────────────────────────────
+          function addRow(targetSel, idx, kind, klass, prov, det, ms) {
+            const col = document.querySelector(targetSel);
+            const row = document.createElement('div');
+            row.className = `tr-row ${klass}`;
+            row.id = `tr-${targetSel.replace(/[^a-z]/gi,'')}-${idx}`;
+            row.innerHTML = `
+              <span class="tr-idx">${String(idx).padStart(3,'0')}</span>
+              <span class="tr-kind">${kind}</span>
+              <span class="tr-prov">${prov || ''}</span>
+              <span class="tr-det">${det}</span>
+              <span class="tr-ms">${ms || ''}</span>
+            `;
+            col.appendChild(row);
+            return `#${row.id}`;
+          }
+
+          // SCENE 02 - normal investigation trace (10 events)
+          const sc2Rows = [];
+          sc2Rows.push(addRow('#triagent-demo #tr-orig', 0, 'plan',          'plan',       '',        'plan node — read alert, propose tools',                 ''));
+          sc2Rows.push(addRow('#triagent-demo #tr-orig', 1, 'tool_call',     'tool',       'kubectl', 'get pods -n triagent-demo',                              '142ms'));
+          sc2Rows.push(addRow('#triagent-demo #tr-orig', 2, 'tool_call',     'tool',       'kubectl', 'describe pod payments-api-87d',                          '186ms'));
+          sc2Rows.push(addRow('#triagent-demo #tr-orig', 3, 'provider_call', 'llm',        'tf-primary',    'hypothesize root cause from container state',           '892ms'));
+          sc2Rows.push(addRow('#triagent-demo #tr-orig', 4, 'provider_call', 'llm',        'tf-verify',  'verify hypothesis on different family',                 '4.20s'));
+          sc2Rows.push(addRow('#triagent-demo #tr-orig', 5, 'ensemble_verify','ensemble',  '',        'CONSENSUS: missing DATABASE_URL env var (tf-primary=0.85, tf-verify=0.82)', ''));
+          sc2Rows.push(addRow('#triagent-demo #tr-orig', 6, 'tool_call',     'tool',       'kubectl', 'get configmap database-config -o yaml',                  '128ms'));
+          sc2Rows.push(addRow('#triagent-demo #tr-orig', 7, 'tool_call',     'tool',       'loki',    'query last 60s logs for payments-api',                   '241ms'));
+          sc2Rows.push(addRow('#triagent-demo #tr-orig', 8, 'provider_call', 'llm',        'tf-primary',    'compose remediation: raise limits + restart',           '743ms'));
+
+          // SCENE 03 - chaos sequence (5 new events appended to same column)
+          const sc3Rows = [];
+          sc3Rows.push(addRow('#triagent-demo #tr-orig',  9, 'chaos_inject',     'chaos',      '',           'kill_provider [tf-primary]',                                     ''));
+          sc3Rows.push(addRow('#triagent-demo #tr-orig', 10, 'provider_error',   'chaos',      'tf-primary',       'ProviderError: killed by chaos controller',                ''));
+          sc3Rows.push(addRow('#triagent-demo #tr-orig', 11, 'provider_fallback','fallback',   '',           'tf-primary → tf-verify (brownout-aware, EWMA exceeded)',           ''));
+          sc3Rows.push(addRow('#triagent-demo #tr-orig', 12, 'tool_quarantine',  'quarantine', '',           'kubectl quarantined — chaos_inject',                       ''));
+          sc3Rows.push(addRow('#triagent-demo #tr-orig', 13, 'tool_substitute',  'substitute', '',           'kubectl → prometheus (route via metrics)',                 ''));
+          sc3Rows.push(addRow('#triagent-demo #tr-orig', 14, 'provider_call',    'llm',        'tf-verify',     'hypothesize OOMKilled from prometheus metrics',           '11.8s'));
+          sc3Rows.push(addRow('#triagent-demo #tr-orig', 15, 'provider_fallback','fallback',   '',           'tf-verify → tf-tertiary (brownout >8s)',                     ''));
+          sc3Rows.push(addRow('#triagent-demo #tr-orig', 16, 'provider_call',    'llm',        'tf-tertiary','verify on third hop, ensemble holds',                      '1.42s'));
+
+          // SCENE 04 - counterfactual replay in second column
+          const sc4Rows = [];
+          sc4Rows.push(addRow('#triagent-demo #tr-cf', 0, 'plan',             'plan',     '',         'replay from step 3 · chaos override [kill tf-primary]',  ''));
+          sc4Rows.push(addRow('#triagent-demo #tr-cf', 1, 'tool_call',        'tool',     'kubectl',  'get pods (cached)',                                 '0ms'));
+          sc4Rows.push(addRow('#triagent-demo #tr-cf', 2, 'tool_call',        'tool',     'kubectl',  'describe pod (cached)',                             '0ms'));
+          sc4Rows.push(addRow('#triagent-demo #tr-cf', 3, 'chaos_inject',     'chaos',    '',          'kill_provider [tf-primary] · counterfactual',            ''));
+          sc4Rows.push(addRow('#triagent-demo #tr-cf', 4, 'provider_fallback','fallback', '',          'tf-primary → tf-verify (chaos override)',                    ''));
+          sc4Rows.push(addRow('#triagent-demo #tr-cf', 5, 'provider_call',    'llm',      'tf-verify',   'hypothesize (cached) — different recovery path',   '0ms'));
+          sc4Rows.push(addRow('#triagent-demo #tr-cf', 6, 'ensemble_verify',  'ensemble', '',          'CONSENSUS: same root cause, alt recovery',         ''));
+
+          // SCENE 05 - cost-aware skip — new run in original column (visually we'll show appended)
+          const sc5Rows = [];
+          sc5Rows.push(addRow('#triagent-demo #tr-orig', 17, 'plan',          'plan',     '',         'new investigation · budget=$0.05',                ''));
+          sc5Rows.push(addRow('#triagent-demo #tr-orig', 18, 'tool_call',     'tool',     'kubectl',  'get pods (cached)',                                '0ms'));
+          sc5Rows.push(addRow('#triagent-demo #tr-orig', 19, 'provider_skip', 'skip',     '',          '$ skip [tf-primary] reason=budget_pressure (est $0.04 > rem $0.02)', ''));
+          sc5Rows.push(addRow('#triagent-demo #tr-orig', 20, 'provider_call', 'llm',      'tf-verify',   'free fallback promoted ahead',                     '986ms'));
+          sc5Rows.push(addRow('#triagent-demo #tr-orig', 21, 'ensemble_verify','ensemble','',          'CONSENSUS (degraded, no paid verify)',             ''));
+
+          // ────────────────────────────────────────────────────────
+          // VERDICT CARD content (built once, animated visible)
+          // ────────────────────────────────────────────────────────
+          const vc = document.querySelector('#triagent-demo #tr-verdict');
+          vc.innerHTML = `
+            <div class="vc-head">
+              <span class="vc-pill"><span class="dot" style="background:#3fbf7f"></span>RESOLVED</span>
+              <span class="vc-ensemble" id="vc-ens"><span class="dot" style="background:#3fbf7f"></span>CONSENSUS<span class="pair">tf-primary→tf-verify</span></span>
+              <span class="vc-scen">01-crashloop</span>
+            </div>
+            <div class="vc-body">
+              <div class="vc-conf"><div class="vc-conf-num">85<span class="dim">%</span></div></div>
+              <div>
+                <div class="vc-rc" id="vc-rc">Pod payments-api restarted 3× in 90s. Missing DATABASE_URL env var.</div>
+                <div class="vc-tags">
+                  <span class="vc-tag"><span class="dim">pod </span>payments-api-87d</span>
+                  <span class="vc-tag"><span class="dim">ns </span>triagent-demo</span>
+                </div>
+                <div class="vc-stats">
+                  <div class="vc-stat"><div class="vc-stat-l">LATENCY</div><div class="vc-stat-v" id="vc-lat">5.42<span class="dim">s</span></div></div>
+                  <div class="vc-stat"><div class="vc-stat-l">TOKENS</div><div class="vc-stat-v" id="vc-tok">12.3<span class="dim">k</span></div></div>
+                  <div class="vc-stat"><div class="vc-stat-l">COST</div><div class="vc-stat-v" id="vc-cost">$0.0211</div></div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          // ────────────────────────────────────────────────────────
+          // BEAT MARKER + CALLOUT helpers
+          // ────────────────────────────────────────────────────────
+          function setBeat(t, num, label) {
+            tl.call(() => {
+              const m = document.querySelector('#triagent-demo #beat-marker');
+              m.classList.add('show');
+              m.querySelector('.bm-num').textContent = `BEAT ${num}`;
+              m.querySelector('.bm-label').textContent = label;
+            }, [], t);
+          }
+          function callout(t, txt, dur = 4) {
+            tl.call(() => {
+              const c = document.querySelector('#triagent-demo #callout');
+              c.querySelector('.co-text').innerHTML = txt;
+            }, [], t);
+            tl.fromTo('#triagent-demo #callout', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, t);
+            tl.to('#triagent-demo #callout', { opacity: 0, duration: 0.4 }, t + dur);
+          }
+
+          // ────────────────────────────────────────────────────────
+          // MASTER TIMELINE — 155s total
+          // ────────────────────────────────────────────────────────
+
+          /* ════════ BEAT 01 (0..13s) — LoginScreen, fade out into warroom ════════ */
+          setBeat(0, '01', 'LOGIN GATE');
+          tl.fromTo('#triagent-demo #login', { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0);
+          // breathe the wave subtly to suggest motion
+          tl.to('#triagent-demo #wave', { opacity: 0.75, duration: 2.0, yoyo: true, repeat: 5, ease: "sine.inOut" }, 0.6);
+          callout(2.5, "<strong>SRE LOGIN</strong> · operator drops into the war room", 6);
+          // button press flicker at t=11s
+          tl.to('#triagent-demo #lc-button', { scale: 1.04, duration: 0.15, yoyo: true, repeat: 1 }, 11);
+          // fade login out from t=12
+          tl.to('#triagent-demo #login', { opacity: 0, filter: 'blur(8px)', scale: 1.02, duration: 1.2, ease: "power2.in" }, 12);
+
+          /* ════════ BEAT 02 (13..40s) — warroom paint + crashloop + ensemble verify ════════ */
+          setBeat(13, '02', 'CROSSPROVIDER ENSEMBLE VERIFY');
+          tl.fromTo('#triagent-demo #cockpit',  { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.6 }, 13);
+          tl.fromTo('#triagent-demo #alerts',   { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.5 }, 13.2);
+          tl.fromTo('#triagent-demo #trace',    { opacity: 0, y: 16 },  { opacity: 1, y: 0, duration: 0.5 }, 13.4);
+          tl.fromTo('#triagent-demo #topology', { opacity: 0, x: 16 },  { opacity: 1, x: 0, duration: 0.5 }, 13.6);
+          callout(15, "Empty war room · <strong>DEFCON 5 NOMINAL</strong> · operator on console", 5);
+
+          // Alert lands at t=17
+          tl.fromTo('#triagent-demo #al-0', { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.45 }, 17);
+          tl.fromTo('#triagent-demo #al-1', { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.45 }, 17.3);
+          tl.fromTo('#triagent-demo #al-2', { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.45 }, 17.6);
+          tl.call(() => { document.querySelector('#triagent-demo #al-count').textContent = '3'; }, [], 17.6);
+
+          // click crashloop alert at t=19
+          tl.to('#triagent-demo #al-0', { className: '+=active', duration: 0 }, 19);
+          tl.set('#triagent-demo #tr-scenario', { innerHTML: '01-crashloop · namespace triagent-demo' }, 19);
+          tl.set('#triagent-demo #tr-status',   { textContent: 'RUNNING', className: 'tr-status running' }, 19);
+          callout(20, "Investigate · <strong>plan → investigate → hypothesize → verify</strong>", 5);
+
+          // stream 9 events scene-2
+          const sc2Times = [21, 22.0, 23.0, 24.5, 26.0, 28.5, 30.0, 31.5, 33.0];
+          sc2Rows.forEach((sel, i) => {
+            tl.fromTo(sel, { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.35 }, sc2Times[i]);
+          });
+          // pulse ensemble row
+          tl.to('#triagent-demo ' + sc2Rows[5], { backgroundColor: 'color-mix(in oklch, #3fbf7f 8%, transparent)', duration: 0.4, yoyo: true, repeat: 1 }, 29);
+          callout(28, "<strong>ENSEMBLE VERIFY</strong> · Groq hypothesizes · Ollama verifies · CONSENSUS", 5);
+
+          // verdict slides in
+          tl.set('#triagent-demo #tr-status', { textContent: 'DONE', className: 'tr-status done' }, 34);
+          tl.fromTo('#triagent-demo #tr-verdict', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6 }, 34);
+
+          /* ════════ BEAT 03 (40..75s) — chaos sequence, three-deep fallback ════════ */
+          setBeat(40, '03', 'THREEDEEP FALLBACK');
+          callout(41, "Production happens · <strong>Kill Groq · Quarantine kubectl · Inject 12s latency</strong>", 6);
+
+          // kill tf-primary at t=42
+          tl.to('#triagent-demo .cp-chip[data-chip="tf-primary"]',    { className: '+=killed', duration: 0 }, 42);
+          tl.to('#triagent-demo #tp-nodes .node[data-node="tf-primary"]', { className: '+=alarm', duration: 0 }, 42);
+          tl.to('#triagent-demo #edge-gw-tf-primary',                  { attr: { stroke: '#e85a5a' }, duration: 0.3 }, 42);
+          tl.to('#triagent-demo #cp-chaos',                      { className: '+=active', duration: 0 }, 42);
+          tl.set('#triagent-demo #cp-defcon',                    { className: 'cp-defcon dc-2' }, 42);
+          tl.set('#triagent-demo #dc-level',                     { textContent: '2' }, 42);
+
+          // kill kubectl at t=44
+          tl.to('#triagent-demo .cp-tool[data-tool="kubectl"]',  { className: '+=killed', duration: 0 }, 44);
+          tl.to('#triagent-demo #tp-nodes .node[data-node="kubectl"]', { className: '+=warning', duration: 0 }, 44);
+          tl.to('#triagent-demo #edge-a-kc',                     { attr: { stroke: '#e8a23e' }, duration: 0.3 }, 44);
+          tl.set('#triagent-demo #cp-defcon',                    { className: 'cp-defcon dc-1' }, 44);
+          tl.set('#triagent-demo #dc-level',                     { textContent: '1' }, 44);
+
+          // trigger OOM alert (highlight #al-1 second alert)
+          tl.to('#triagent-demo #al-0', { className: '-=active', duration: 0 }, 47);
+          tl.to('#triagent-demo #al-1', { className: '+=active', duration: 0 }, 47);
+          tl.set('#triagent-demo #tr-scenario', { innerHTML: '02-oom · namespace triagent-demo' }, 47);
+          tl.set('#triagent-demo #tr-status',   { textContent: 'RUNNING', className: 'tr-status running' }, 47);
+          tl.to('#triagent-demo #tr-verdict',   { opacity: 0, duration: 0.4 }, 47);
+
+          // stream chaos events
+          const sc3Times = [49, 50, 52, 54, 56, 59, 63, 66];
+          sc3Rows.forEach((sel, i) => {
+            tl.fromTo(sel, { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.35 }, sc3Times[i]);
+          });
+          callout(57, "<strong>Three-deep fallback</strong> · Groq → Ollama → TrueFoundry · kubectl → Prometheus", 6);
+
+          // topology: tf-verify active, prometheus active
+          tl.to('#triagent-demo #tp-nodes .node[data-node="tf-verify"]', { className: '+=active', duration: 0 }, 50);
+          tl.to('#triagent-demo #edge-gw-tf-verify',                     { attr: { stroke: '#a259ff' }, duration: 0.3 }, 50);
+          tl.to('#triagent-demo #tp-nodes .node[data-node="prom"]',   { className: '+=active', duration: 0 }, 54);
+          tl.to('#triagent-demo #edge-a-pr',                          { attr: { stroke: '#a259ff' }, duration: 0.3 }, 54);
+          tl.to('#triagent-demo #tp-nodes .node[data-node="tf-tertiary"]', { className: '+=active', duration: 0 }, 65);
+          tl.to('#triagent-demo #edge-gw-tf-tertiary',                         { attr: { stroke: '#a259ff' }, duration: 0.3 }, 65);
+
+          // verdict back at t=70
+          tl.set('#triagent-demo #tr-status', { textContent: 'DONE', className: 'tr-status done' }, 70);
+          tl.set('#triagent-demo #vc-rc',     { textContent: 'OOMKilled cascade · memory limit 64Mi exceeded.' }, 70);
+          tl.set('#triagent-demo #vc-lat',    { innerHTML: '14.8<span class="dim">s</span>' }, 70);
+          tl.set('#triagent-demo #vc-tok',    { innerHTML: '18.6<span class="dim">k</span>' }, 70);
+          tl.set('#triagent-demo #vc-cost',   { textContent: '$0.0344' }, 70);
+          tl.fromTo('#triagent-demo #tr-verdict', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, 70);
+
+          /* ════════ BEAT 04 (75..105s) — counterfactual replay ════════ */
+          setBeat(75, '04', 'COUNTERFACTUAL REPLAY');
+          callout(76, "Drag replay scrubber · toggle <strong>WHAT IF</strong> · inject alternate chaos · stream alongside", 6);
+
+          // split the trace body
+          tl.to('#triagent-demo .tr-body', { className: 'tr-body split', duration: 0 }, 78);
+
+          // stream counterfactual rows
+          const sc4Times = [79.5, 80.5, 81.5, 83, 85, 87, 90];
+          sc4Rows.forEach((sel, i) => {
+            tl.fromTo(sel, { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.35 }, sc4Times[i]);
+          });
+          callout(89, "<strong>Counterfactual replay</strong> · same root cause · alternate recovery path", 5);
+
+          // collapse back at t=102
+          tl.to('#triagent-demo .tr-body', { className: 'tr-body', duration: 0 }, 102);
+
+          /* ════════ BEAT 05 (105..130s) — cost-aware fallback ════════ */
+          setBeat(105, '05', 'COSTAWARE FALLBACK');
+          callout(106, "Low budget · gateway <strong>reorders free providers ahead of paid</strong> · provider_skip event", 6);
+
+          // Clear chaos visually
+          tl.to('#triagent-demo .cp-chip.killed', { className: 'cp-chip', duration: 0 }, 105);
+          tl.to('#triagent-demo .cp-tool.killed', { className: 'cp-tool', duration: 0 }, 105);
+          tl.to('#triagent-demo #cp-chaos', { className: 'cp-chaos', duration: 0 }, 105);
+          tl.set('#triagent-demo #cp-defcon', { className: 'cp-defcon dc-4' }, 105);
+          tl.set('#triagent-demo #dc-level', { textContent: '4' }, 105);
+          // budget bar drops to high
+          tl.to('#triagent-demo #cp-fill', { width: '94%', backgroundColor: '#e85a5a', duration: 0.6 }, 107);
+
+          // stream scene-5 rows
+          const sc5Times = [110, 111.5, 113.5, 116, 118.5];
+          sc5Rows.forEach((sel, i) => {
+            tl.fromTo(sel, { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4 }, sc5Times[i]);
+          });
+          // emphasize provider_skip row
+          tl.fromTo('#triagent-demo ' + sc5Rows[2],
+            { backgroundColor: 'transparent' },
+            { backgroundColor: 'color-mix(in oklch, #e8a23e 12%, transparent)', duration: 0.3, yoyo: true, repeat: 3 },
+            114);
+
+          callout(120, "<strong>provider_skip [tf-primary]</strong> · reason=budget_pressure · TF bills cost · we route on it", 7);
+
+          /* ════════ BEAT 06 (130..150s) — EVAL modal ════════ */
+          setBeat(130, '06', 'EVAL · BASELINE vs TRIAGENT');
+          callout(131, "120 investigations · 3 scenarios × 4 chaos modes · <strong>baseline 0% · triagent 100%</strong>", 7);
+
+          tl.fromTo('#triagent-demo #eval-modal', { opacity: 0 }, { opacity: 1, duration: 0.5 }, 132);
+          tl.fromTo('#triagent-demo .em-card', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, 132.2);
+          // animate bars
+          tl.fromTo('#triagent-demo .em-bar.baseline:not(.em-zero)', { width: '0%' }, { width: '100%', duration: 0.8, stagger: 0.1 }, 133);
+          tl.fromTo('#triagent-demo .em-bar.triagent',               { width: '0%' }, { width: '100%', duration: 0.8, stagger: 0.1 }, 133.4);
+
+          /* ════════ BEAT 07 (150..155s) — close hold ════════ */
+          setBeat(150, '07', 'CLOSE');
+          callout(150, "Six features · three primitives · real TrueFoundry · <strong>Triagent</strong>", 4);
+          tl.to('#triagent-demo #eval-modal', { opacity: 0, duration: 0.6 }, 154);
+
+          window.__timelines = window.__timelines || {};
+          window.__timelines["triagent-demo"] = tl;
+        })();
+      </script>
+    </div>
+  </body>
+</html>

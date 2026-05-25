@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Triagent · cinema v4 · alive</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #0a0a0c;
+    --bg-light: #f7f8fa;
+    --ink:      #0e0f12;
+    --ink-mid:  #5b6068;
+    --accent:   #a259ff;
+    --accent-2: #5d9cf5;
+    --warm:     #ff8a65;
+    --pink:     #ff7eb3;
+    --success:  #30d158;
+    --danger:   #ff453a;
+  }
+  html, body, #triagent-cinema {
+    margin: 0; width: 1920px; height: 1080px;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .clip { opacity: 0; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .serif { font-family: 'Instrument Serif', serif; font-style: italic; }
+
+  #bg-light { position: absolute; inset: 0; background: var(--bg-light); }
+  #bg-dark  { position: absolute; inset: 0; background: var(--bg-dark); opacity: 0; }
+
+  /* Cursor with tilt — rotates around base point */
+  #cursor {
+    position: absolute;
+    width: 64px; height: 80px;
+    pointer-events: none;
+    z-index: 70;
+    left: 0; top: 0;
+    transform-origin: 16px 12px;
+    transform: translate(-25%, -10%);
+    will-change: transform, left, top;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35));
+  }
+  /* Breathing wrapper (subtle pulse on held shots) */
+  #stage {
+    position: absolute;
+    inset: 0;
+    transform-origin: 960px 540px;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  .screen {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: top left;
+    opacity: 0;
+  }
+  .ripple {
+    position: absolute;
+    width: 16px; height: 16px;
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 65;
+    opacity: 0;
+  }
+  .wipe {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    pointer-events: none;
+    z-index: 90;
+    will-change: transform, opacity;
+  }
+  .kinetic-row {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    will-change: transform, opacity;
+    opacity: 0;
+  }
+  /* Per-character/word span (set up via JS) */
+  .kw {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px);
+    will-change: transform, opacity;
+  }
+  .kw-accent { color: var(--accent); }
+  .kw-blue   { color: var(--accent-2); }
+
+  /* Shared accent orb — morphs across beats */
+  #orb {
+    position: absolute;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #d4b3ff 0%, #a259ff 55%, #6d28d9 100%);
+    box-shadow: 0 0 80px 24px rgba(162,89,255,0.35);
+    pointer-events: none;
+    z-index: 80;
+    opacity: 0;
+    left: 0; top: 0;
+    transform: translate(-50%, -50%);
+    will-change: transform, opacity, width, height;
+  }
+</style>
+</head>
+<body>
+<div id="triagent-cinema"
+     data-composition-id="triagent-cinema"
+     data-start="0"
+     data-duration="78"
+     data-track-index="0"
+     data-width="1920"
+     data-height="1080"
+     class="clip relative overflow-hidden"
+     style="background: var(--bg-light);">
+
+  <div id="bg-light"></div>
+  <div id="bg-dark"></div>
+
+  <!-- Warroom stage -->
+  <div id="stage">
+    <div id="scr-trace"   class="screen" style="background-image: url('../assets/screens-v2/02-trace-running.png');"></div>
+    <div id="scr-verdict" class="screen" style="background-image: url('../assets/screens-v2/03-verdict-tab.png');"></div>
+    <div id="scr-cost"    class="screen" style="background-image: url('../assets/screens-v2/04-cost-tab.png');"></div>
+    <div id="scr-chaos"   class="screen" style="background-image: url('../assets/screens-v2/07-chaos-drawer.png');"></div>
+    <div id="scr-killed"  class="screen" style="background-image: url('../assets/screens-v2/05-tf-killed.png');"></div>
+    <div id="scr-replay"  class="screen" style="background-image: url('../assets/screens-v2/06-replay-modal.png');"></div>
+    <div id="r1" class="ripple"></div>
+    <div id="r2" class="ripple"></div>
+    <div id="r3" class="ripple"></div>
+    <div id="r4" class="ripple"></div>
+  </div>
+
+  <!-- Hand cursor -->
+  <div id="cursor" style="left: 1920px; top: 600px;">
+    <svg width="64" height="80" viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 4 v15 l-2 -1 q-3 -1.5 -4 1 v3 q0 1.5 1 3 l5 8 q1 2 3 2 h10 q2 0 3 -2 l2 -7 q0.5 -2 0.5 -4 v-4 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-9 q0 -2 -2 -2 t-2 2 z"
+            fill="#ffffff" stroke="#1a1a1f" stroke-width="2" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- Shared accent orb — carries color/shape across beats -->
+  <div id="orb"></div>
+
+  <!-- Kinetic typography rows (per-word splits done at runtime) -->
+  <div id="k0a" class="kinetic-row" data-text="your k8s incident agent"
+       style="top: 380px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em;"></div>
+  <div id="k0b" class="kinetic-row" data-text="built to <accent>survive chaos</accent>"
+       style="top: 500px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em;"></div>
+
+  <div id="k2a" class="kinetic-row" data-text="three providers"
+       style="top: 340px; font-size: 84px; font-weight: 700; letter-spacing: -0.02em;"></div>
+  <div id="k2b" class="kinetic-row" data-text="one <accent>truefoundry</accent> gateway"
+       style="top: 460px; font-size: 84px; font-weight: 700; letter-spacing: -0.02em;"></div>
+  <div id="k2c" class="kinetic-row mono" data-text="TF·GROQ &nbsp;·&nbsp; TF·GEMINI &nbsp;·&nbsp; TF·OPENROUTER"
+       style="top: 600px; font-size: 22px; font-weight: 500; letter-spacing: 0.24em; color: var(--ink-mid);"></div>
+
+  <div id="k4a" class="kinetic-row" data-text="kill any provider"
+       style="top: 380px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em;"></div>
+  <div id="k4b" class="kinetic-row" data-text="the agent <accent>keeps walking</accent>"
+       style="top: 500px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em;"></div>
+
+  <div id="k6a" class="kinetic-row serif" data-text="&ldquo;what if groq had been alive"
+       style="top: 380px; font-size: 80px; font-weight: 400;"></div>
+  <div id="k6b" class="kinetic-row serif" data-text="at step three?&rdquo;"
+       style="top: 488px; font-size: 80px; font-weight: 400;"></div>
+  <div id="k6c" class="kinetic-row mono" data-text="COUNTERFACTUAL REPLAY · TRUEFOUNDRY DOESN&rsquo;T SHIP THIS"
+       style="top: 620px; font-size: 18px; font-weight: 500; letter-spacing: 0.24em; color: var(--ink-mid);"></div>
+
+  <div id="k8a" class="kinetic-row mono" data-text="CHAOS RESILIENCE · 120 RUNS"
+       style="top: 320px; font-size: 26px; font-weight: 600; letter-spacing: 0.28em; color: var(--ink-mid);"></div>
+  <div id="k8b" class="kinetic-row" data-text="<dn>0%</dn> &nbsp;→&nbsp; <gr>100%</gr>"
+       style="top: 410px; font-size: 200px; font-weight: 800; letter-spacing: -0.04em; line-height: 1;"></div>
+  <div id="k8c" class="kinetic-row" data-text="baseline collapses. triagent holds."
+       style="top: 700px; font-size: 32px; font-weight: 500; color: var(--ink-mid);"></div>
+
+  <div id="k9-mark" class="kinetic-row" style="top: 380px; display: flex; align-items: center; justify-content: center; gap: 20px;">
+    <div style="width: 84px; height: 84px; border-radius: 22px; background: linear-gradient(135deg, #b380ff, #7c3aed); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(162,89,255,0.25);">
+      <svg width="46" height="46" viewBox="0 0 32 32" fill="none">
+        <path d="M16 4L26 22H6L16 4Z" stroke="white" stroke-width="2.4" stroke-linejoin="round"/>
+        <circle cx="16" cy="18" r="2.5" fill="white"/>
+      </svg>
+    </div>
+    <div style="font-size: 80px; font-weight: 700; letter-spacing: -0.01em;">TRIAGENT</div>
+  </div>
+  <div id="k9-line" class="kinetic-row serif" data-text="resilient k8s incident response on truefoundry."
+       style="top: 540px; font-size: 36px; font-weight: 400; color: var(--ink);"></div>
+  <div id="k9-meta" class="kinetic-row mono" data-text="github.com/syaugi/triagent &nbsp;·&nbsp; DEVNETWORK AI+ML 2026"
+       style="top: 640px; font-size: 16px; font-weight: 500; letter-spacing: 0.28em; color: var(--ink-mid);"></div>
+
+  <!-- Gradient circle wipes -->
+  <div id="w1" class="wipe" style="left: 960px; top: 540px; width: 100px; height: 100px; background: radial-gradient(circle, #b380ff 0%, #7c3aed 70%, #4c1d95 100%);"></div>
+  <div id="w2" class="wipe" style="left: 960px; top: 540px; width: 100px; height: 100px; background: radial-gradient(circle, #ffd6e7 0%, #ff7eb3 70%, #ec4899 100%);"></div>
+  <div id="w3" class="wipe" style="left: 960px; top: 540px; width: 100px; height: 100px; background: radial-gradient(circle, #cfe2ff 0%, #5d9cf5 70%, #2563eb 100%);"></div>
+  <div id="w4" class="wipe" style="left: 960px; top: 540px; width: 100px; height: 100px; background: radial-gradient(circle, #fff3bf 0%, #ffd43b 70%, #f59e0b 100%);"></div>
+  <div id="w5" class="wipe" style="left: 960px; top: 540px; width: 100px; height: 100px; background: radial-gradient(circle, #d8fdd8 0%, #30d158 70%, #15803d 100%);"></div>
+
+</div>
+
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  /* ============================================================
+     cinema v4 — alive: springs, stagger, curves, breathing,
+     variable tempo, shared element, cursor-draws-text
+     ============================================================ */
+
+  // ─── Split kinetic rows into per-word spans for stagger ──────
+  function splitRows() {
+    document.querySelectorAll('.kinetic-row[data-text]').forEach(row => {
+      const raw = row.dataset.text;
+      // Tokenize into words, preserving <accent>...</accent>, <dn>, <gr>
+      const tokens = raw.split(/(\s+|<\w+>[^<]*<\/\w+>)/).filter(t => t.length > 0);
+      row.innerHTML = '';
+      tokens.forEach(tok => {
+        if (/^\s+$/.test(tok)) {
+          row.appendChild(document.createTextNode(tok));
+          return;
+        }
+        const m = tok.match(/^<(\w+)>(.*)<\/\w+>$/);
+        if (m) {
+          const tag = m[1], content = m[2];
+          // Split content into words too
+          content.split(/(\s+)/).forEach(w => {
+            if (/^\s+$/.test(w) || w === '') {
+              row.appendChild(document.createTextNode(w));
+            } else {
+              const s = document.createElement('span');
+              s.className = 'kw kw-' + tag;
+              s.innerHTML = w;
+              row.appendChild(s);
+            }
+          });
+        } else {
+          const s = document.createElement('span');
+          s.className = 'kw';
+          s.innerHTML = tok;
+          row.appendChild(s);
+        }
+      });
+    });
+  }
+  splitRows();
+
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
+  window.__timelines["triagent-cinema"] = tl;
+
+  const root = "#triagent-cinema";
+
+  // Reset
+  tl.set(`${root} .screen`, { opacity: 0 }, 0);
+  tl.set(`${root} .kinetic-row`, { opacity: 0 }, 0);
+  tl.set(`${root} .wipe`, { opacity: 0, scale: 0 }, 0);
+  tl.set(`${root} .ripple`, { opacity: 0 }, 0);
+  tl.set(`${root} #stage`, { opacity: 0 }, 0);
+  tl.set(`${root} #orb`, { opacity: 0 }, 0);
+  tl.set(`${root} #bg-dark`, { opacity: 0 }, 0);
+  tl.set(`${root} #bg-light`, { opacity: 1 }, 0);
+
+  tl.fromTo(root, { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+
+  /* ── Helpers ─────────────────────────────────────────── */
+
+  // Per-word stagger entrance with spring overshoot
+  function kineticIn(time, rowSel, baseDelay = 0, perWord = 0.045) {
+    tl.set(`${root} ${rowSel}`, { opacity: 1 }, time);
+    tl.to(`${root} ${rowSel} .kw`,
+      { opacity: 1, y: 0, duration: 0.85, ease: "back.out(1.7)",
+        stagger: { each: perWord, from: "start" } },
+      time + baseDelay);
+  }
+
+  function kineticOut(time, rowSel, exitY = -24) {
+    tl.to(`${root} ${rowSel} .kw`,
+      { opacity: 0, y: exitY, duration: 0.45, ease: "power3.in",
+        stagger: { each: 0.025, from: "start" } }, time);
+    tl.set(`${root} ${rowSel}`, { opacity: 0 }, time + 0.7);
+  }
+
+  // Anticipation pull-back + thrust forward (for big reveals)
+  function popIn(time, sel, fromScale = 0.7) {
+    tl.set(`${root} ${sel}`, { opacity: 1, scale: fromScale }, time);
+    tl.fromTo(`${root} ${sel} .kw`,
+      { opacity: 0, scale: 0.6, y: 30 },
+      { opacity: 1, scale: 1, y: 0, duration: 1.0, ease: "elastic.out(0.9, 0.55)",
+        stagger: { each: 0.07, from: "center" } },
+      time);
+  }
+
+  // Wipe with anticipation: pull back, then forward, then overshoot, settle
+  function wipeOver(time, wipeSel, toLight = false) {
+    tl.set(`${root} ${wipeSel}`, { opacity: 1, scale: 0 }, time);
+    // Anticipation: tiny pulse before launching
+    tl.to(`${root} ${wipeSel}`,
+      { scale: 0.18, duration: 0.18, ease: "power2.out" }, time);
+    tl.to(`${root} ${wipeSel}`,
+      { scale: 28, duration: 0.55, ease: "power4.in" }, time + 0.18);
+    if (toLight) {
+      tl.set(`${root} #bg-dark`,  { opacity: 0 }, time + 0.65);
+      tl.set(`${root} #bg-light`, { opacity: 1 }, time + 0.65);
+    } else {
+      tl.set(`${root} #bg-dark`,  { opacity: 1 }, time + 0.65);
+      tl.set(`${root} #bg-light`, { opacity: 0 }, time + 0.65);
+    }
+    // Overshoot bounce + fade out
+    tl.to(`${root} ${wipeSel}`,
+      { scale: 32, duration: 0.18, ease: "power1.out" }, time + 0.73);
+    tl.to(`${root} ${wipeSel}`,
+      { opacity: 0, duration: 0.45, ease: "power2.out" }, time + 0.85);
+  }
+
+  // Curved cursor path via two-step bezier (overshoot a control point)
+  function cursorArc(time, x, y, duration = 1.1, tiltDeg = 0) {
+    // Use motionPath with bezier curve: intermediate control above straight path
+    tl.to(`${root} #cursor`,
+      { left: x, top: y, rotation: tiltDeg, duration, ease: "power2.inOut",
+        // Add slight arc by intermediate y bias
+        modifiers: {
+          top: function(value) {
+            return value; // GSAP handles the bezier naturally if we use motionPath; here we keep it simple
+          }
+        }
+      }, time);
+    // Settle tilt back to 0 after move
+    tl.to(`${root} #cursor`, { rotation: 0, duration: 0.4, ease: "back.out(2)" }, time + duration);
+  }
+
+  // Click with anticipation (cursor "pushes")
+  function cursorClick(time, x, y, rippleSel) {
+    // Anticipation: tiny pull-back
+    tl.to(`${root} #cursor`, { scale: 0.92, duration: 0.12, ease: "power2.in", transformOrigin: "16px 12px" }, time);
+    // Push forward (slight overshoot)
+    tl.to(`${root} #cursor`, { scale: 1.06, duration: 0.18, ease: "back.out(2.5)" }, time + 0.12);
+    tl.to(`${root} #cursor`, { scale: 1.0, duration: 0.22, ease: "power2.out" }, time + 0.30);
+    // Ripple
+    tl.set(`${root} ${rippleSel}`, { left: x, top: y, opacity: 0.95, scale: 0.5 }, time + 0.20);
+    tl.to(`${root} ${rippleSel}`,  { scale: 4.2, opacity: 0, duration: 0.85, ease: "power3.out" }, time + 0.20);
+  }
+
+  function zoomStage(time, x, y, scale = 1.32, hold = 1.2) {
+    tl.set(`${root} #stage`, { transformOrigin: `${x}px ${y}px` }, time);
+    tl.to(`${root} #stage`,  { scale, duration: 0.55, ease: "power2.out" }, time);
+    // Breathing during hold — subtle sine wobble around the zoomed scale
+    tl.to(`${root} #stage`,
+      { scale: scale * 1.015, duration: hold * 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 },
+      time + 0.55);
+    tl.to(`${root} #stage`,  { scale: 1, duration: 0.65, ease: "power2.inOut" }, time + 0.55 + hold);
+  }
+
+  function swapScreen(time, from, to) {
+    tl.to(`${root} ${from}`, { opacity: 0, duration: 0.32 }, time);
+    tl.to(`${root} ${to}`,   { opacity: 1, duration: 0.32 }, time);
+  }
+
+  /* ────────────────────────────────────────────────────────
+     BEAT TIMELINE — variable tempo, audio-synced beats at 70 BPM
+     Beat duration = 0.857s. Major hits aligned to bar starts.
+     ──────────────────────────────────────────────────────── */
+
+  // ─── B0 (0-7s, bars 0-2) — intro: cursor draws text in ──
+  // Hand cursor pre-positioned far right, swoops across as text appears in wake
+  tl.set(`${root} #cursor`, { left: 1860, top: 360, rotation: -15 }, 0);
+  // Cursor arcs across the screen at 0.5s, line 1 reveals as cursor passes
+  tl.to(`${root} #cursor`, { left: 280, top: 360, rotation: 0, duration: 1.6, ease: "power2.inOut" }, 0.4);
+  kineticIn(0.6, "#k0a", 0, 0.055);          // "your k8s incident agent" — per word stagger
+  // Cursor down to line 2
+  tl.to(`${root} #cursor`, { left: 280, top: 500, rotation: 0, duration: 0.5, ease: "power2.inOut" }, 2.0);
+  tl.to(`${root} #cursor`, { left: 1680, top: 500, rotation: 15, duration: 1.5, ease: "power2.inOut" }, 2.5);
+  kineticIn(2.7, "#k0b", 0, 0.06);           // "built to survive chaos"
+  // Hold (with breathing) then exit
+  tl.to(`${root} #cursor`, { left: 1920, top: 540, rotation: 0, duration: 0.6, ease: "power2.in" }, 5.6);
+  kineticOut(6.0, "#k0a");
+  kineticOut(6.05, "#k0b");
+
+  // ─── Shared orb appears, becomes the wipe seed ──────────
+  tl.set(`${root} #orb`, { left: 960, top: 540, width: 28, height: 28, opacity: 0 }, 6.3);
+  tl.to(`${root} #orb`,  { opacity: 1, duration: 0.25 }, 6.3);
+  tl.to(`${root} #orb`,  { width: 60, height: 60, duration: 0.4, ease: "back.out(2)" }, 6.55);
+
+  /* ─── W1 (6.85-8s) — violet wipe to dark ────────────── */
+  wipeOver(6.85, "#w1", false);
+  tl.to(`${root} #orb`, { opacity: 0, duration: 0.3 }, 7.4);
+
+  /* ─── B1 (8-15s) — warroom trace, cursor curves around ─ */
+  tl.to(`${root} #stage`, { opacity: 1, duration: 0.4 }, 7.7);
+  tl.to(`${root} #scr-trace`, { opacity: 1, duration: 0.4 }, 7.7);
+  tl.set(`${root} #cursor`, { left: 1920, top: 700, rotation: -8 }, 7.8);
+  // Curved arc to trace area (overshoot, then settle)
+  tl.to(`${root} #cursor`, { left: 750, top: 380, rotation: 6, duration: 1.4, ease: "back.out(1.3)" }, 8.0);
+  tl.to(`${root} #cursor`, { rotation: 0, duration: 0.4, ease: "power2.out" }, 9.4);
+  zoomStage(9.6, 750, 380, 1.34, 2.0);
+  // Cursor drifts during hold (parallax)
+  tl.to(`${root} #cursor`, { left: 820, top: 460, duration: 1.4, ease: "sine.inOut" }, 10.5);
+  cursorClick(11.8, 820, 460, "#r1");
+  tl.to(`${root} #stage, ${root} #cursor`, { opacity: 0, duration: 0.4 }, 14.4);
+
+  /* ─── W2 (14.5-15.8s) — pink wipe to light ─────────── */
+  wipeOver(14.5, "#w2", true);
+
+  /* ─── B2 (15.8-22s) — three providers chapter ────────── */
+  kineticIn(15.9, "#k2a", 0, 0.05);
+  kineticIn(16.6, "#k2b", 0, 0.05);
+  kineticIn(17.4, "#k2c", 0, 0.03);
+  // Hold with subtle drift on the mono subtitle
+  tl.to(`${root} #k2c`, { y: -4, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 18.0);
+  kineticOut(20.8, "#k2a");
+  kineticOut(20.85, "#k2b");
+  kineticOut(20.95, "#k2c");
+
+  /* ─── W3 (21.4-22.7s) — blue wipe to dark ──────────── */
+  wipeOver(21.4, "#w3", false);
+
+  /* ─── B3 (22.7-31s) — verdict + cost click ────────── */
+  tl.to(`${root} #stage`, { opacity: 1, duration: 0.4 }, 22.6);
+  tl.to(`${root} #scr-verdict`, { opacity: 1, duration: 0.4 }, 22.6);
+  tl.set(`${root} #cursor`, { left: 200, top: 250, rotation: 12 }, 22.7);
+  // Arc to confidence area
+  tl.to(`${root} #cursor`, { left: 720, top: 360, rotation: -3, duration: 1.3, ease: "back.out(1.2)" }, 22.9);
+  tl.to(`${root} #cursor`, { rotation: 0, duration: 0.35 }, 24.2);
+  zoomStage(24.3, 720, 360, 1.32, 1.5);
+  // Flick up to COST tab
+  tl.to(`${root} #cursor`, { left: 636, top: 163, rotation: -8, duration: 0.9, ease: "back.out(1.5)" }, 26.5);
+  tl.to(`${root} #cursor`, { rotation: 0, duration: 0.3 }, 27.4);
+  zoomStage(27.5, 636, 163, 1.30, 0.4);
+  cursorClick(28.2, 636, 163, "#r2");
+  swapScreen(28.4, "#scr-verdict", "#scr-cost");
+  // Settle on cost
+  tl.to(`${root} #cursor`, { left: 800, top: 380, rotation: 5, duration: 0.9, ease: "back.out(1.2)" }, 28.7);
+  tl.to(`${root} #cursor`, { rotation: 0, duration: 0.3 }, 29.6);
+  zoomStage(29.7, 800, 380, 1.30, 0.6);
+  tl.to(`${root} #stage, ${root} #cursor`, { opacity: 0, duration: 0.4 }, 30.8);
+
+  /* ─── W4 (30.6-31.9s) — amber wipe to light ──────────── */
+  wipeOver(30.6, "#w4", true);
+
+  /* ─── B4 (31.9-37s) — "kill any provider" ─────────────── */
+  kineticIn(32.0, "#k4a", 0, 0.06);
+  kineticIn(32.7, "#k4b", 0, 0.055);
+  // Hold with kinetic breathing
+  tl.to(`${root} #k4a .kw`, { y: -3, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: { each: 0.02 } }, 34.0);
+  kineticOut(35.8, "#k4a");
+  kineticOut(35.85, "#k4b");
+
+  /* ─── W5 (36.3-37.6s) — violet wipe to dark ─────────── */
+  wipeOver(36.3, "#w1", false);
+
+  /* ─── B5 (37.6-46s) — chaos kill + topology recovery ─── */
+  tl.to(`${root} #stage`, { opacity: 1, duration: 0.4 }, 37.5);
+  tl.to(`${root} #scr-chaos`, { opacity: 1, duration: 0.4 }, 37.5);
+  tl.set(`${root} #cursor`, { left: 1700, top: 200, rotation: 18 }, 37.6);
+  // Curved approach to kill switch
+  tl.to(`${root} #cursor`, { left: 1850, top: 280, rotation: 8, duration: 1.0, ease: "back.out(1.3)" }, 37.8);
+  tl.to(`${root} #cursor`, { rotation: 0, duration: 0.3 }, 38.8);
+  zoomStage(38.9, 1850, 280, 1.40, 1.0);
+  cursorClick(39.6, 1850, 280, "#r3");
+  swapScreen(39.9, "#scr-chaos", "#scr-killed");
+  // Cursor down to topology with arc
+  tl.to(`${root} #cursor`, { left: 1100, top: 920, rotation: -22, duration: 1.4, ease: "back.out(1.0)" }, 40.6);
+  tl.to(`${root} #cursor`, { rotation: 0, duration: 0.4 }, 42.0);
+  zoomStage(42.1, 1100, 920, 1.36, 2.0);
+  tl.to(`${root} #stage, ${root} #cursor`, { opacity: 0, duration: 0.4 }, 45.6);
+
+  /* ─── W6 (45.2-46.5s) — pink wipe to light ─────────── */
+  wipeOver(45.2, "#w2", true);
+
+  /* ─── B6 (46.5-52.5s) — counterfactual serif quote ─── */
+  kineticIn(46.5, "#k6a", 0, 0.04);
+  kineticIn(47.4, "#k6b", 0, 0.045);
+  kineticIn(48.4, "#k6c", 0, 0.025);
+  // Hold + slight quote breathing
+  tl.to(`${root} #k6a, ${root} #k6b`, { y: -5, duration: 2.0, ease: "sine.inOut", yoyo: true, repeat: 1 }, 49.0);
+  kineticOut(51.4, "#k6a");
+  kineticOut(51.5, "#k6b");
+  kineticOut(51.6, "#k6c");
+
+  /* ─── W7 (51.0-52.3s) — blue wipe to dark ─────────── */
+  wipeOver(51.0, "#w3", false);
+
+  /* ─── B7 (52.3-58s) — replay modal scrubber ────────── */
+  tl.to(`${root} #stage`, { opacity: 1, duration: 0.4 }, 52.2);
+  tl.to(`${root} #scr-replay`, { opacity: 1, duration: 0.4 }, 52.2);
+  tl.set(`${root} #cursor`, { left: 1850, top: 900, rotation: -25 }, 52.3);
+  tl.to(`${root} #cursor`, { left: 540, top: 670, rotation: 10, duration: 1.3, ease: "back.out(1.2)" }, 52.5);
+  tl.to(`${root} #cursor`, { rotation: 0, duration: 0.3 }, 53.8);
+  zoomStage(53.9, 540, 670, 1.36, 2.2);
+  // Cursor scrubs along the timeline
+  tl.to(`${root} #cursor`, { left: 760, top: 670, duration: 1.6, ease: "sine.inOut" }, 54.6);
+  tl.to(`${root} #stage, ${root} #cursor`, { opacity: 0, duration: 0.4 }, 57.6);
+
+  /* ─── W8 (57.0-58.3s) — green wipe to light ────────── */
+  wipeOver(57.0, "#w5", true);
+
+  /* ─── B8 (58.3-68s) — big number 0% → 100% reveal ─── */
+  kineticIn(58.3, "#k8a", 0, 0.025);         // label
+  // Big pop-in reveal with elastic
+  popIn(59.4, "#k8b", 0.75);
+  // Hold + breathing scale on the giant number
+  tl.to(`${root} #k8b`, { scale: 1.03, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 60.6);
+  kineticIn(62.0, "#k8c", 0, 0.04);          // tagline
+  // Long hold (let the number land)
+  tl.to(`${root} #k8a, ${root} #k8b, ${root} #k8c`, { opacity: 0, duration: 0.7, ease: "power2.in" }, 66.5);
+
+  /* ─── B9 (67-78s) — closing TRIAGENT ──────────────── */
+  tl.fromTo(`${root} #k9-mark`,
+    { opacity: 0, scale: 0.92, y: 20 },
+    { opacity: 1, scale: 1, y: 0, duration: 1.0, ease: "back.out(1.5)" }, 67.5);
+  kineticIn(69.0, "#k9-line", 0, 0.04);
+  kineticIn(70.4, "#k9-meta", 0, 0.02);
+  // Final hold
+  tl.to(`${root}`, { opacity: 0, duration: 0.8 }, 76.5);
+
+</script>
+</body>
+</html>

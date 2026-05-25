@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div id="b08" data-composition-id="b08" data-start="0" data-duration="5.0" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:#0a0a0c; overflow:hidden;">
+
+  <!-- Top headline above both panes -->
+  <div id="b08-top-text" style="position:absolute; left:50%; top:80px; transform:translateX(-50%); text-align:center; opacity:0; max-width:1500px;">
+    <div class="mono" style="font-size:13px; letter-spacing:0.32em; color:#a259ff; font-weight:600;">VERIFIED RESILIENT · 30 SCENARIOS × 3 CHAOS MODES</div>
+    <div style="font-size:54px; font-weight:700; color:#f5f5f7; margin-top:10px; letter-spacing:-0.02em;">Resilient under chaos. Cheap under load.</div>
+  </div>
+
+  <!-- LEFT pane — EVAL — tilted LEFT (rotationY 14 = left edge forward, rotation -3 = CCW) -->
+  <div id="b08-eval-pane" style="position:absolute; left:80px; top:50%; width:780px; height:600px; padding:32px 36px; background:#131820; border:1px solid #232a37; border-radius:18px; box-shadow:0 32px 90px -20px rgba(0,0,0,0.7); overflow:hidden; opacity:0;">
+
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:24px;">
+      <span style="width:8px; height:8px; border-radius:50%; background:#7eba6f; box-shadow:0 0 12px #7eba6f;"></span>
+      <span class="mono" style="font-size:12px; letter-spacing:0.24em; color:#9aa0ad; font-weight:600;">EVAL HARNESS</span>
+    </div>
+
+    <!-- Two vertical bars -->
+    <div style="display:flex; gap:32px; align-items:flex-end; height:380px; padding:0 20px;">
+      <!-- Chaos OFF -->
+      <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:14px;">
+        <span id="b08-pct-off" class="mono" style="font-size:48px; font-weight:700; color:#e85a5a; letter-spacing:-0.02em;">0%</span>
+        <div style="position:relative; width:120px; height:280px; background:#0e131b; border:1px solid #1a2030; border-radius:10px; overflow:hidden;">
+          <div id="b08-bar-off" style="position:absolute; left:0; right:0; bottom:0; height:0%; background:linear-gradient(180deg, #e85a5a, #b03939); border-radius:10px 10px 0 0;"></div>
+        </div>
+        <span class="mono" style="font-size:11px; color:#9aa0ad; letter-spacing:0.16em;">CHAOS · OFF</span>
+      </div>
+      <!-- Chaos ON -->
+      <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:14px;">
+        <span id="b08-pct-on" class="mono" style="font-size:48px; font-weight:700; color:#7eba6f; letter-spacing:-0.02em;">0%</span>
+        <div style="position:relative; width:120px; height:280px; background:#0e131b; border:1px solid #1a2030; border-radius:10px; overflow:hidden;">
+          <div id="b08-bar-on" style="position:absolute; left:0; right:0; bottom:0; height:0%; background:linear-gradient(180deg, #7eba6f, #4f8e44); border-radius:10px 10px 0 0; box-shadow:0 0 22px rgba(126,186,111,0.3) inset;"></div>
+        </div>
+        <span class="mono" style="font-size:11px; color:#c8b3ff; letter-spacing:0.16em;">CHAOS · ON · TRIAGENT</span>
+      </div>
+      <!-- Delta -->
+      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;">
+        <span class="mono" style="font-size:10px; color:#6b7484; letter-spacing:0.24em;">DELTA</span>
+        <span id="b08-delta" class="mono" style="font-size:64px; font-weight:700; color:#c8b3ff; letter-spacing:-0.02em;">+0%</span>
+        <span style="font-size:12px; color:#9aa0ad; text-align:center;">resilience gain</span>
+      </div>
+    </div>
+
+    <div style="margin-top:22px; padding-top:18px; border-top:1px solid #1d2330; font-size:14px; color:#9aa0ad; text-align:center;">
+      Recovers under every chaos mode tested.
+    </div>
+  </div>
+
+  <!-- RIGHT pane — COST — tilted RIGHT (rotationY -14 = right edge forward, rotation 3 = CW) -->
+  <div id="b08-cost-pane" style="position:absolute; left:1060px; top:50%; width:780px; height:600px; padding:32px 36px; background:#131820; border:1px solid #232a37; border-radius:18px; box-shadow:0 32px 90px -20px rgba(0,0,0,0.7); overflow:hidden; opacity:0;">
+
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:24px;">
+      <span style="width:8px; height:8px; border-radius:50%; background:#c8b3ff; box-shadow:0 0 12px #c8b3ff;"></span>
+      <span class="mono" style="font-size:12px; letter-spacing:0.24em; color:#9aa0ad; font-weight:600;">COST · PER INVESTIGATION</span>
+    </div>
+
+    <!-- Big total -->
+    <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:28px;">
+      <span id="b08-cost-total" class="mono" style="font-size:72px; font-weight:700; color:#c8b3ff; letter-spacing:-0.02em;">$0.00000</span>
+      <span class="mono" style="font-size:14px; color:#6b7484;">/ investigation</span>
+    </div>
+
+    <!-- Per-provider breakdown -->
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <div class="mono" style="font-size:11px; color:#6b7484; letter-spacing:0.18em;">BY PROVIDER</div>
+
+      <div style="display:grid; grid-template-columns:140px 1fr 90px; gap:14px; align-items:center;">
+        <span class="mono" style="font-size:14px; color:#c4ccd9;">claude · hypo</span>
+        <div style="position:relative; height:10px; background:#0e131b; border:1px solid #1a2030; border-radius:5px; overflow:hidden;">
+          <div id="b08-cost-bar-claude" style="position:absolute; left:0; top:0; bottom:0; width:0%; background:linear-gradient(90deg, #a259ff, #c489ff); border-radius:5px;"></div>
+        </div>
+        <span class="mono" style="font-size:13px; color:#c8b3ff; text-align:right;">$0.00027</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:140px 1fr 90px; gap:14px; align-items:center;">
+        <span class="mono" style="font-size:14px; color:#c4ccd9;">tf-gateway</span>
+        <div style="position:relative; height:10px; background:#0e131b; border:1px solid #1a2030; border-radius:5px; overflow:hidden;">
+          <div id="b08-cost-bar-tf" style="position:absolute; left:0; top:0; bottom:0; width:0%; background:linear-gradient(90deg, #7c3aed, #a259ff); border-radius:5px;"></div>
+        </div>
+        <span class="mono" style="font-size:13px; color:#c8b3ff; text-align:right;">$0.00014</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:140px 1fr 90px; gap:14px; align-items:center; opacity:0.55;">
+        <span class="mono" style="font-size:14px; color:#9aa0ad;">ollama · local</span>
+        <div style="position:relative; height:10px; background:#0e131b; border:1px solid #1a2030; border-radius:5px; overflow:hidden;">
+          <div id="b08-cost-bar-ollama" style="position:absolute; left:0; top:0; bottom:0; width:0%; background:#6b7484; border-radius:5px;"></div>
+        </div>
+        <span class="mono" style="font-size:13px; color:#6b7484; text-align:right;">$0.00000</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:140px 1fr 90px; gap:14px; align-items:center; opacity:0.55;">
+        <span class="mono" style="font-size:14px; color:#9aa0ad;">prometheus</span>
+        <div style="position:relative; height:10px; background:#0e131b; border:1px solid #1a2030; border-radius:5px; overflow:hidden;">
+          <div id="b08-cost-bar-prom" style="position:absolute; left:0; top:0; bottom:0; width:0%; background:#6b7484; border-radius:5px;"></div>
+        </div>
+        <span class="mono" style="font-size:13px; color:#6b7484; text-align:right;">$0.00000</span>
+      </div>
+    </div>
+
+    <!-- Daily budget bar -->
+    <div style="margin-top:32px; padding-top:18px; border-top:1px solid #1d2330;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px;">
+        <span class="mono" style="font-size:11px; color:#6b7484; letter-spacing:0.18em;">DAILY BUDGET</span>
+        <span id="b08-budget-pct" class="mono" style="font-size:13px; color:#7eba6f;">0.000%</span>
+      </div>
+      <div style="position:relative; height:8px; background:#0e131b; border:1px solid #1a2030; border-radius:4px; overflow:hidden;">
+        <div id="b08-budget-fill" style="position:absolute; left:0; top:0; bottom:0; width:0%; background:linear-gradient(90deg, #4f8e44, #7eba6f); border-radius:4px; box-shadow:0 0 10px rgba(126,186,111,0.4);"></div>
+      </div>
+      <div style="margin-top:8px; font-size:12px; color:#6b7484; font-family:'JetBrains Mono', monospace;">$0.00041 of $1.00 / day</div>
+    </div>
+
+    <div style="margin-top:20px; padding-top:14px; border-top:1px solid #1d2330; font-size:14px; color:#9aa0ad; text-align:center;">
+      Cost-aware fallback chain.
+    </div>
+  </div>
+
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  window.__timelines['b08'] = tl;
+
+  // ── Pane poses: EVAL tilted LEFT (left forward, CCW), COST tilted RIGHT (right forward, CW)
+  gsap.set('#b08 #b08-eval-pane', {
+    yPercent: -50,
+    rotationY: 14,
+    rotation: -3,
+    transformPerspective: 1200,
+    transformOrigin: '50% 50%'
+  });
+  gsap.set('#b08 #b08-cost-pane', {
+    yPercent: -50,
+    rotationY: -14,
+    rotation: 3,
+    transformPerspective: 1200,
+    transformOrigin: '50% 50%'
+  });
+
+  // ── Simple fade in (no fancy transitions)
+  tl.to('#b08 #b08-top-text', { opacity: 1, duration: 0.55, ease: 'power2.out' }, 0);
+  tl.to('#b08 #b08-eval-pane', { opacity: 1, duration: 0.55, ease: 'power2.out' }, 0.1);
+  tl.to('#b08 #b08-cost-pane', { opacity: 1, duration: 0.55, ease: 'power2.out' }, 0.1);
+
+  // ── Charts come alive
+  const GROW_AT = 0.75;
+
+  // Eval bars grow + counters tick up
+  tl.to('#b08 #b08-bar-off', { height: '25%', duration: 1.1, ease: 'power3.out' }, GROW_AT);
+  tl.to('#b08 #b08-bar-on',  { height: '91%', duration: 1.3, ease: 'power3.out' }, GROW_AT + 0.1);
+
+  const cntOff = { v: 0 };
+  tl.to(cntOff, { v: 25, duration: 1.1, ease: 'power3.out',
+    onUpdate: () => { const el = document.querySelector('#b08 #b08-pct-off'); if (el) el.textContent = Math.round(cntOff.v) + '%'; } }, GROW_AT);
+
+  const cntOn = { v: 0 };
+  tl.to(cntOn, { v: 91, duration: 1.3, ease: 'power3.out',
+    onUpdate: () => { const el = document.querySelector('#b08 #b08-pct-on'); if (el) el.textContent = Math.round(cntOn.v) + '%'; } }, GROW_AT + 0.1);
+
+  const cntDelta = { v: 0 };
+  tl.to(cntDelta, { v: 66, duration: 1.3, ease: 'power3.out',
+    onUpdate: () => { const el = document.querySelector('#b08 #b08-delta'); if (el) el.textContent = '+' + Math.round(cntDelta.v) + '%'; } }, GROW_AT + 0.3);
+
+  // Delta pulses once after settling
+  tl.to('#b08 #b08-delta',
+    { scale: 1.08, textShadow: '0 0 24px rgba(200,179,255,0.55)', duration: 0.35,
+      ease: 'sine.inOut', yoyo: true, repeat: 1, transformOrigin: 'center' }, GROW_AT + 1.5);
+
+  // Cost: total counter + per-provider bars + budget bar
+  const cntCost = { v: 0 };
+  tl.to(cntCost, { v: 0.00041, duration: 1.4, ease: 'power3.out',
+    onUpdate: () => { const el = document.querySelector('#b08 #b08-cost-total'); if (el) el.textContent = '$' + cntCost.v.toFixed(5); } }, GROW_AT);
+
+  tl.to('#b08 #b08-cost-bar-claude', { width: '66%', duration: 1.1, ease: 'power3.out' }, GROW_AT + 0.2);
+  tl.to('#b08 #b08-cost-bar-tf',     { width: '34%', duration: 1.1, ease: 'power3.out' }, GROW_AT + 0.35);
+  tl.to('#b08 #b08-cost-bar-ollama', { width: '2%',  duration: 0.7, ease: 'power3.out' }, GROW_AT + 0.5);
+  tl.to('#b08 #b08-cost-bar-prom',   { width: '2%',  duration: 0.7, ease: 'power3.out' }, GROW_AT + 0.6);
+
+  tl.to('#b08 #b08-budget-fill', { width: '8%', duration: 0.9, ease: 'power3.out' }, GROW_AT + 0.6);
+  const cntBudget = { v: 0 };
+  tl.to(cntBudget, { v: 0.041, duration: 0.9, ease: 'power3.out',
+    onUpdate: () => { const el = document.querySelector('#b08 #b08-budget-pct'); if (el) el.textContent = cntBudget.v.toFixed(3) + '%'; } }, GROW_AT + 0.6);
+
+  // ── SWIPE OUT: eval slides left offscreen, cost slides right offscreen
+  const SWIPE = 3.8;
+  tl.to('#b08 #b08-eval-pane',
+    { x: -1500, opacity: 0, duration: 0.7, ease: 'power3.in' }, SWIPE);
+  tl.to('#b08 #b08-cost-pane',
+    { x: 1500, opacity: 0, duration: 0.7, ease: 'power3.in' }, SWIPE);
+  tl.to('#b08 #b08-top-text',
+    { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, SWIPE);
+</script>
+</body>
+</html>

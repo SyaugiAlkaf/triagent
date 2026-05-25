@@ -1,0 +1,3 @@
+api: .venv/bin/uvicorn app.main:app --port 8000 --log-level warning
+engine: .venv/bin/uvicorn scenario_engine.main:app --port 8002 --log-level warning
+warroom: bash -c "cd warroom && npm run dev"

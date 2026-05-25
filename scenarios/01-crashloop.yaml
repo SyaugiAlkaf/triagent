@@ -1,0 +1,20 @@
+id: crashloop-001
+name: CrashLoopBackOff from bad env var
+namespace: triagent-demo
+chaos_focus: none
+expected_root_cause: env_var_missing
+manifests:
+  - kind: Deployment
+    spec:
+      containers:
+        - name: app
+          image: nginx:1.27
+          env:
+            - name: DATABASE_URL
+              value: ""
+          command: ["/bin/sh", "-c", "test -n \"$DATABASE_URL\" || exit 1"]
+expected_steps:
+  - kubectl_get_pods
+  - kubectl_describe_pod
+  - loki_search_pod_logs
+  - hypothesis_env_var_missing

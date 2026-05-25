@@ -1,0 +1,22 @@
+id: oom-002
+name: OOMKilled cascade
+namespace: triagent-oom
+chaos_focus: latency
+expected_root_cause: memory_leak_pod_a
+manifests:
+  - kind: Deployment
+    name: leaker
+    spec:
+      containers:
+        - name: app
+          image: python:3.12-alpine
+          resources:
+            limits:
+              memory: 64Mi
+          command: ["python", "-c", "a=bytearray(200*1024*1024); import time; time.sleep(60)"]
+expected_steps:
+  - kubectl_get_pods
+  - kubectl_describe_pod_oom
+  - prometheus_node_memory
+  - hypothesis_oom_killer
+  - kubectl_get_events

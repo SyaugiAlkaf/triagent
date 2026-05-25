@@ -1,0 +1,26 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css"></head><body>
+<div id="b13" data-composition-id="b13" data-start="0" data-duration="6" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:var(--bg-light);">
+  <div class="bg-light"></div>
+  <div id="k6a" class="kinetic-row serif" data-text="&ldquo;what if groq had been alive" style="top:380px;font-size:80px;font-weight:400;"></div>
+  <div id="k6b" class="kinetic-row serif" data-text="at step three?&rdquo;" style="top:488px;font-size:80px;font-weight:400;"></div>
+  <div id="k6c" class="kinetic-row mono" data-text="COUNTERFACTUAL REPLAY · TRUEFOUNDRY DOESN&rsquo;T SHIP THIS" style="top:620px;font-size:18px;font-weight:500;letter-spacing:0.24em;color:var(--ink-mid);"></div>
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="_helpers.js"></script>
+<script>
+const R = '#b13';
+const { tl, kineticIn, kineticOut } = window.__cinema.setup(R, 'b13');
+tl.set(`${R} .kinetic-row`, { opacity: 0 }, 0);
+tl.fromTo(R, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0);
+kineticIn(0.1, '#k6a', 0, 0.04);
+kineticIn(0.9, '#k6b', 0, 0.045);
+kineticIn(1.8, '#k6c', 0, 0.025);
+tl.to(`${R} #k6a, ${R} #k6b`, { y: -5, duration: 2.0, ease: 'sine.inOut', yoyo: true, repeat: 1 }, 2.4);
+kineticOut(4.8, '#k6a');
+kineticOut(4.85, '#k6b');
+kineticOut(5.0, '#k6c');
+</script>
+</body></html>

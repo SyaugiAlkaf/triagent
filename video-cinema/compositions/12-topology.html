@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div id="b12" data-composition-id="b12" data-start="0" data-duration="6.5" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:#0a0a0c; overflow:hidden;">
+
+  <!-- Top headline -->
+  <div id="b12-top-label" style="position:absolute; top:90px; left:50%; transform:translateX(-50%); text-align:center; opacity:0;">
+    <div class="mono" style="font-size:13px; letter-spacing:0.32em; color:#a259ff; font-weight:600;">ONE GATEWAY · ALL PROVIDERS</div>
+    <div style="font-size:48px; font-weight:700; color:#f5f5f7; margin-top:10px; letter-spacing:-0.02em;">Resilient routing in real time.</div>
+  </div>
+
+  <!-- Arcs (SVG, behind nodes) — Claude top, Groq right, Ollama bottom, OpenAI left -->
+  <svg id="b12-arcs" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1;">
+    <line id="b12-arc-claude" x1="960" y1="320" x2="960" y2="460" stroke="rgba(162,89,255,0.4)" stroke-width="2.5" stroke-dasharray="6 4" />
+    <line id="b12-arc-groq"   x1="1180" y1="540" x2="1040" y2="540" stroke="rgba(162,89,255,0.4)" stroke-width="2.5" stroke-dasharray="6 4" />
+    <line id="b12-arc-ollama" x1="960" y1="760" x2="960" y2="620" stroke="rgba(162,89,255,0.4)" stroke-width="2.5" stroke-dasharray="6 4" />
+    <line id="b12-arc-openai" x1="740" y1="540" x2="880" y2="540" stroke="rgba(162,89,255,0.4)" stroke-width="2.5" stroke-dasharray="6 4" />
+  </svg>
+
+  <!-- TF Gateway (center) -->
+  <div id="b12-tf" style="position:absolute; left:880px; top:460px; width:160px; height:160px; border-radius:24px; background:#7c3aed; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; box-shadow:0 8px 28px -4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 40px rgba(162,89,255,0.4); z-index:2;">
+    <span class="mono" style="font-size:28px; font-weight:800; color:#ffffff; letter-spacing:-0.03em;">TF</span>
+    <span class="mono" style="font-size:11px; font-weight:600; color:rgba(255,255,255,0.85); letter-spacing:0.2em;">GATEWAY</span>
+  </div>
+
+  <!-- Providers — initial box-shadow has a transparent 4th slot for the colored glow tween -->
+  <div id="b12-claude" class="b12-node" style="position:absolute; left:900px; top:200px; width:120px; height:120px; border-radius:18px; background:#d4763d; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; box-shadow:0 8px 24px -4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 rgba(212,118,61,0); z-index:2;">
+    <span class="mono" style="font-size:10px; color:rgba(255,255,255,0.7); letter-spacing:0.18em;">LLM</span>
+    <span style="font-size:18px; font-weight:700; color:#ffffff;">Claude</span>
+  </div>
+
+  <div id="b12-groq" class="b12-node" style="position:absolute; left:1180px; top:480px; width:120px; height:120px; border-radius:18px; background:#ff6633; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; box-shadow:0 8px 24px -4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 rgba(255,102,51,0); z-index:2;">
+    <span class="mono" style="font-size:10px; color:rgba(255,255,255,0.7); letter-spacing:0.18em;">LLM</span>
+    <span style="font-size:18px; font-weight:700; color:#ffffff;">Groq</span>
+  </div>
+
+  <div id="b12-ollama" class="b12-node" style="position:absolute; left:900px; top:760px; width:120px; height:120px; border-radius:18px; background:#4a5568; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; box-shadow:0 8px 24px -4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 rgba(74,85,104,0); z-index:2;">
+    <span class="mono" style="font-size:10px; color:rgba(255,255,255,0.7); letter-spacing:0.18em;">LOCAL</span>
+    <span style="font-size:18px; font-weight:700; color:#ffffff;">Ollama</span>
+  </div>
+
+  <div id="b12-openai" class="b12-node" style="position:absolute; left:620px; top:480px; width:120px; height:120px; border-radius:18px; background:#10a37f; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; box-shadow:0 8px 24px -4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 rgba(16,163,127,0); z-index:2;">
+    <span class="mono" style="font-size:10px; color:rgba(255,255,255,0.7); letter-spacing:0.18em;">LLM</span>
+    <span style="font-size:18px; font-weight:700; color:#ffffff;">OpenAI</span>
+  </div>
+
+  <!-- Status badges -->
+  <div id="b12-groq-fail" style="position:absolute; left:1210px; top:600px; padding:5px 12px; background:#e85a5a; border-radius:6px; font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700; color:#ffffff; letter-spacing:0.16em; box-shadow:0 4px 14px rgba(232,90,90,0.6); opacity:0; z-index:3;">DOWN</div>
+  <div id="b12-ollama-ok" style="position:absolute; left:920px; top:880px; padding:5px 12px; background:#7eba6f; border-radius:6px; font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700; color:#ffffff; letter-spacing:0.16em; box-shadow:0 4px 14px rgba(126,186,111,0.6); opacity:0; z-index:3;">RECOVERED</div>
+
+  <!-- Packets -->
+  <div id="b12-packet-fail" style="position:absolute; left:1240px; top:540px; width:16px; height:16px; border-radius:50%; background:#e85a5a; box-shadow:0 0 18px #e85a5a, 0 0 32px rgba(232,90,90,0.5); opacity:0; transform:translate(-50%,-50%); z-index:4;"></div>
+  <div id="b12-packet-ok" style="position:absolute; left:960px; top:540px; width:16px; height:16px; border-radius:50%; background:#7eba6f; box-shadow:0 0 18px #7eba6f, 0 0 32px rgba(126,186,111,0.5); opacity:0; transform:translate(-50%,-50%); z-index:4;"></div>
+
+  <!-- Bottom tagline -->
+  <div id="b12-bottom-label" style="position:absolute; bottom:90px; left:50%; transform:translateX(-50%); text-align:center; opacity:0;">
+    <div style="font-size:30px; font-weight:600; color:#c8b3ff; letter-spacing:-0.01em;">Brownout-aware. Self-healing.</div>
+    <div class="mono" style="font-size:11px; color:#6b7484; letter-spacing:0.32em; margin-top:10px;">RESILIENT BY CONSTRUCTION</div>
+  </div>
+
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  window.__timelines['b12'] = tl;
+
+  // Initial poses
+  gsap.set('#b12 .b12-node', { scale: 0, opacity: 0, transformOrigin: '50% 50%' });
+  gsap.set('#b12 #b12-tf',    { scale: 0, opacity: 0, transformOrigin: '50% 50%' });
+  gsap.set('#b12 #b12-arcs line', { opacity: 0 });
+
+  // ── 0.0–0.5: Scene assembly
+  tl.to('#b12 #b12-top-label', { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0);
+  tl.to('#b12 #b12-tf',
+    { scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(2)' }, 0.15);
+  tl.to('#b12 .b12-node',
+    { scale: 1, opacity: 1, duration: 0.45, stagger: 0.08, ease: 'back.out(1.6)' }, 0.35);
+  tl.to('#b12 #b12-arcs line',
+    { opacity: 1, duration: 0.4, stagger: 0.06, ease: 'power2.out' }, 0.6);
+
+  // ── 1.3: Groq sends a request packet to TF (red packet moves left toward gateway)
+  const FAIL = 1.3;
+  tl.set('#b12 #b12-packet-fail', { left: 1240, top: 540, opacity: 1, scale: 1 }, FAIL);
+  tl.to('#b12 #b12-packet-fail', { left: 960, duration: 0.4, ease: 'power2.in' }, FAIL);
+  tl.to('#b12 #b12-packet-fail', { scale: 0, opacity: 0, duration: 0.18 }, FAIL + 0.4);
+
+  // 1.8: Groq node turns RED + arc dims + DOWN badge pops
+  tl.to('#b12 #b12-groq',
+    { backgroundColor: '#e85a5a',
+      boxShadow: '0 8px 24px -4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 42px rgba(232,90,90,0.8)',
+      duration: 0.3, ease: 'power2.out' }, FAIL + 0.5);
+  tl.to('#b12 #b12-arc-groq',
+    { stroke: 'rgba(232,90,90,0.55)', opacity: 0.6, duration: 0.3 }, FAIL + 0.5);
+  tl.fromTo('#b12 #b12-groq-fail',
+    { opacity: 0, scale: 0.6, y: -8 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: 'back.out(2)' }, FAIL + 0.55);
+
+  // 2.1: TF Gateway pulses violet (deciding fallback)
+  tl.to('#b12 #b12-tf',
+    { scale: 1.12,
+      boxShadow: '0 8px 28px -4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 80px rgba(162,89,255,0.9)',
+      duration: 0.25, yoyo: true, repeat: 1, ease: 'sine.inOut' }, FAIL + 0.85);
+
+  // 2.55: Ollama arc lights up GREEN (TF picked Ollama as fallback)
+  tl.to('#b12 #b12-arc-ollama',
+    { stroke: '#7eba6f', strokeWidth: 4, opacity: 1, duration: 0.3, ease: 'power2.out' }, FAIL + 1.35);
+
+  // 2.7: Green packet flows from TF down to Ollama
+  const REROUTE = FAIL + 1.45;
+  tl.set('#b12 #b12-packet-ok',
+    { left: 960, top: 540, opacity: 1, scale: 1 }, REROUTE);
+  tl.to('#b12 #b12-packet-ok',
+    { top: 820, duration: 0.5, ease: 'power2.inOut' }, REROUTE);
+  tl.to('#b12 #b12-packet-ok',
+    { scale: 0, opacity: 0, duration: 0.18 }, REROUTE + 0.5);
+
+  // 3.2: Ollama node turns GREEN + RECOVERED badge
+  tl.to('#b12 #b12-ollama',
+    { backgroundColor: '#7eba6f',
+      boxShadow: '0 8px 24px -4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 42px rgba(126,186,111,0.8)',
+      duration: 0.3, ease: 'power2.out' }, REROUTE + 0.55);
+  tl.fromTo('#b12 #b12-ollama-ok',
+    { opacity: 0, scale: 0.6, y: -8 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: 'back.out(2)' }, REROUTE + 0.6);
+
+  // 3.5: Response packet flows BACK from Ollama to TF (resilient.move complete)
+  tl.set('#b12 #b12-packet-ok',
+    { left: 960, top: 820, opacity: 1, scale: 1 }, REROUTE + 0.75);
+  tl.to('#b12 #b12-packet-ok',
+    { top: 540, duration: 0.5, ease: 'power2.inOut' }, REROUTE + 0.75);
+  tl.to('#b12 #b12-packet-ok',
+    { scale: 0, opacity: 0, duration: 0.18 }, REROUTE + 1.25);
+
+  // 4.0: TF Gateway success pulse (green tint briefly)
+  tl.to('#b12 #b12-tf',
+    { scale: 1.08,
+      boxShadow: '0 8px 28px -4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 64px rgba(126,186,111,0.75)',
+      duration: 0.28, yoyo: true, repeat: 1, ease: 'sine.inOut' }, REROUTE + 1.4);
+
+  // 3.5: Bottom tagline fades in — now holds ~2.5s for audience to read (was 1.1s)
+  tl.fromTo('#b12 #b12-bottom-label',
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, REROUTE + 0.85);
+
+  // Gentle node breathing during the extra hold time to keep the scene alive
+  tl.to('#b12 .b12-node',
+    { y: '-=4', duration: 0.9, ease: 'sine.inOut', yoyo: true, repeat: 1 }, 4.2);
+
+  // ── END OF BEAT: fade everything out before b09 particles spawn (avoids visual chaos overlap)
+  tl.to('#b12', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 6.1);
+</script>
+</body>
+</html>

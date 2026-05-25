@@ -1,0 +1,121 @@
+system,chaos_mode,scenario,replica,success,confidence,latency_ms,tokens_spent,cost_usd,error
+baseline,off,crashloop-001,0,1,0.86,26.6,693,0.0,
+baseline,off,crashloop-001,1,1,0.86,14.1,693,0.0,
+baseline,off,crashloop-001,2,1,0.86,13.7,693,0.0,
+baseline,off,crashloop-001,3,1,0.86,14.4,693,0.0,
+baseline,off,crashloop-001,4,1,0.86,13.4,693,0.0,
+baseline,off,oom-002,0,1,0.85,7.5,308,0.0,
+baseline,off,oom-002,1,1,0.85,7.2,308,0.0,
+baseline,off,oom-002,2,1,0.85,7.3,308,0.0,
+baseline,off,oom-002,3,1,0.85,7.2,308,0.0,
+baseline,off,oom-002,4,1,0.85,7.4,308,0.0,
+baseline,off,dns-003,0,1,0.85,7.2,311,0.0,
+baseline,off,dns-003,1,1,0.85,8.6,311,0.0,
+baseline,off,dns-003,2,1,0.85,7.4,311,0.0,
+baseline,off,dns-003,3,1,0.85,7.1,311,0.0,
+baseline,off,dns-003,4,1,0.85,7.3,311,0.0,
+baseline,provider_kill,crashloop-001,0,0,0.0,12.7,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,crashloop-001,1,0,0.0,12.9,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,crashloop-001,2,0,0.0,13.4,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,crashloop-001,3,0,0.0,13.0,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,crashloop-001,4,0,0.0,14.2,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,oom-002,0,0,0.0,7.1,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,oom-002,1,0,0.0,7.0,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,oom-002,2,0,0.0,6.9,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,oom-002,3,0,0.0,7.2,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,oom-002,4,0,0.0,7.1,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,dns-003,0,0,0.0,7.0,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,dns-003,1,0,0.0,7.2,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,dns-003,2,0,0.0,7.1,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,dns-003,3,0,0.0,6.8,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,provider_kill,dns-003,4,0,0.0,7.1,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,tool_kill,crashloop-001,0,0,0.3,4.2,331,0.0,
+baseline,tool_kill,crashloop-001,1,0,0.3,4.2,331,0.0,
+baseline,tool_kill,crashloop-001,2,0,0.3,4.1,331,0.0,
+baseline,tool_kill,crashloop-001,3,0,0.3,4.4,331,0.0,
+baseline,tool_kill,crashloop-001,4,0,0.3,4.2,331,0.0,
+baseline,tool_kill,oom-002,0,0,0.3,4.3,329,0.0,
+baseline,tool_kill,oom-002,1,0,0.3,4.2,329,0.0,
+baseline,tool_kill,oom-002,2,0,0.3,4.2,329,0.0,
+baseline,tool_kill,oom-002,3,0,0.3,4.2,329,0.0,
+baseline,tool_kill,oom-002,4,0,0.3,4.2,329,0.0,
+baseline,tool_kill,dns-003,0,0,0.3,4.2,329,0.0,
+baseline,tool_kill,dns-003,1,0,0.3,4.2,329,0.0,
+baseline,tool_kill,dns-003,2,0,0.3,4.2,329,0.0,
+baseline,tool_kill,dns-003,3,0,0.3,4.1,329,0.0,
+baseline,tool_kill,dns-003,4,0,0.3,4.3,329,0.0,
+baseline,combined,crashloop-001,0,0,0.0,4.2,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,crashloop-001,1,0,0.0,4.0,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,crashloop-001,2,0,0.0,4.1,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,crashloop-001,3,0,0.0,4.2,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,crashloop-001,4,0,0.0,4.3,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,oom-002,0,0,0.0,4.4,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,oom-002,1,0,0.0,4.4,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,oom-002,2,0,0.0,4.2,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,oom-002,3,0,0.0,4.3,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,oom-002,4,0,0.0,4.4,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,dns-003,0,0,0.0,4.2,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,dns-003,1,0,0.0,4.0,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,dns-003,2,0,0.0,4.1,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,dns-003,3,0,0.0,4.0,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+baseline,combined,dns-003,4,0,0.0,4.0,0,0.0,ProviderError: all providers in routing_policy failed: solo-mock killed by chaos panel
+resilient,off,crashloop-001,0,1,0.86,13.4,693,0.0,
+resilient,off,crashloop-001,1,1,0.86,13.2,693,0.0,
+resilient,off,crashloop-001,2,1,0.86,13.0,693,0.0,
+resilient,off,crashloop-001,3,1,0.86,13.1,693,0.0,
+resilient,off,crashloop-001,4,1,0.86,14.0,693,0.0,
+resilient,off,oom-002,0,1,0.85,7.2,308,0.0,
+resilient,off,oom-002,1,1,0.85,7.3,308,0.0,
+resilient,off,oom-002,2,1,0.85,7.2,308,0.0,
+resilient,off,oom-002,3,1,0.85,7.3,308,0.0,
+resilient,off,oom-002,4,1,0.85,7.1,308,0.0,
+resilient,off,dns-003,0,1,0.85,7.3,311,0.0,
+resilient,off,dns-003,1,1,0.85,7.6,311,0.0,
+resilient,off,dns-003,2,1,0.85,7.2,311,0.0,
+resilient,off,dns-003,3,1,0.85,7.6,311,0.0,
+resilient,off,dns-003,4,1,0.85,7.1,311,0.0,
+resilient,provider_kill,crashloop-001,0,1,0.86,13.7,693,0.0,
+resilient,provider_kill,crashloop-001,1,1,0.86,13.1,693,0.0,
+resilient,provider_kill,crashloop-001,2,1,0.86,13.1,693,0.0,
+resilient,provider_kill,crashloop-001,3,1,0.86,13.1,693,0.0,
+resilient,provider_kill,crashloop-001,4,1,0.86,13.6,693,0.0,
+resilient,provider_kill,oom-002,0,1,0.85,7.1,308,0.0,
+resilient,provider_kill,oom-002,1,1,0.85,7.1,308,0.0,
+resilient,provider_kill,oom-002,2,1,0.85,7.2,308,0.0,
+resilient,provider_kill,oom-002,3,1,0.85,7.3,308,0.0,
+resilient,provider_kill,oom-002,4,1,0.85,6.9,308,0.0,
+resilient,provider_kill,dns-003,0,1,0.85,7.3,311,0.0,
+resilient,provider_kill,dns-003,1,1,0.85,7.3,311,0.0,
+resilient,provider_kill,dns-003,2,1,0.85,7.1,311,0.0,
+resilient,provider_kill,dns-003,3,1,0.85,7.2,311,0.0,
+resilient,provider_kill,dns-003,4,1,0.85,7.3,311,0.0,
+resilient,tool_kill,crashloop-001,0,1,0.86,14.8,532,0.0,
+resilient,tool_kill,crashloop-001,1,1,0.86,10.0,532,0.0,
+resilient,tool_kill,crashloop-001,2,1,0.86,10.4,532,0.0,
+resilient,tool_kill,crashloop-001,3,1,0.86,10.2,532,0.0,
+resilient,tool_kill,crashloop-001,4,1,0.86,10.1,532,0.0,
+resilient,tool_kill,oom-002,0,1,0.85,10.1,347,0.0,
+resilient,tool_kill,oom-002,1,1,0.85,9.9,347,0.0,
+resilient,tool_kill,oom-002,2,1,0.85,11.6,347,0.0,
+resilient,tool_kill,oom-002,3,1,0.85,10.1,347,0.0,
+resilient,tool_kill,oom-002,4,1,0.85,10.3,347,0.0,
+resilient,tool_kill,dns-003,0,1,0.85,10.6,350,0.0,
+resilient,tool_kill,dns-003,1,1,0.85,9.9,350,0.0,
+resilient,tool_kill,dns-003,2,1,0.85,10.0,350,0.0,
+resilient,tool_kill,dns-003,3,1,0.85,9.9,350,0.0,
+resilient,tool_kill,dns-003,4,1,0.85,10.7,350,0.0,
+resilient,combined,crashloop-001,0,1,0.86,233.5,532,0.0,
+resilient,combined,crashloop-001,1,1,0.86,181.7,532,0.0,
+resilient,combined,crashloop-001,2,1,0.86,221.5,532,0.0,
+resilient,combined,crashloop-001,3,1,0.86,213.7,532,0.0,
+resilient,combined,crashloop-001,4,1,0.86,214.2,532,0.0,
+resilient,combined,oom-002,0,1,0.85,224.2,347,0.0,
+resilient,combined,oom-002,1,1,0.85,195.1,347,0.0,
+resilient,combined,oom-002,2,1,0.85,192.2,347,0.0,
+resilient,combined,oom-002,3,1,0.85,141.1,347,0.0,
+resilient,combined,oom-002,4,1,0.85,163.4,347,0.0,
+resilient,combined,dns-003,0,1,0.85,135.4,350,0.0,
+resilient,combined,dns-003,1,1,0.85,198.1,350,0.0,
+resilient,combined,dns-003,2,1,0.85,165.0,350,0.0,
+resilient,combined,dns-003,3,1,0.85,249.8,350,0.0,
+resilient,combined,dns-003,4,1,0.85,265.9,350,0.0,

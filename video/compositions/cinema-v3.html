@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Triagent · cinema v3 · hybrid</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #0a0a0c;
+    --bg-light: #f7f8fa;
+    --ink:      #0e0f12;
+    --ink-mid:  #5b6068;
+    --accent:   #a259ff;
+    --accent-2: #5d9cf5;
+    --warm:     #ff8a65;
+    --pink:     #ff7eb3;
+    --success:  #30d158;
+    --danger:   #ff453a;
+  }
+  html, body, #triagent-cinema {
+    margin: 0; width: 1920px; height: 1080px;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .clip { opacity: 0; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .serif { font-family: 'Instrument Serif', serif; font-style: italic; }
+
+  /* Bright-section background */
+  #bg-light { position: absolute; inset: 0; background: var(--bg-light); }
+  #bg-dark  { position: absolute; inset: 0; background: var(--bg-dark); opacity: 0; }
+
+  /* Hand cursor */
+  #cursor {
+    position: absolute;
+    width: 64px; height: 80px;
+    pointer-events: none;
+    z-index: 70;
+    left: 0; top: 0;
+    transform: translate(-25%, -10%);
+    will-change: transform, left, top;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35));
+  }
+  /* The "stage" — wraps warroom screenshot. Scaled by timeline. */
+  #stage {
+    position: absolute;
+    inset: 0;
+    transform-origin: 960px 540px;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  .screen {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: top left;
+    opacity: 0;
+  }
+  /* Click ripple — for warroom sections */
+  .ripple {
+    position: absolute;
+    width: 16px; height: 16px;
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 65;
+    opacity: 0;
+  }
+  /* Gradient circle wipe — sits above stages, used at transitions */
+  .wipe {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    pointer-events: none;
+    z-index: 90;
+    will-change: transform, opacity;
+  }
+  /* Kinetic typography lines — horizontal slide-in */
+  .kinetic-row {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    will-change: transform, opacity;
+    opacity: 0;
+  }
+  .kw-accent { color: var(--accent); }
+  .kw-blue   { color: var(--accent-2); }
+  .kw-pink   { color: var(--pink); }
+</style>
+</head>
+<body>
+<div id="triagent-cinema"
+     data-composition-id="triagent-cinema"
+     data-start="0"
+     data-duration="78"
+     data-track-index="0"
+     data-width="1920"
+     data-height="1080"
+     class="clip relative overflow-hidden"
+     style="background: var(--bg-light);">
+
+  <div id="bg-light"></div>
+  <div id="bg-dark"></div>
+
+  <!-- ─── WARROOM STAGE (dark UI shots) ─────────────────── -->
+  <div id="stage">
+    <div id="scr-trace"   class="screen" style="background-image: url('../assets/screens-v2/02-trace-running.png');"></div>
+    <div id="scr-verdict" class="screen" style="background-image: url('../assets/screens-v2/03-verdict-tab.png');"></div>
+    <div id="scr-cost"    class="screen" style="background-image: url('../assets/screens-v2/04-cost-tab.png');"></div>
+    <div id="scr-chaos"   class="screen" style="background-image: url('../assets/screens-v2/07-chaos-drawer.png');"></div>
+    <div id="scr-killed"  class="screen" style="background-image: url('../assets/screens-v2/05-tf-killed.png');"></div>
+    <div id="scr-replay"  class="screen" style="background-image: url('../assets/screens-v2/06-replay-modal.png');"></div>
+
+    <div id="r1" class="ripple"></div>
+    <div id="r2" class="ripple"></div>
+    <div id="r3" class="ripple"></div>
+    <div id="r4" class="ripple"></div>
+  </div>
+
+  <!-- ─── HAND CURSOR (chunky pointer) ──────────────────── -->
+  <div id="cursor" style="left: 1920px; top: 600px;">
+    <svg width="64" height="80" viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 4 v15 l-2 -1 q-3 -1.5 -4 1 v3 q0 1.5 1 3 l5 8 q1 2 3 2 h10 q2 0 3 -2 l2 -7 q0.5 -2 0.5 -4 v-4 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-9 q0 -2 -2 -2 t-2 2 z"
+            fill="#ffffff" stroke="#1a1a1f" stroke-width="2" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- ─── KINETIC TYPOGRAPHY ROWS (bright sections) ─────── -->
+  <!-- B0: Intro -->
+  <div id="k0a" class="kinetic-row" style="top: 380px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em;">your k8s incident agent</div>
+  <div id="k0b" class="kinetic-row" style="top: 500px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em;">built to <span class="kw-accent">survive chaos</span></div>
+
+  <!-- B2 chapter break: "three providers, one gateway" -->
+  <div id="k2a" class="kinetic-row" style="top: 340px; font-size: 84px; font-weight: 700; letter-spacing: -0.02em;">three providers</div>
+  <div id="k2b" class="kinetic-row" style="top: 460px; font-size: 84px; font-weight: 700; letter-spacing: -0.02em;">one <span class="kw-accent">truefoundry</span> gateway</div>
+  <div id="k2c" class="kinetic-row mono" style="top: 600px; font-size: 22px; font-weight: 500; letter-spacing: 0.24em; color: var(--ink-mid);">TF·GROQ &nbsp;·&nbsp; TF·GEMINI &nbsp;·&nbsp; TF·OPENROUTER</div>
+
+  <!-- B4 chapter break: "kill any provider" -->
+  <div id="k4a" class="kinetic-row" style="top: 380px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em;">kill any provider</div>
+  <div id="k4b" class="kinetic-row" style="top: 500px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em;">the agent <span class="kw-accent">keeps walking</span></div>
+
+  <!-- B6 chapter break: counterfactual -->
+  <div id="k6a" class="kinetic-row serif" style="top: 380px; font-size: 80px; font-weight: 400;">"what if groq had been alive</div>
+  <div id="k6b" class="kinetic-row serif" style="top: 488px; font-size: 80px; font-weight: 400;">at step three?"</div>
+  <div id="k6c" class="kinetic-row mono" style="top: 620px; font-size: 18px; font-weight: 500; letter-spacing: 0.24em; color: var(--ink-mid);">COUNTERFACTUAL REPLAY · TRUEFOUNDRY DOESN'T SHIP THIS</div>
+
+  <!-- B8 big number reveal: 0% → 100% -->
+  <div id="k8a" class="kinetic-row mono" style="top: 320px; font-size: 26px; font-weight: 600; letter-spacing: 0.28em; color: var(--ink-mid);">CHAOS RESILIENCE · 120 RUNS</div>
+  <div id="k8b" class="kinetic-row" style="top: 410px; font-size: 200px; font-weight: 800; letter-spacing: -0.04em; line-height: 1;">
+    <span class="kw-pink" style="color: var(--danger);">0%</span>
+    <span style="color: var(--ink-mid); font-weight: 400;"> &nbsp;→&nbsp; </span>
+    <span style="color: var(--success);">100%</span>
+  </div>
+  <div id="k8c" class="kinetic-row" style="top: 700px; font-size: 32px; font-weight: 500; color: var(--ink-mid);">baseline collapses. triagent holds.</div>
+
+  <!-- B9 closing -->
+  <div id="k9-mark" class="kinetic-row" style="top: 380px; display: flex; align-items: center; justify-content: center; gap: 20px;">
+    <div style="width: 84px; height: 84px; border-radius: 22px; background: linear-gradient(135deg, #b380ff, #7c3aed); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(162,89,255,0.25);">
+      <svg width="46" height="46" viewBox="0 0 32 32" fill="none">
+        <path d="M16 4L26 22H6L16 4Z" stroke="white" stroke-width="2.4" stroke-linejoin="round"/>
+        <circle cx="16" cy="18" r="2.5" fill="white"/>
+      </svg>
+    </div>
+    <div style="font-size: 80px; font-weight: 700; letter-spacing: -0.01em;">TRIAGENT</div>
+  </div>
+  <div id="k9-line" class="kinetic-row serif" style="top: 540px; font-size: 36px; font-weight: 400; color: var(--ink);">resilient k8s incident response on truefoundry.</div>
+  <div id="k9-meta" class="kinetic-row mono" style="top: 640px; font-size: 16px; font-weight: 500; letter-spacing: 0.28em; color: var(--ink-mid);">github.com/syaugi/triagent &nbsp;·&nbsp; DEVNETWORK AI+ML 2026</div>
+
+  <!-- ─── GRADIENT CIRCLE WIPES (between sections) ──────── -->
+  <div id="w1" class="wipe" style="left: 960px; top: 540px; width: 100px; height: 100px; background: radial-gradient(circle, #b380ff 0%, #7c3aed 70%, #4c1d95 100%);"></div>
+  <div id="w2" class="wipe" style="left: 960px; top: 540px; width: 100px; height: 100px; background: radial-gradient(circle, #ffd6e7 0%, #ff7eb3 70%, #ec4899 100%);"></div>
+  <div id="w3" class="wipe" style="left: 960px; top: 540px; width: 100px; height: 100px; background: radial-gradient(circle, #cfe2ff 0%, #5d9cf5 70%, #2563eb 100%);"></div>
+  <div id="w4" class="wipe" style="left: 960px; top: 540px; width: 100px; height: 100px; background: radial-gradient(circle, #fff3bf 0%, #ffd43b 70%, #f59e0b 100%);"></div>
+  <div id="w5" class="wipe" style="left: 960px; top: 540px; width: 100px; height: 100px; background: radial-gradient(circle, #d8fdd8 0%, #30d158 70%, #15803d 100%);"></div>
+
+</div>
+
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  /* ============================================================
+     cinema v3 — hybrid: dark warroom + bright kinetic chapters
+     ============================================================ */
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.inOut" } });
+  window.__timelines["triagent-cinema"] = tl;
+
+  const root = "#triagent-cinema";
+
+  // Reset
+  tl.set(`${root} .screen`, { opacity: 0 }, 0);
+  tl.set(`${root} .kinetic-row`, { opacity: 0 }, 0);
+  tl.set(`${root} .wipe`, { opacity: 0, scale: 0 }, 0);
+  tl.set(`${root} .ripple`, { opacity: 0 }, 0);
+  tl.set(`${root} #stage`, { opacity: 0 }, 0);
+  tl.set(`${root} #bg-dark`, { opacity: 0 }, 0);
+  tl.set(`${root} #bg-light`, { opacity: 1 }, 0);
+
+  // Outer reveal
+  tl.fromTo(root, { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+
+  /* Helpers */
+  function kineticIn(time, sel, fromX = -60) {
+    tl.fromTo(`${root} ${sel}`,
+      { opacity: 0, x: fromX },
+      { opacity: 1, x: 0, duration: 0.7, ease: "power3.out" }, time);
+  }
+  function kineticOut(time, sel, toX = 60) {
+    tl.to(`${root} ${sel}`,
+      { opacity: 0, x: toX, duration: 0.45, ease: "power2.in" }, time);
+  }
+  function wipeOver(time, wipeSel, toLight = false, color) {
+    // Circle wipe: grows large to fill screen, then either holds (bg flips) and shrinks away
+    tl.set(`${root} ${wipeSel}`, { opacity: 1, scale: 0 }, time);
+    tl.to(`${root} ${wipeSel}`,  { scale: 26, duration: 0.55, ease: "power3.in" }, time);
+    if (toLight) {
+      tl.set(`${root} #bg-dark`, { opacity: 0 }, time + 0.45);
+      tl.set(`${root} #bg-light`, { opacity: 1 }, time + 0.45);
+    } else {
+      tl.set(`${root} #bg-dark`, { opacity: 1 }, time + 0.45);
+      tl.set(`${root} #bg-light`, { opacity: 0 }, time + 0.45);
+    }
+    tl.to(`${root} ${wipeSel}`, { opacity: 0, duration: 0.4, ease: "power2.out" }, time + 0.55);
+  }
+  function moveCursor(time, x, y, duration = 1.0) {
+    tl.to(`${root} #cursor`, { left: x, top: y, duration, ease: "power2.inOut" }, time);
+  }
+  function zoomStage(time, x, y, scale = 1.30, hold = 1.2) {
+    tl.set(`${root} #stage`, { transformOrigin: `${x}px ${y}px` }, time);
+    tl.to(`${root} #stage`,  { scale, duration: 0.55, ease: "power2.out" }, time);
+    tl.to(`${root} #stage`,  { scale: 1, duration: 0.65, ease: "power2.inOut" }, time + 0.55 + hold);
+  }
+  function clickRipple(time, ripple, x, y) {
+    tl.set(`${root} ${ripple}`, { left: x, top: y, opacity: 0.95, scale: 0.6 }, time);
+    tl.to(`${root} ${ripple}`,  { scale: 4, opacity: 0, duration: 0.7, ease: "power2.out" }, time);
+  }
+  function swapScreen(time, from, to) {
+    tl.to(`${root} ${from}`, { opacity: 0, duration: 0.3 }, time);
+    tl.to(`${root} ${to}`,   { opacity: 1, duration: 0.3 }, time);
+  }
+
+  /* ─── B0  (0-6s) — INTRO on white ──────────────────────── */
+  kineticIn(0.5, "#k0a", -120);              // "your k8s incident agent"
+  kineticIn(1.4, "#k0b", -120);              // "built to survive chaos"
+  // hold
+  kineticOut(4.6, "#k0a", -100);
+  kineticOut(4.7, "#k0b", -100);
+
+  /* ─── W1  (5.5-7s) — Violet wipe to dark ───────────────── */
+  wipeOver(5.5, "#w1", false);
+
+  /* ─── B1  (7-15s) — Warroom trace running, cursor zoom ──── */
+  tl.to(`${root} #stage`, { opacity: 1, duration: 0.4 }, 6.6);
+  tl.to(`${root} #scr-trace`, { opacity: 1, duration: 0.4 }, 6.6);
+  // Cursor enters from off-screen-right, glides toward verdict tab area
+  tl.set(`${root} #cursor`, { left: 1920, top: 600 }, 6.5);
+  moveCursor(7.0, 720, 360, 1.4);            // hover trace center
+  zoomStage(8.6, 720, 360, 1.30, 2.5);       // zoom into trace events area
+  // cursor moves slightly during hold (parallax)
+  moveCursor(9.5, 760, 410, 1.5);
+  // tiny ripple on cursor pos at 11s
+  clickRipple(11.5, "#r1", 760, 410);
+  tl.to(`${root} #stage, ${root} #cursor`, { opacity: 0, duration: 0.4 }, 14.2);
+
+  /* ─── W2  (14.5-16s) — Pink wipe back to light ─────────── */
+  wipeOver(14.5, "#w2", true);
+
+  /* ─── B2  (16-22s) — Bright chapter "three providers..." ─ */
+  kineticIn(16.0, "#k2a", -100);
+  kineticIn(16.8, "#k2b", -100);
+  kineticIn(17.6, "#k2c", 0);
+  // small breathing scale on whole row group (optional, skip for now)
+  kineticOut(20.8, "#k2a",  100);
+  kineticOut(20.9, "#k2b",  100);
+  kineticOut(21.1, "#k2c",  0);
+
+  /* ─── W3  (21.5-23s) — Blue wipe to dark ───────────────── */
+  wipeOver(21.5, "#w3", false);
+
+  /* ─── B3  (23-31s) — Warroom: verdict tab + cost tab ─── */
+  tl.to(`${root} #stage`, { opacity: 1, duration: 0.4 }, 22.6);
+  tl.to(`${root} #scr-verdict`, { opacity: 1, duration: 0.4 }, 22.6);
+  // cursor onto VERDICT confidence arc area
+  tl.set(`${root} #cursor`, { left: 200, top: 200 }, 22.7);
+  moveCursor(23.0, 720, 360, 1.2);           // hover verdict
+  zoomStage(24.2, 720, 360, 1.32, 1.6);      // zoom on 85% arc
+  // then cursor flicks to COST tab and swap
+  moveCursor(26.6, 636, 163, 1.0);           // COST tab
+  zoomStage(27.6, 636, 163, 1.30, 0.6);      // zoom on cost tab
+  clickRipple(28.4, "#r2", 636, 163);
+  swapScreen(28.5, "#scr-verdict", "#scr-cost");
+  // settle on cost
+  moveCursor(28.9, 800, 380, 0.9);
+  zoomStage(29.8, 800, 380, 1.30, 0.6);
+  tl.to(`${root} #stage, ${root} #cursor`, { opacity: 0, duration: 0.4 }, 30.6);
+
+  /* ─── W4  (30.4-32s) — Amber wipe to light ────────────── */
+  wipeOver(30.4, "#w4", true);
+
+  /* ─── B4  (32-38s) — Bright chapter "kill any provider" ── */
+  kineticIn(32.0, "#k4a", -120);
+  kineticIn(32.9, "#k4b", -120);
+  kineticOut(36.0, "#k4a",  120);
+  kineticOut(36.1, "#k4b",  120);
+
+  /* ─── W5  (36.5-38s) — Violet wipe to dark ─────────────── */
+  wipeOver(36.5, "#w1", false);
+
+  /* ─── B5  (38-46s) — Warroom: chaos kill + topology ──── */
+  tl.to(`${root} #stage`, { opacity: 1, duration: 0.4 }, 37.6);
+  tl.to(`${root} #scr-chaos`, { opacity: 1, duration: 0.4 }, 37.6);
+  tl.set(`${root} #cursor`, { left: 1700, top: 200 }, 37.7);
+  moveCursor(38.0, 1850, 280, 1.0);          // into chaos drawer toward tf-primary kill
+  zoomStage(39.0, 1850, 280, 1.40, 1.2);     // zoom on kill switch
+  clickRipple(40.2, "#r3", 1850, 280);
+  swapScreen(40.3, "#scr-chaos", "#scr-killed");
+  // pan to topology
+  moveCursor(40.8, 1500, 880, 1.2);
+  zoomStage(42.0, 1500, 880, 1.35, 1.8);     // zoom on red-slashed cloud + red sweep
+  tl.to(`${root} #stage, ${root} #cursor`, { opacity: 0, duration: 0.4 }, 45.4);
+
+  /* ─── W6  (45.0-46.5s) — Pink wipe to light ────────────── */
+  wipeOver(45.0, "#w2", true);
+
+  /* ─── B6  (46-52s) — Bright chapter "what if groq..." ──── */
+  kineticIn(46.4, "#k6a", -100);
+  kineticIn(47.0, "#k6b", -100);
+  kineticIn(47.8, "#k6c", 0);
+  kineticOut(50.4, "#k6a",  100);
+  kineticOut(50.5, "#k6b",  100);
+  kineticOut(50.7, "#k6c",  0);
+
+  /* ─── W7  (50.5-52s) — Blue wipe to dark ───────────────── */
+  wipeOver(50.5, "#w3", false);
+
+  /* ─── B7  (52-58s) — Warroom: replay modal ─────────────── */
+  tl.to(`${root} #stage`, { opacity: 1, duration: 0.4 }, 51.6);
+  tl.to(`${root} #scr-replay`, { opacity: 1, duration: 0.4 }, 51.6);
+  tl.set(`${root} #cursor`, { left: 200, top: 900 }, 51.7);
+  moveCursor(52.0, 540, 670, 1.2);           // toward scrubber
+  zoomStage(53.2, 540, 670, 1.35, 2.2);      // zoom on scrubber playhead
+  tl.to(`${root} #stage, ${root} #cursor`, { opacity: 0, duration: 0.4 }, 57.4);
+
+  /* ─── W8  (57-58.5s) — Green wipe to light ─────────────── */
+  wipeOver(57.0, "#w5", true);
+
+  /* ─── B8  (58-68s) — Big number reveal 0% → 100% ───────── */
+  kineticIn(58.4, "#k8a", 0);                // CHAOS RESILIENCE label
+  // Stagger the 0% / arrow / 100%
+  tl.fromTo(`${root} #k8b`,
+    { opacity: 0, scale: 0.88 },
+    { opacity: 1, scale: 1, duration: 0.9, ease: "power3.out" }, 59.2);
+  kineticIn(60.6, "#k8c", 0);                // tagline
+  // hold
+  kineticOut(66.0, "#k8a", 0);
+  tl.to(`${root} #k8b`, { opacity: 0, scale: 0.96, duration: 0.5 }, 66.2);
+  kineticOut(66.4, "#k8c", 0);
+
+  /* ─── B9  (68-78s) — Closing ──────────────────────────── */
+  tl.fromTo(`${root} #k9-mark`,
+    { opacity: 0, scale: 0.94 },
+    { opacity: 1, scale: 1, duration: 0.9, ease: "power3.out" }, 68.0);
+  kineticIn(69.4, "#k9-line", 0);
+  kineticIn(70.4, "#k9-meta", 0);
+  // final hold + fade
+  tl.to(`${root}`, { opacity: 0, duration: 0.8 }, 76.5);
+
+</script>
+</body>
+</html>

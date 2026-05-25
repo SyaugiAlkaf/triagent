@@ -1,0 +1,28 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css"></head><body>
+<div id="b18" data-composition-id="b18" data-start="0" data-duration="8" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:var(--bg-light);">
+  <div class="bg-light"></div>
+  <div id="mark" class="kinetic-row" style="top:380px;display:flex;align-items:center;justify-content:center;gap:20px;opacity:0;">
+    <div style="width:84px;height:84px;border-radius:22px;background:linear-gradient(135deg,#b380ff,#7c3aed);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(162,89,255,0.25);">
+      <svg width="46" height="46" viewBox="0 0 32 32" fill="none"><path d="M16 4L26 22H6L16 4Z" stroke="white" stroke-width="2.4" stroke-linejoin="round"/><circle cx="16" cy="18" r="2.5" fill="white"/></svg>
+    </div>
+    <div style="font-size:80px;font-weight:700;letter-spacing:-0.01em;">TRIAGENT</div>
+  </div>
+  <div id="line" class="kinetic-row serif" data-text="resilient k8s incident response on truefoundry." style="top:540px;font-size:36px;font-weight:400;color:var(--ink);"></div>
+  <div id="meta" class="kinetic-row mono" data-text="github.com/syaugi/triagent &nbsp;·&nbsp; DEVNETWORK AI+ML 2026" style="top:640px;font-size:16px;font-weight:500;letter-spacing:0.28em;color:var(--ink-mid);"></div>
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="_helpers.js"></script>
+<script>
+const R = '#b18';
+const { tl, kineticIn } = window.__cinema.setup(R, 'b18');
+tl.set(`${R} .kinetic-row`, { opacity: 0 }, 0);
+tl.fromTo(R, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0);
+tl.fromTo(`${R} #mark`, { opacity: 0, scale: 0.92, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 1.0, ease: 'back.out(1.5)' }, 0.4);
+kineticIn(1.9, '#line', 0, 0.04);
+kineticIn(3.3, '#meta', 0, 0.02);
+tl.to(R, { opacity: 0, duration: 0.8 }, 7.0);
+</script>
+</body></html>

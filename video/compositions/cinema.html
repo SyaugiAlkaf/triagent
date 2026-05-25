@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Triagent · 75s cinema cut</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0a0c;
+    --bg-soft:   #131319;
+    --text:      #f5f5f7;
+    --text-dim:  #86868b;
+    --accent:    #a259ff;
+    --success:   #30d158;
+    --warning:   #ff9f0a;
+    --danger:    #ff453a;
+  }
+  html, body, #triagent-cinema {
+    margin: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: var(--bg);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  .mac-shadow {
+    box-shadow:
+      0 4px 6px -2px rgba(0,0,0,0.05),
+      0 10px 30px -10px rgba(0,0,0,0.4),
+      0 40px 80px -20px rgba(0,0,0,0.6),
+      0 0 0 0.5px rgba(255,255,255,0.06) inset;
+  }
+  .glass-soft {
+    background: linear-gradient(180deg, rgba(28,28,32,0.92), rgba(18,18,22,0.92));
+    backdrop-filter: blur(20px) saturate(1.4);
+  }
+  .grain {
+    background-image:
+      radial-gradient(ellipse 1200px 800px at 20% 30%, rgba(162,89,255,0.06), transparent 60%),
+      radial-gradient(ellipse 1000px 700px at 80% 70%, rgba(48,209,88,0.04), transparent 60%);
+  }
+  .grain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .clip { opacity: 0; }
+  .traffic-light {
+    width: 12px; height: 12px; border-radius: 50%;
+    display: inline-block; margin-right: 8px;
+  }
+  .tl-r { background: #ff5f57; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.18); }
+  .tl-y { background: #febc2e; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.18); }
+  .tl-g { background: #28c840; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.18); }
+  .serif { font-family: 'Instrument Serif', serif; font-style: italic; }
+  .mono  { font-family: 'JetBrains Mono', monospace; }
+</style>
+</head>
+<body>
+<div id="triagent-cinema"
+     data-composition-id="triagent-cinema"
+     data-start="0"
+     data-duration="75"
+     data-track-index="0"
+     data-width="1920"
+     data-height="1080"
+     class="clip relative overflow-hidden grain"
+     style="background: var(--bg);">
+
+  <!-- Soft ambient gradient backdrop -->
+  <div class="absolute inset-0 grain"></div>
+
+  <!-- ============================================================
+       BEAT 1 (0-5s) — Cold open: TRIAGENT mark + tagline
+       ============================================================ -->
+  <div id="beat1" class="absolute inset-0 flex flex-col items-center justify-center" style="opacity:0;">
+    <div id="b1-mark" class="flex items-center gap-5" style="opacity:0; transform: scale(0.92);">
+      <div class="w-16 h-16 rounded-2xl flex items-center justify-center"
+           style="background: linear-gradient(135deg, #b380ff, #7c3aed); box-shadow: 0 8px 32px rgba(162,89,255,0.4);">
+        <svg width="34" height="34" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4L26 22H6L16 4Z" stroke="white" stroke-width="2.4" stroke-linejoin="round"/>
+          <circle cx="16" cy="18" r="2.5" fill="white"/>
+        </svg>
+      </div>
+      <div class="flex flex-col leading-none">
+        <span class="text-[60px] font-semibold tracking-[0.04em]" style="color: var(--text);">TRIAGENT</span>
+      </div>
+    </div>
+    <div id="b1-tag" class="mt-7 flex items-center gap-3" style="opacity:0;">
+      <span class="mono text-[14px] tracking-[0.32em]" style="color: var(--text-dim);">K8S INCIDENT AGENT</span>
+      <span class="text-[12px]" style="color: var(--accent);">·</span>
+      <span class="mono text-[14px] tracking-[0.32em]" style="color: var(--text-dim);">BUILT ON TRUEFOUNDRY</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BEAT 2 (5-12s) — Cockpit reveal (mac window)
+       ============================================================ -->
+  <div id="beat2" class="absolute inset-0 flex items-center justify-center" style="opacity:0;">
+    <div id="b2-window" class="rounded-2xl overflow-hidden mac-shadow"
+         style="width: 1440px; height: 810px; background: #0b0e13; transform: scale(0.94);">
+      <div class="px-5 py-3 flex items-center" style="background: #18181c; border-bottom: 0.5px solid rgba(255,255,255,0.06);">
+        <span class="traffic-light tl-r"></span>
+        <span class="traffic-light tl-y"></span>
+        <span class="traffic-light tl-g"></span>
+        <span class="ml-4 mono text-[11px] tracking-[0.16em]" style="color: var(--text-dim);">triagent.warroom · localhost:3000</span>
+      </div>
+      <img id="b2-img" src="../assets/screens/08-cockpit.png" class="block w-full h-auto"
+           style="transform-origin: top center;"/>
+    </div>
+    <div id="b2-caption" class="absolute top-[64%] mono text-[16px] tracking-[0.18em]"
+         style="left: 50%; transform: translateX(-50%); color: var(--text-dim); opacity: 0;">
+      WAR ROOM · live alerts · ensemble verify · cost-aware routing
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BEAT 3 (12-19s) — Alert + investigation start
+       ============================================================ -->
+  <div id="beat3" class="absolute inset-0 flex items-center justify-center" style="opacity:0;">
+    <div id="b3-window" class="rounded-2xl overflow-hidden mac-shadow"
+         style="width: 1440px; height: 810px; background: #0b0e13; transform: scale(0.97);">
+      <div class="px-5 py-3 flex items-center" style="background: #18181c; border-bottom: 0.5px solid rgba(255,255,255,0.06);">
+        <span class="traffic-light tl-r"></span>
+        <span class="traffic-light tl-y"></span>
+        <span class="traffic-light tl-g"></span>
+        <span class="ml-4 mono text-[11px] tracking-[0.16em]" style="color: var(--text-dim);">triagent.warroom</span>
+      </div>
+      <img src="../assets/screens/07-thinking.png" class="block w-full h-auto"/>
+    </div>
+    <div id="b3-bubble" class="absolute glass-soft rounded-xl px-5 py-4"
+         style="top: 26%; left: 30%; opacity: 0; transform: scale(0.95);">
+      <div class="mono text-[10px] tracking-[0.2em] mb-1" style="color: var(--accent);">AGENT THINKING</div>
+      <div class="text-[14px]" style="color: var(--text);">asking tf-primary for first hypothesis</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BEAT 4 (19-27s) — Verdict lands · CONSENSUS
+       ============================================================ -->
+  <div id="beat4" class="absolute inset-0 flex items-center justify-center" style="opacity:0;">
+    <div id="b4-window" class="rounded-2xl overflow-hidden mac-shadow"
+         style="width: 1440px; height: 810px; background: #0b0e13; transform: scale(0.97);">
+      <div class="px-5 py-3 flex items-center" style="background: #18181c; border-bottom: 0.5px solid rgba(255,255,255,0.06);">
+        <span class="traffic-light tl-r"></span>
+        <span class="traffic-light tl-y"></span>
+        <span class="traffic-light tl-g"></span>
+        <span class="ml-4 mono text-[11px] tracking-[0.16em]" style="color: var(--text-dim);">triagent.warroom</span>
+      </div>
+      <img src="../assets/screens/01-verdict.png" class="block w-full h-auto"/>
+    </div>
+    <div id="b4-headline" class="absolute glass-soft rounded-xl px-6 py-4 flex items-center gap-4"
+         style="top: 30%; right: 14%; opacity: 0; transform: scale(0.94);">
+      <div class="text-[44px] font-semibold tabular-nums leading-none" style="color: var(--success);">87%</div>
+      <div>
+        <div class="mono text-[10px] tracking-[0.22em]" style="color: var(--success);">CONSENSUS</div>
+        <div class="text-[12px]" style="color: var(--text-dim);">tf-primary → tf-verify</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BEAT 5 (27-35s) — Chaos · kill TF·Groq
+       ============================================================ -->
+  <div id="beat5" class="absolute inset-0 flex items-center justify-center" style="opacity:0;">
+    <div id="b5-window" class="rounded-2xl overflow-hidden mac-shadow"
+         style="width: 1440px; height: 810px; background: #0b0e13; transform: scale(0.97);">
+      <div class="px-5 py-3 flex items-center" style="background: #18181c; border-bottom: 0.5px solid rgba(255,255,255,0.06);">
+        <span class="traffic-light tl-r"></span>
+        <span class="traffic-light tl-y"></span>
+        <span class="traffic-light tl-g"></span>
+        <span class="ml-4 mono text-[11px] tracking-[0.16em]" style="color: var(--text-dim);">triagent.warroom · chaos panel armed</span>
+      </div>
+      <img src="../assets/screens/06-tf-killed.png" class="block w-full h-auto"/>
+    </div>
+    <div id="b5-banner" class="absolute glass-soft rounded-xl px-6 py-3"
+         style="bottom: 18%; left: 50%; transform: translateX(-50%) scale(0.96); opacity: 0;">
+      <div class="flex items-center gap-3">
+        <span class="w-2 h-2 rounded-full" style="background: var(--danger); box-shadow: 0 0 12px var(--danger);"></span>
+        <span class="mono text-[12px] tracking-[0.2em]" style="color: var(--danger);">KILL TF·GROQ</span>
+        <span class="text-[12px]" style="color: var(--text-dim);">· DEFCON 2 · CRITICAL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BEAT 6 (35-43s) — Topology recovers · fallback chain
+       ============================================================ -->
+  <div id="beat6" class="absolute inset-0 flex items-center justify-center" style="opacity:0;">
+    <div id="b6-window" class="rounded-2xl overflow-hidden mac-shadow"
+         style="width: 1440px; height: 810px; background: #0b0e13; transform: scale(0.97);">
+      <div class="px-5 py-3 flex items-center" style="background: #18181c; border-bottom: 0.5px solid rgba(255,255,255,0.06);">
+        <span class="traffic-light tl-r"></span>
+        <span class="traffic-light tl-y"></span>
+        <span class="traffic-light tl-g"></span>
+        <span class="ml-4 mono text-[11px] tracking-[0.16em]" style="color: var(--text-dim);">triagent.warroom · fallback engaged</span>
+      </div>
+      <img src="../assets/screens/02-trace.png" class="block w-full h-auto"/>
+    </div>
+    <div id="b6-quote" class="absolute"
+         style="top: 32%; left: 50%; transform: translate(-50%, 0); opacity: 0;">
+      <div class="serif text-[44px] leading-[1.1] text-center" style="color: var(--text);">
+        kill any provider.
+      </div>
+      <div class="serif text-[44px] leading-[1.1] text-center mt-1" style="color: var(--accent);">
+        the agent keeps walking.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BEAT 7 (43-51s) — COST tab · cost-aware routing surfaces
+       ============================================================ -->
+  <div id="beat7" class="absolute inset-0 flex items-center justify-center" style="opacity:0;">
+    <div id="b7-window" class="rounded-2xl overflow-hidden mac-shadow"
+         style="width: 1440px; height: 810px; background: #0b0e13; transform: scale(0.97);">
+      <div class="px-5 py-3 flex items-center" style="background: #18181c; border-bottom: 0.5px solid rgba(255,255,255,0.06);">
+        <span class="traffic-light tl-r"></span>
+        <span class="traffic-light tl-y"></span>
+        <span class="traffic-light tl-g"></span>
+        <span class="ml-4 mono text-[11px] tracking-[0.16em]" style="color: var(--text-dim);">triagent.warroom · cost</span>
+      </div>
+      <img src="../assets/screens/03-cost.png" class="block w-full h-auto"/>
+    </div>
+    <div id="b7-num" class="absolute glass-soft rounded-xl px-6 py-4"
+         style="top: 28%; right: 14%; opacity: 0; transform: scale(0.94);">
+      <div class="mono text-[10px] tracking-[0.22em]" style="color: var(--text-dim);">PER INVESTIGATION</div>
+      <div class="text-[42px] font-semibold tabular-nums leading-none mt-1" style="color: var(--success);">$0.0004</div>
+      <div class="mono text-[10px] tracking-[0.16em] mt-2" style="color: var(--text-dim);">vs $50/hour SRE time</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BEAT 8 (51-59s) — REPLAY · counterfactual moment
+       ============================================================ -->
+  <div id="beat8" class="absolute inset-0 flex items-center justify-center" style="opacity:0;">
+    <div id="b8-window" class="rounded-2xl overflow-hidden mac-shadow"
+         style="width: 1440px; height: 810px; background: #0b0e13; transform: scale(0.97);">
+      <div class="px-5 py-3 flex items-center" style="background: #18181c; border-bottom: 0.5px solid rgba(255,255,255,0.06);">
+        <span class="traffic-light tl-r"></span>
+        <span class="traffic-light tl-y"></span>
+        <span class="traffic-light tl-g"></span>
+        <span class="ml-4 mono text-[11px] tracking-[0.16em]" style="color: var(--text-dim);">triagent.warroom · session replay</span>
+      </div>
+      <img src="../assets/screens/04-replay.png" class="block w-full h-auto"/>
+    </div>
+    <div id="b8-quote" class="absolute"
+         style="bottom: 16%; left: 50%; transform: translateX(-50%); opacity: 0;">
+      <div class="serif text-[36px] leading-tight text-center" style="color: var(--text);">
+        what if groq had been alive at step 3?
+      </div>
+      <div class="mono text-[11px] tracking-[0.22em] text-center mt-3" style="color: var(--accent);">
+        COUNTERFACTUAL REPLAY · TF DOESN'T SHIP THIS
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BEAT 9 (59-67s) — Eval bar chart · the credibility anchor
+       ============================================================ -->
+  <div id="beat9" class="absolute inset-0 flex items-center justify-center" style="opacity:0;">
+    <div id="b9-window" class="rounded-2xl overflow-hidden mac-shadow"
+         style="width: 1440px; height: 810px; background: #0b0e13; transform: scale(0.97);">
+      <div class="px-5 py-3 flex items-center" style="background: #18181c; border-bottom: 0.5px solid rgba(255,255,255,0.06);">
+        <span class="traffic-light tl-r"></span>
+        <span class="traffic-light tl-y"></span>
+        <span class="traffic-light tl-g"></span>
+        <span class="ml-4 mono text-[11px] tracking-[0.16em]" style="color: var(--text-dim);">triagent.warroom · chaos eval · 120 runs</span>
+      </div>
+      <img src="../assets/screens/05-eval.png" class="block w-full h-auto"/>
+    </div>
+    <div id="b9-num" class="absolute"
+         style="top: 14%; left: 50%; transform: translateX(-50%); opacity: 0;">
+      <div class="text-[80px] font-semibold tabular-nums leading-none flex items-baseline gap-5">
+        <span style="color: var(--danger);">0%</span>
+        <span class="text-[24px]" style="color: var(--text-dim);">→</span>
+        <span style="color: var(--success);">100%</span>
+      </div>
+      <div class="mono text-[12px] tracking-[0.24em] text-center mt-3" style="color: var(--text-dim);">
+        BASELINE COLLAPSES · TRIAGENT HOLDS
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BEAT 10 (67-75s) — Close · logo + URL
+       ============================================================ -->
+  <div id="beat10" class="absolute inset-0 flex flex-col items-center justify-center" style="opacity:0;">
+    <div id="b10-mark" class="flex items-center gap-5" style="opacity: 0; transform: scale(0.96);">
+      <div class="w-16 h-16 rounded-2xl flex items-center justify-center"
+           style="background: linear-gradient(135deg, #b380ff, #7c3aed); box-shadow: 0 8px 32px rgba(162,89,255,0.4);">
+        <svg width="34" height="34" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4L26 22H6L16 4Z" stroke="white" stroke-width="2.4" stroke-linejoin="round"/>
+          <circle cx="16" cy="18" r="2.5" fill="white"/>
+        </svg>
+      </div>
+      <div class="text-[60px] font-semibold tracking-[0.04em]" style="color: var(--text);">TRIAGENT</div>
+    </div>
+    <div id="b10-line" class="serif text-[28px] mt-9 text-center" style="opacity: 0; color: var(--text);">
+      resilient k8s incident response on truefoundry.
+    </div>
+    <div id="b10-meta" class="mono text-[12px] tracking-[0.22em] mt-5 flex items-center gap-4" style="opacity: 0; color: var(--text-dim);">
+      <span>github.com/syaugi/triagent</span>
+      <span style="color: var(--accent);">·</span>
+      <span>DEVNETWORK AI+ML 2026</span>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  /* ────────────────────────────────────────────────────────
+     Pinterest-style cinema cut — soft easings, fast enough to
+     feel rushing, calm enough to feel curated.
+     ──────────────────────────────────────────────────────── */
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
+  window.__timelines["triagent-cinema"] = tl;
+
+  const root = "#triagent-cinema";
+
+  // Reset everything offscreen
+  const ALL_BEATS = ["#beat1","#beat2","#beat3","#beat4","#beat5","#beat6","#beat7","#beat8","#beat9","#beat10"];
+  ALL_BEATS.forEach((sel) => tl.set(`${root} ${sel}`, { opacity: 0 }, 0));
+
+  // Outer composition reveal
+  tl.fromTo(root, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0);
+
+  // ─── BEAT 1 — Cold open (0-5s)
+  tl.to(`${root} #beat1`, { opacity: 1, duration: 0.4 }, 0.2);
+  tl.fromTo(`${root} #b1-mark`,
+    { opacity: 0, scale: 0.92 },
+    { opacity: 1, scale: 1, duration: 1.2, ease: "power3.out" }, 0.4);
+  tl.fromTo(`${root} #b1-tag`,
+    { opacity: 0, y: 8 },
+    { opacity: 1, y: 0, duration: 0.9 }, 1.0);
+  tl.to(`${root} #beat1`, { opacity: 0, duration: 0.5 }, 4.5);
+
+  // ─── BEAT 2 — Cockpit reveal (5-12s)
+  tl.to(`${root} #beat2`, { opacity: 1, duration: 0.5 }, 5.0);
+  tl.fromTo(`${root} #b2-window`,
+    { scale: 0.94, y: 12 },
+    { scale: 1.0, y: 0, duration: 1.6, ease: "power3.out" }, 5.2);
+  tl.to(`${root} #b2-window`,
+    { scale: 1.02, duration: 5.5, ease: "none" }, 6.5);
+  tl.fromTo(`${root} #b2-caption`,
+    { opacity: 0, y: 6 },
+    { opacity: 1, y: 0, duration: 0.7 }, 7.0);
+  tl.to(`${root} #beat2`, { opacity: 0, duration: 0.5 }, 11.5);
+
+  // ─── BEAT 3 — Investigation start (12-19s)
+  tl.to(`${root} #beat3`, { opacity: 1, duration: 0.5 }, 12.0);
+  tl.fromTo(`${root} #b3-window`,
+    { scale: 0.97 }, { scale: 1.01, duration: 6.5, ease: "none" }, 12.2);
+  tl.fromTo(`${root} #b3-bubble`,
+    { opacity: 0, scale: 0.95, y: 6 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: "power3.out" }, 13.0);
+  tl.to(`${root} #b3-bubble`,
+    { opacity: 0, y: -6, duration: 0.6 }, 17.6);
+  tl.to(`${root} #beat3`, { opacity: 0, duration: 0.5 }, 18.5);
+
+  // ─── BEAT 4 — Verdict lands (19-27s)
+  tl.to(`${root} #beat4`, { opacity: 1, duration: 0.5 }, 19.0);
+  tl.fromTo(`${root} #b4-window`,
+    { scale: 0.97 }, { scale: 1.015, duration: 7.5, ease: "none" }, 19.2);
+  tl.fromTo(`${root} #b4-headline`,
+    { opacity: 0, scale: 0.94, y: 8 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.9, ease: "power3.out" }, 20.0);
+  tl.to(`${root} #beat4`, { opacity: 0, duration: 0.5 }, 26.5);
+
+  // ─── BEAT 5 — Chaos (27-35s)
+  tl.to(`${root} #beat5`, { opacity: 1, duration: 0.5 }, 27.0);
+  tl.fromTo(`${root} #b5-window`,
+    { scale: 0.97 }, { scale: 1.015, duration: 7.5, ease: "none" }, 27.2);
+  tl.fromTo(`${root} #b5-banner`,
+    { opacity: 0, scale: 0.96, y: 10 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: "power3.out" }, 27.8);
+  tl.to(`${root} #beat5`, { opacity: 0, duration: 0.5 }, 34.5);
+
+  // ─── BEAT 6 — Topology recovers + Pinterest quote moment (35-43s)
+  tl.to(`${root} #beat6`, { opacity: 1, duration: 0.5 }, 35.0);
+  tl.fromTo(`${root} #b6-window`,
+    { scale: 0.97 }, { scale: 1.015, duration: 7.5, ease: "none" }, 35.2);
+  tl.fromTo(`${root} #b6-quote`,
+    { opacity: 0, y: 12 },
+    { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" }, 35.8);
+  tl.to(`${root} #beat6`, { opacity: 0, duration: 0.5 }, 42.5);
+
+  // ─── BEAT 7 — COST tab (43-51s)
+  tl.to(`${root} #beat7`, { opacity: 1, duration: 0.5 }, 43.0);
+  tl.fromTo(`${root} #b7-window`,
+    { scale: 0.97 }, { scale: 1.015, duration: 7.5, ease: "none" }, 43.2);
+  tl.fromTo(`${root} #b7-num`,
+    { opacity: 0, scale: 0.94, y: 8 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.9, ease: "power3.out" }, 44.0);
+  tl.to(`${root} #beat7`, { opacity: 0, duration: 0.5 }, 50.5);
+
+  // ─── BEAT 8 — Counterfactual replay (51-59s)
+  tl.to(`${root} #beat8`, { opacity: 1, duration: 0.5 }, 51.0);
+  tl.fromTo(`${root} #b8-window`,
+    { scale: 0.97 }, { scale: 1.015, duration: 7.5, ease: "none" }, 51.2);
+  tl.fromTo(`${root} #b8-quote`,
+    { opacity: 0, y: 14 },
+    { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" }, 52.2);
+  tl.to(`${root} #beat8`, { opacity: 0, duration: 0.5 }, 58.5);
+
+  // ─── BEAT 9 — Eval (59-67s)
+  tl.to(`${root} #beat9`, { opacity: 1, duration: 0.5 }, 59.0);
+  tl.fromTo(`${root} #b9-window`,
+    { scale: 0.97 }, { scale: 1.015, duration: 7.5, ease: "none" }, 59.2);
+  tl.fromTo(`${root} #b9-num`,
+    { opacity: 0, scale: 0.94, y: 10 },
+    { opacity: 1, scale: 1, y: 0, duration: 1.0, ease: "power3.out" }, 59.6);
+  tl.to(`${root} #beat9`, { opacity: 0, duration: 0.5 }, 66.5);
+
+  // ─── BEAT 10 — Close (67-75s)
+  tl.to(`${root} #beat10`, { opacity: 1, duration: 0.5 }, 67.0);
+  tl.fromTo(`${root} #b10-mark`,
+    { opacity: 0, scale: 0.96 },
+    { opacity: 1, scale: 1, duration: 1.2, ease: "power3.out" }, 67.4);
+  tl.fromTo(`${root} #b10-line`,
+    { opacity: 0, y: 10 },
+    { opacity: 1, y: 0, duration: 1.0 }, 68.4);
+  tl.fromTo(`${root} #b10-meta`,
+    { opacity: 0, y: 6 },
+    { opacity: 1, y: 0, duration: 0.8 }, 69.4);
+  tl.to(`${root} #beat10`, { opacity: 0, duration: 0.7 }, 74.0);
+</script>
+</body>
+</html>

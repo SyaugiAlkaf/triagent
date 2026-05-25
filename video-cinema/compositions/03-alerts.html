@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div id="b03" data-composition-id="b03" data-start="0" data-duration="4.3" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:#0a0a0c;">
+
+  <div id="b03-panel" style="position:absolute; left:240px; top:50%; width:760px; padding:22px 22px; border-radius:18px; background:#131820; border:1px solid #232a37; box-shadow:0 32px 90px -20px rgba(0,0,0,0.7); opacity:0; perspective:1200px; transform-style:preserve-3d; will-change:transform,width;">
+
+    <div id="b03-header" style="display:flex; align-items:center; justify-content:space-between; padding:8px 14px 14px; border-bottom:1px solid #232a37; margin-bottom:14px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <svg width="18" height="18" viewBox="0 0 14 14" fill="none">
+          <path d="M7 2 L12 11 H2 Z" stroke="#e85a5a" stroke-width="1.4" stroke-linejoin="round"/>
+          <line x1="7" y1="6" x2="7" y2="9" stroke="#e85a5a" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="7" cy="10.6" r="0.6" fill="#e85a5a"/>
+        </svg>
+        <span class="mono" style="font-size:15px; letter-spacing:0.18em; font-weight:600; color:#c4ccd9;">ALERTS</span>
+        <span class="mono" style="font-size:13px; color:#6b7484;">· <span id="b03-count">0</span></span>
+      </div>
+      <div style="display:flex; gap:6px; opacity:0.45;">
+        <div style="width:22px; height:22px; border-radius:5px; background:rgba(255,255,255,0.04);"></div>
+        <div style="width:22px; height:22px; border-radius:5px; background:rgba(255,255,255,0.04);"></div>
+      </div>
+    </div>
+
+    <div id="b03-stack" style="display:flex; flex-direction:column; gap:14px;">
+
+      <div id="alert-1" class="b03-alert" style="opacity:0; will-change:transform,opacity,height; overflow:hidden;">
+        <div class="b03-card" style="position:relative; display:flex; flex-direction:column; gap:8px; padding:22px 28px 18px; border-radius:14px; background:#1a212c; border:1px solid #232a37; overflow:visible; box-shadow:0 0 0 0px rgba(232,90,90,0), 0 0 0 transparent;">
+          <span class="b03-rail" style="position:absolute; left:0; top:8px; bottom:8px; width:4px; border-radius:0 3px 3px 0; background:#e85a5a;"></span>
+          <span class="b03-blink" style="position:absolute; top:12px; right:14px; width:12px; height:12px; border-radius:50%; background:#e85a5a; box-shadow:0 0 16px #e85a5a;"></span>
+          <div style="display:flex; align-items:baseline; gap:14px;">
+            <span class="mono" style="font-size:14px; font-weight:700; letter-spacing:0.18em; color:#e85a5a;">P1</span>
+            <span style="font-size:20px; font-weight:500; color:#f2f5fa;">CrashLoopBackOff · missing DATABASE_URL</span>
+          </div>
+          <div style="display:flex; gap:18px; padding-left:38px;">
+            <span class="mono" style="font-size:14px; color:#6b7484;">triagent-demo</span>
+            <span class="mono" style="font-size:14px; color:#6b7484;">· 12s</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="alert-2" class="b03-alert" style="opacity:0; will-change:transform,opacity,height; overflow:hidden;">
+        <div class="b03-card" style="position:relative; display:flex; flex-direction:column; gap:8px; padding:22px 28px 18px; border-radius:14px; background:#1a212c; border:1px solid #232a37; overflow:visible; box-shadow:0 0 0 0px rgba(232,90,90,0), 0 0 0 transparent;">
+          <span class="b03-rail" style="position:absolute; left:0; top:8px; bottom:8px; width:4px; border-radius:0 3px 3px 0; background:#e85a5a;"></span>
+          <span class="b03-blink" style="position:absolute; top:12px; right:14px; width:12px; height:12px; border-radius:50%; background:#e85a5a; box-shadow:0 0 16px #e85a5a;"></span>
+          <div style="display:flex; align-items:baseline; gap:14px;">
+            <span class="mono" style="font-size:14px; font-weight:700; letter-spacing:0.18em; color:#e85a5a;">P1</span>
+            <span style="font-size:20px; font-weight:500; color:#f2f5fa;">OOMKilled cascade · memory-leak in worker</span>
+          </div>
+          <div style="display:flex; gap:18px; padding-left:38px;">
+            <span class="mono" style="font-size:14px; color:#6b7484;">triagent-oom</span>
+            <span class="mono" style="font-size:14px; color:#6b7484;">· 6s</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="alert-3" class="b03-alert" style="opacity:0; will-change:transform,opacity;">
+        <div class="b03-card" style="position:relative; display:flex; flex-direction:column; gap:8px; padding:22px 28px 18px; border-radius:14px; background:#1a212c; border:1px solid #232a37; overflow:visible; box-shadow:0 0 0 0px rgba(232,162,62,0), 0 0 0 transparent;">
+          <span class="b03-rail" style="position:absolute; left:0; top:8px; bottom:8px; width:4px; border-radius:0 3px 3px 0; background:#e8a23e;"></span>
+          <span class="b03-blink" style="position:absolute; top:12px; right:14px; width:12px; height:12px; border-radius:50%; background:#e8a23e; box-shadow:0 0 16px #e8a23e;"></span>
+          <div style="display:flex; align-items:baseline; gap:14px;">
+            <span class="mono" style="font-size:14px; font-weight:700; letter-spacing:0.18em; color:#e8a23e;">P2</span>
+            <span style="font-size:20px; font-weight:500; color:#f2f5fa;">CoreDNS misconfig · chaos-amplified</span>
+          </div>
+          <div style="display:flex; gap:18px; padding-left:38px;">
+            <span class="mono" style="font-size:14px; color:#6b7484;">triagent-dns</span>
+            <span class="mono" style="font-size:14px; color:#6b7484;">· 2s</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="b03-commentary" style="position:absolute; left:1080px; top:50%; transform:translateY(-50%); width:760px; display:flex; flex-direction:column; gap:30px; opacity:0;">
+
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="width:10px; height:10px; border-radius:50%; background:#e85a5a; box-shadow:0 0 14px #e85a5a;" class="b03-c-pulse"></span>
+      <span class="mono" style="font-size:14px; letter-spacing:0.32em; color:#9aa0ad; font-weight:600;">LIVE FEED · DEFCON-2</span>
+    </div>
+
+    <div class="b03-line" data-line="1" style="display:flex; align-items:baseline; gap:14px;">
+      <span class="mono" style="font-size:15px; color:#6b7484; flex-shrink:0;">[01:38]</span>
+      <span class="b03-line-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; width:0; font-size:22px; color:#f2f5fa; font-weight:500; vertical-align:middle;">CrashLoopBackOff &middot; missing env</span>
+    </div>
+
+    <div class="b03-line" data-line="2" style="display:flex; align-items:baseline; gap:14px;">
+      <span class="mono" style="font-size:15px; color:#6b7484; flex-shrink:0;">[01:39]</span>
+      <span class="b03-line-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; width:0; font-size:22px; color:#f2f5fa; font-weight:500; vertical-align:middle;">OOM cascade in worker pod</span>
+    </div>
+
+    <div class="b03-line" data-line="3" style="display:flex; align-items:baseline; gap:14px;">
+      <span class="mono" style="font-size:15px; color:#6b7484; flex-shrink:0;">[01:40]</span>
+      <span class="b03-line-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; width:0; font-size:22px; color:#f2f5fa; font-weight:500; vertical-align:middle;">chaos-amplified DNS misconfig</span>
+    </div>
+
+    <div class="b03-line" data-line="4" style="display:flex; align-items:baseline; gap:10px; padding-top:14px; border-top:1px solid rgba(162,89,255,0.2);">
+      <span class="b03-line-text mono" style="display:inline-block; overflow:hidden; white-space:nowrap; width:0; font-size:28px; color:#c8b3ff; font-weight:600; letter-spacing:0.02em; vertical-align:middle;">&rarr; all recoverable</span>
+      <span id="b03-caret" style="display:inline-block; width:5px; height:26px; background:#c8b3ff; box-shadow:0 0 12px rgba(200,179,255,0.6); opacity:0;"></span>
+    </div>
+
+  </div>
+
+  <!-- Cursor positioned so its FINGER TIP (SVG 9,4 → displayed 27,12) lands on alert 3 -->
+  <div id="b03-cursor" style="position:absolute; left:578px; top:678px; pointer-events:none; z-index:60; opacity:0;">
+    <div id="b03-cursor-3d" style="filter:drop-shadow(0 22px 32px rgba(0,0,0,0.65)) drop-shadow(-8px 10px 12px rgba(162,89,255,0.28));">
+      <svg width="96" height="120" viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="b03-cursor-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffffff"/>
+            <stop offset="0.6" stop-color="#e8eaf0"/>
+            <stop offset="1" stop-color="#9da3b3"/>
+          </linearGradient>
+        </defs>
+        <path d="M9 4 v15 l-2 -1 q-3 -1.5 -4 1 v3 q0 1.5 1 3 l5 8 q1 2 3 2 h10 q2 0 3 -2 l2 -7 q0.5 -2 0.5 -4 v-4 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-9 q0 -2 -2 -2 t-2 2 z"
+              fill="url(#b03-cursor-grad)" stroke="#1a1a1f" stroke-width="2.2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <div id="b03-ripple" style="position:absolute; width:32px; height:32px; border:4px solid #a259ff; border-radius:50%; transform:translate(-50%,-50%); pointer-events:none; opacity:0; z-index:55;"></div>
+
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  window.__timelines['b03'] = tl;
+
+  // ── Panel pose: 3D tilt + vertical center (single source for transform string)
+  gsap.set('#b03 #b03-panel', {
+    yPercent: -50,
+    rotationY: 14,
+    rotation: -3,
+    transformPerspective: 1200,
+    transformOrigin: '50% 50%'
+  });
+
+  // Pivot click animations around the FINGER TIP (SVG 9,4 × scale-3 = 27,12 displayed px)
+  gsap.set('#b03 #b03-cursor-3d', {
+    transformPerspective: 600,
+    rotationX: 28,
+    rotationY: -22,
+    rotation: -10,
+    scale: 0,
+    transformOrigin: '27px 12px'
+  });
+
+  // Measure commentary line widths
+  const lineEls = document.querySelectorAll('#b03 .b03-line-text');
+  const lineWidths = [];
+  const measureSpan = document.createElement('span');
+  measureSpan.style.cssText = 'position:absolute; visibility:hidden; white-space:nowrap;';
+  document.body.appendChild(measureSpan);
+  lineEls.forEach(el => {
+    const cs = getComputedStyle(el);
+    measureSpan.style.fontFamily = cs.fontFamily;
+    measureSpan.style.fontSize = cs.fontSize;
+    measureSpan.style.fontWeight = cs.fontWeight;
+    measureSpan.style.letterSpacing = cs.letterSpacing;
+    measureSpan.innerHTML = el.innerHTML;
+    lineWidths.push(measureSpan.getBoundingClientRect().width);
+  });
+  measureSpan.remove();
+
+  tl.to('#b03 #b03-panel', { opacity: 1, duration: 0.4, ease: 'power2.out' }, 0.0);
+
+  // ── BPM-paced spawns + heartbeat lub-dub
+  const beats = [
+    { sel: '#b03 #alert-1', shadowColor: 'rgba(232,90,90,0.55)', idleColor: 'rgba(232,90,90,0.28)', haloColor: 'rgba(232,90,90,0.22)', at: 0.30 },
+    { sel: '#b03 #alert-2', shadowColor: 'rgba(232,90,90,0.55)', idleColor: 'rgba(232,90,90,0.28)', haloColor: 'rgba(232,90,90,0.22)', at: 0.80 },
+    { sel: '#b03 #alert-3', shadowColor: 'rgba(232,162,62,0.55)', idleColor: 'rgba(232,162,62,0.28)', haloColor: 'rgba(232,162,62,0.22)', at: 1.30 }
+  ];
+
+  beats.forEach((b, i) => {
+    tl.fromTo(b.sel,
+      { opacity: 0, y: 140, scale: 0.92 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'back.out(1.5)' },
+      b.at
+    );
+    tl.to(`${b.sel} .b03-card`,
+      { boxShadow: `0 0 0 3px ${b.shadowColor}, 0 0 28px ${b.shadowColor}`,
+        duration: 0.4, ease: 'power2.out' }, b.at + 0.05);
+
+    const hb = b.at + 0.45;
+    tl.to(b.sel, { scale: 1.10, duration: 0.09, ease: 'power2.out' }, hb);
+    tl.to(b.sel, { scale: 1.00, duration: 0.11, ease: 'power2.in'  }, hb + 0.09);
+    tl.to(b.sel, { scale: 1.05, duration: 0.08, ease: 'power2.out' }, hb + 0.22);
+    tl.to(b.sel, { scale: 1.00, duration: 0.10, ease: 'power2.in'  }, hb + 0.30);
+
+    tl.to(`${b.sel} .b03-card`,
+      { boxShadow: `0 0 0 2px ${b.idleColor}, 0 0 18px ${b.haloColor}`,
+        duration: 0.45, ease: 'power2.out' }, hb + 0.45);
+
+    tl.to(`${b.sel} .b03-blink`,
+      { opacity: 0.25, duration: 0.5, ease: 'sine.inOut', yoyo: true, repeat: 6 }, b.at);
+
+    tl.call(() => {
+      const c = document.querySelector('#b03 #b03-count');
+      if (c) c.textContent = String(i + 1);
+    }, null, b.at + 0.05);
+  });
+
+  // Commentary
+  tl.to('#b03 #b03-commentary', { opacity: 1, duration: 0.4 }, 0.4);
+
+  const lineStarts = [0.50, 1.00, 1.50, 2.10];
+  lineEls.forEach((el, i) => {
+    const stepCount = Math.max(10, Math.round(lineWidths[i] / 18));
+    tl.to(el, { width: lineWidths[i], duration: 0.5, ease: `steps(${stepCount})` }, lineStarts[i]);
+  });
+
+  tl.to('#b03 #b03-caret', { opacity: 1, duration: 0.1 }, 2.65);
+  tl.to('#b03 #b03-caret',
+    { opacity: 0.15, duration: 0.32, ease: 'steps(1)', yoyo: true, repeat: 3 }, 2.78);
+
+  // ── Cursor + click — all heartbeats done by 1.85, click happens at 2.85 (cleanly after)
+  const CLICK_AT = 2.85;
+  tl.to('#b03 #b03-cursor', { opacity: 1, duration: 0.12, ease: 'power2.out' }, CLICK_AT - 0.12);
+  tl.to('#b03 #b03-cursor-3d',
+    { scale: 1.18, duration: 0.18, ease: 'back.out(2.4)' }, CLICK_AT - 0.12);
+  tl.to('#b03 #b03-cursor-3d',
+    { scale: 1.0, duration: 0.14, ease: 'power2.in' }, CLICK_AT + 0.06);
+  tl.to('#b03 #b03-cursor-3d', { scale: 0.88, duration: 0.10, ease: 'power2.in' }, CLICK_AT + 0.22);
+  tl.to('#b03 #b03-cursor-3d', { scale: 1.06, duration: 0.13, ease: 'back.out(2.2)' }, CLICK_AT + 0.32);
+  tl.to('#b03 #b03-cursor-3d', { scale: 1.0,  duration: 0.18, ease: 'power2.out' }, CLICK_AT + 0.45);
+
+  // Ripple at finger tip world coords (cursor 578,678 + finger-tip offset 27,12 = 605,690)
+  tl.set('#b03 #b03-ripple', { left: 605, top: 690, opacity: 0.95, scale: 0.4 }, CLICK_AT + 0.24);
+  tl.to('#b03 #b03-ripple', { scale: 6, opacity: 0, duration: 0.85, ease: 'power3.out' }, CLICK_AT + 0.24);
+
+  tl.to('#b03 #b03-cursor', { opacity: 0, duration: 0.35, ease: 'power2.in' }, CLICK_AT + 0.75);
+
+  // Alert 3 active state
+  tl.to('#b03 #alert-3 .b03-rail',
+    { background: '#a259ff', width: '5px', duration: 0.3 }, CLICK_AT + 0.26);
+  tl.to('#b03 #alert-3 .b03-card',
+    { backgroundColor: 'rgba(162,89,255,0.10)', borderColor: 'rgba(162,89,255,0.5)',
+      boxShadow: '0 0 0 3px rgba(162,89,255,0.55), 0 0 36px rgba(162,89,255,0.42)',
+      duration: 0.4, ease: 'back.out(1.4)' }, CLICK_AT + 0.26);
+
+  tl.to('#b03 #alert-1, #b03 #alert-2',
+    { opacity: 0.35, scale: 0.96, duration: 0.4, ease: 'power2.out' }, CLICK_AT + 0.32);
+
+  // ── EXPAND: punchy + size-locked to beat 5's pane (no late jump in height)
+  const EXPAND = CLICK_AT + 0.45;  // 3.3s — right after click ripple
+
+  // Layered morph — staggered child anims so it doesn't all read as a single hard cut
+  // Step 1 (EXPAND): clear the periphery so panel can grow into the space
+  tl.to('#b03 #alert-1, #b03 #alert-2',
+    { opacity: 0, y: -10, duration: 0.3, ease: 'power2.in' }, EXPAND);
+  tl.to('#b03 #b03-commentary',
+    { opacity: 0, x: 80, duration: 0.3, ease: 'power2.in' }, EXPAND);
+  tl.set('#b03 #b03-header', { overflow: 'hidden' }, EXPAND);
+  tl.to('#b03 #b03-header',
+    { opacity: 0, height: 0, marginBottom: 0, paddingTop: 0, paddingBottom: 0,
+      duration: 0.3, ease: 'power2.in' }, EXPAND);
+
+  // Step 2 (EXPAND + 0.08): panel un-tilts and grows
+  tl.to('#b03 #b03-panel',
+    { rotationY: -14, rotation: 3,
+      left: 600, width: 1180, minHeight: 760, borderRadius: 16,
+      duration: 0.85, ease: 'power3.out' }, EXPAND + 0.08);
+
+  // Step 3 (EXPAND + 0.15): alerts 1+2 collapse height while panel is still moving
+  tl.to('#b03 #alert-1, #b03 #alert-2',
+    { height: 0, marginTop: 0, marginBottom: 0, duration: 0.4, ease: 'power3.out' }, EXPAND + 0.15);
+  tl.set('#b03 #alert-1, #b03 #alert-2', { display: 'none' }, EXPAND + 0.55);
+
+  // Step 4 (EXPAND + 0.22): alert-3 card finishes morphing into scenario header look
+  tl.to('#b03 #alert-3 .b03-card',
+    { padding: '30px 36px',
+      backgroundColor: 'rgba(162,89,255,0.06)',
+      borderColor: 'rgba(162,89,255,0.35)',
+      boxShadow: '0 0 0 1px rgba(162,89,255,0.3), 0 0 28px rgba(162,89,255,0.18)',
+      duration: 0.5, ease: 'power3.out' }, EXPAND + 0.22);
+
+  // Beat 3 ends at 4.3 — expand finishes at 4.0, only 0.3s tail before beat 5 takes over
+</script>
+</body>
+</html>

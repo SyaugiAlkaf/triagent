@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Cormorant+Garamond:ital,wght@1,500;0,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div id="b09" data-composition-id="b09" data-start="0" data-duration="8" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:#0a0a0c;">
+
+  <!-- Particle field canvas — 120 particles drift in from offscreen, then settle behind text -->
+  <div id="b09-particles" style="position:absolute; inset:0;"></div>
+
+  <!-- Quote — large serif italic, two lines, centered -->
+  <div id="b09-quote-wrap" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:32px; opacity:0;">
+
+    <div style="display:flex; flex-direction:column; align-items:center; gap:18px; max-width:1280px;">
+      <span class="mono" style="font-size:13px; font-weight:700; letter-spacing:0.32em; color:#a259ff;">— THE THESIS —</span>
+      <div id="b09-quote-line1" style="font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:500; font-size:84px; letter-spacing:-0.01em; line-height:1.1; color:#f5f5f7; text-align:center;">
+        When the provider dies, most agents die with it.
+      </div>
+      <div id="b09-quote-line2" style="font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:600; font-size:96px; letter-spacing:-0.01em; line-height:1.1; color:#c8b3ff; text-align:center; text-shadow:0 0 32px rgba(162,89,255,0.35);">
+        Triagent doesn&rsquo;t.
+      </div>
+    </div>
+
+    <div id="b09-attr" class="mono" style="font-size:14px; letter-spacing:0.18em; color:#6b7484; opacity:0;">
+      RESILIENT BY CONSTRUCTION · POWERED BY TRUEFOUNDRY
+    </div>
+  </div>
+
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  window.__timelines['b09'] = tl;
+
+  // ── Spawn 120 deterministic particles
+  const field = document.querySelector('#b09 #b09-particles');
+  const PARTICLE_COUNT = 120;
+  const particles = [];
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    const p = document.createElement('div');
+    // Deterministic positions using golden-ratio offsets (no Math.random)
+    const phi = 1.61803398875;
+    const fx = ((i * phi) % 1);
+    const fy = ((i * phi * phi) % 1);
+    const fs = ((i * 0.137) % 1);
+    const startX = fx * 1920;
+    const startY = fy * 1080;
+    const size = 2 + fs * 4;
+    const targetX = 960 + (fx - 0.5) * 1280;
+    const targetY = 540 + (fy - 0.5) * 320;
+
+    p.style.cssText = `
+      position:absolute; left:${startX}px; top:${startY}px;
+      width:${size}px; height:${size}px; border-radius:50%;
+      background:#a259ff; opacity:0;
+      box-shadow:0 0 ${size * 2}px rgba(162,89,255,0.7);
+      will-change:transform,opacity;
+    `;
+    field.appendChild(p);
+    particles.push({ el: p, startX, startY, targetX, targetY });
+  }
+
+  // ── Particles fade in then drift toward the quote area
+  particles.forEach((p, i) => {
+    const startDelay = 0.0 + (i / PARTICLE_COUNT) * 0.6;
+    tl.to(p.el, { opacity: 0.85, duration: 0.5, ease: 'power2.out' }, startDelay);
+    tl.to(p.el,
+      { left: p.targetX, top: p.targetY,
+        duration: 1.4 + (i % 7) * 0.1,
+        ease: 'power3.inOut' }, startDelay + 0.15);
+    // Dim once arrived
+    tl.to(p.el, { opacity: 0.35, duration: 0.5 }, startDelay + 1.65);
+  });
+
+  // ── Quote text emerges from the particle field
+  tl.to('#b09 #b09-quote-wrap',
+    { opacity: 1, duration: 0.8, ease: 'power2.out' }, 1.7);
+
+  // Per-line subtle lift
+  tl.from('#b09 #b09-quote-line1',
+    { y: 30, opacity: 0, duration: 0.9, ease: 'power3.out' }, 1.8);
+  tl.from('#b09 #b09-quote-line2',
+    { y: 30, opacity: 0, duration: 0.9, ease: 'power3.out' }, 2.2);
+
+  tl.to('#b09 #b09-attr',
+    { opacity: 1, duration: 0.7, ease: 'power2.out' }, 3.1);
+
+  // Particles gently breathe (single yoyo cycle) during the shorter hold
+  const tickers = particles.map(p => p.el).slice(0, 60);
+  tl.to(tickers,
+    { opacity: 0.6, duration: 1.0, ease: 'sine.inOut', yoyo: true, repeat: 1, stagger: 0.015 }, 3.4);
+
+  // ── Fade out (compressed for 6.81s beat — was 7.2 → 7.9)
+  tl.to('#b09 #b09-quote-wrap',
+    { opacity: 0, y: -20, duration: 0.5, ease: 'power3.in' }, 6.1);
+  tl.to('#b09 #b09-particles',
+    { opacity: 0, duration: 0.5, ease: 'power3.in' }, 6.2);
+</script>
+</body>
+</html>

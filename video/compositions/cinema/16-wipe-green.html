@@ -1,0 +1,24 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<link rel="stylesheet" href="_styles.css"></head><body>
+<div id="w8" data-composition-id="w8" data-start="0" data-duration="1.4" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:var(--bg-dark);">
+  <div class="bg-dark" style="opacity:1;"></div>
+  <div class="bg-light" style="opacity:0;"></div>
+  <div id="w" class="wipe" style="left:960px;top:540px;width:100px;height:100px;background:radial-gradient(circle, #d8fdd8 0%, #30d158 70%, #15803d 100%);"></div>
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="_helpers.js"></script>
+<script>
+const R = '#w8';
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+window.__timelines['w8'] = tl;
+tl.fromTo(R, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0);
+tl.set(`${R} #w`, { opacity: 1, scale: 0 }, 0);
+tl.to(`${R} #w`, { scale: 0.18, duration: 0.18, ease: 'power2.out' }, 0);
+tl.to(`${R} #w`, { scale: 28, duration: 0.55, ease: 'power4.in' }, 0.18);
+tl.set(`${R} .bg-dark`, { opacity: 0 }, 0.65);
+tl.set(`${R} .bg-light`,   { opacity: 1 }, 0.65);
+tl.to(`${R} #w`, { scale: 32, duration: 0.18, ease: 'power1.out' }, 0.73);
+tl.to(`${R} #w`, { opacity: 0, duration: 0.45, ease: 'power2.out' }, 0.85);
+</script>
+</body></html>

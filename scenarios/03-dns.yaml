@@ -1,0 +1,33 @@
+id: dns-003
+name: CoreDNS misconfig - chaos-amplified
+namespace: triagent-dns
+chaos_focus: tool_quarantine
+expected_root_cause: coredns_corefile_misconfig
+chaos_inject:
+  step: 3
+  action: kill_tool
+  target: kubectl
+manifests:
+  - kind: ConfigMap
+    name: coredns-shadow
+    data:
+      Corefile: |
+        .:53 {
+          forward . 256.256.256.256
+        }
+  - kind: Deployment
+    name: dns-client
+    spec:
+      containers:
+        - name: app
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - "nslookup nonexistent-host.invalid && exit 0 || exit 1"
+expected_steps:
+  - kubectl_get_pods
+  - kubectl_logs_app
+  - kubectl_fails_quarantined
+  - prometheus_dns_lookups
+  - hypothesis_coredns

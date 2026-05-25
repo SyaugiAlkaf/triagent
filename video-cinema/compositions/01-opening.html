@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div id="b01" data-composition-id="b01" data-start="0" data-duration="3.85" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:#0a0a0c;">
+
+  <!-- Main stack (will fly up at the end of this beat) -->
+  <div id="b01-stack" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:34px; will-change:transform,filter,opacity;">
+
+    <div id="b01-mark-row" style="display:flex; align-items:center; gap:22px; opacity:0; transform:scale(0.88);">
+      <div id="b01-mark" style="width:96px; height:96px; border-radius:26px; background:linear-gradient(135deg,#b380ff,#7c3aed); display:flex; align-items:center; justify-content:center; box-shadow:0 18px 60px -10px rgba(162,89,255,0.55), 0 0 0 1px rgba(255,255,255,0.06) inset;">
+        <svg width="52" height="52" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4L26 22H6L16 4Z" stroke="white" stroke-width="2.6" stroke-linejoin="round"/>
+          <circle cx="16" cy="18" r="2.8" fill="white"/>
+        </svg>
+      </div>
+      <!-- Typed text + caret as flex siblings — caret naturally rides the typed span's right edge -->
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span id="b01-typed" style="display:inline-block; overflow:hidden; white-space:nowrap; width:0; font-size:96px; font-weight:700; letter-spacing:-0.02em; color:#f5f5f7; line-height:1; vertical-align:middle;">TRIAGENT</span>
+        <span id="b01-caret" style="display:inline-block; width:6px; height:84px; background:#a259ff; box-shadow:0 0 18px rgba(162,89,255,0.65); flex-shrink:0;"></span>
+      </div>
+    </div>
+
+    <div id="b01-power-wrap" style="position:relative; overflow:hidden; opacity:0;">
+      <div id="b01-power" class="mono" style="font-size:18px; font-weight:500; letter-spacing:0.32em; color:#9aa0ad; padding:14px 22px; background:rgba(162,89,255,0.06); border:1px solid rgba(162,89,255,0.22); border-radius:999px; white-space:nowrap;">
+        POWERED BY TRUEFOUNDRY
+      </div>
+      <div id="b01-power-wipe" style="position:absolute; top:0; right:0; bottom:0; left:0; background:#0a0a0c; transform-origin:right center;"></div>
+    </div>
+
+  </div>
+
+  <!-- Ghost copies for fly-up motion-blur trail (sit invisible until fly-up time) -->
+  <div id="b01-ghost-1" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:34px; will-change:transform,filter,opacity; pointer-events:none; opacity:0;">
+    <div style="display:flex; align-items:center; gap:22px;">
+      <div style="width:96px; height:96px; border-radius:26px; background:linear-gradient(135deg,#b380ff,#7c3aed);"></div>
+      <span style="font-size:96px; font-weight:700; letter-spacing:-0.02em; color:#f5f5f7; line-height:1;">TRIAGENT</span>
+    </div>
+    <div class="mono" style="font-size:18px; font-weight:500; letter-spacing:0.32em; color:#9aa0ad; padding:14px 22px; background:rgba(162,89,255,0.06); border:1px solid rgba(162,89,255,0.22); border-radius:999px; white-space:nowrap;">POWERED BY TRUEFOUNDRY</div>
+  </div>
+  <div id="b01-ghost-2" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:34px; will-change:transform,filter,opacity; pointer-events:none; opacity:0;">
+    <div style="display:flex; align-items:center; gap:22px;">
+      <div style="width:96px; height:96px; border-radius:26px; background:linear-gradient(135deg,#b380ff,#7c3aed);"></div>
+      <span style="font-size:96px; font-weight:700; letter-spacing:-0.02em; color:#f5f5f7; line-height:1;">TRIAGENT</span>
+    </div>
+    <div class="mono" style="font-size:18px; font-weight:500; letter-spacing:0.32em; color:#9aa0ad; padding:14px 22px; background:rgba(162,89,255,0.06); border:1px solid rgba(162,89,255,0.22); border-radius:999px; white-space:nowrap;">POWERED BY TRUEFOUNDRY</div>
+  </div>
+
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+  window.__timelines['b01'] = tl;
+
+  // ── Measure cumulative widths of T·R·I·A·G·E·N·T so caret advances at exact char boundaries
+  const chars = ['T','R','I','A','G','E','N','T'];
+  const cumWidths = [];
+  const ghostSpan = document.createElement('span');
+  ghostSpan.style.cssText = 'position:absolute; visibility:hidden; white-space:pre; font-family:Inter,system-ui,sans-serif; font-size:96px; font-weight:700; letter-spacing:-0.02em; line-height:1;';
+  document.body.appendChild(ghostSpan);
+  for (let i = 0; i < chars.length; i++) {
+    ghostSpan.textContent = chars.slice(0, i + 1).join('');
+    cumWidths.push(ghostSpan.getBoundingClientRect().width);
+  }
+  ghostSpan.remove();
+
+  tl.fromTo('#b01', { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0);
+
+  // Mark + text container pop in
+  tl.fromTo('#b01 #b01-mark-row',
+    { opacity: 0, scale: 0.88, y: 18 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.7)' }, 0.1);
+
+  // Caret blink across typing window
+  tl.to('#b01 #b01-caret',
+    { opacity: 0.15, duration: 0.28, ease: 'steps(1)', yoyo: true, repeat: 5 }, 0.45);
+
+  // ── Typewriter: width advances in 8 hard steps at measured char boundaries
+  //    caret is a flex sibling so it advances with the typed span's right edge
+  const TYPE_START = 0.55;
+  const PER_CHAR = 0.08;
+  cumWidths.forEach((w, i) => {
+    tl.set('#b01 #b01-typed', { width: w }, TYPE_START + i * PER_CHAR);
+  });
+  const TYPE_END = TYPE_START + chars.length * PER_CHAR;
+
+  // Caret fade after typing
+  tl.to('#b01 #b01-caret', { opacity: 0, duration: 0.3, ease: 'power2.in' }, TYPE_END + 0.1);
+
+  // Powered-by left-to-right wipe
+  tl.set('#b01 #b01-power-wrap', { opacity: 1 }, TYPE_END + 0.3);
+  tl.to('#b01 #b01-power-wipe',
+    { scaleX: 0, duration: 0.55, ease: 'power3.inOut', transformOrigin: 'left center' }, TYPE_END + 0.35);
+
+  // Brief breathe before fly-up — short pulse to avoid feeling frozen
+  tl.to('#b01 #b01-mark-row',
+    { y: -4, duration: 0.3, ease: 'sine.inOut', yoyo: true, repeat: 1 }, 2.4);
+
+  // ── FLY UP with motion-blur trails (the old beat-2 transition, now part of beat 1 — no new instance)
+  const FLY = 3.0;
+  tl.to('#b01 #b01-stack',
+    { y: -1200, filter: 'blur(14px)', opacity: 0, duration: 0.6, ease: 'power3.in' }, FLY);
+
+  tl.set('#b01 #b01-ghost-1', { opacity: 0.55 }, FLY + 0.08);
+  tl.to('#b01 #b01-ghost-1',
+    { y: -1200, filter: 'blur(22px)', opacity: 0, duration: 0.6, ease: 'power3.in' }, FLY + 0.08);
+
+  tl.set('#b01 #b01-ghost-2', { opacity: 0.35 }, FLY + 0.14);
+  tl.to('#b01 #b01-ghost-2',
+    { y: -1200, filter: 'blur(34px)', opacity: 0, duration: 0.6, ease: 'power3.in' }, FLY + 0.14);
+</script>
+</body>
+</html>

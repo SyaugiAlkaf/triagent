@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div id="b07" data-composition-id="b07" data-start="0" data-duration="7.5" data-track-index="0" data-width="1920" data-height="1080" class="clip beat-root" style="background:#0a0a0c; overflow:hidden;">
+
+  <!-- Scenario pane clone — matches beat 6's END pose (scaled 3x with REPLAY button at viewport center).
+       Fades out as the replay modal grows in. -->
+  <div id="b07-scenario-pane" style="position:absolute; left:600px; top:50%; width:1180px; min-height:760px; padding:22px; background:#131820; border:1px solid #232a37; border-radius:16px; box-shadow:0 32px 90px -20px rgba(0,0,0,0.7); overflow:hidden;">
+    <div style="position:relative; display:flex; flex-direction:column; gap:8px; padding:30px 36px; border-radius:14px; background:rgba(162,89,255,0.06); border:1px solid rgba(162,89,255,0.35); box-shadow:0 0 0 1px rgba(162,89,255,0.3), 0 0 28px rgba(162,89,255,0.18); overflow:visible;">
+      <span style="position:absolute; left:0; top:8px; bottom:8px; width:5px; border-radius:0 3px 3px 0; background:#a259ff;"></span>
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px;">
+        <div style="display:flex; align-items:baseline; gap:14px;">
+          <span class="mono" style="font-size:14px; font-weight:700; letter-spacing:0.18em; color:#e8a23e;">P2</span>
+          <span style="font-size:20px; font-weight:500; color:#f2f5fa;">CoreDNS misconfig · chaos-amplified</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="mono" style="font-size:12px; color:#6b7484; padding:8px 14px; border:1px solid #232a37; border-radius:8px;">verdict</span>
+          <span class="mono" style="font-size:12px; color:#6b7484; padding:8px 14px; border:1px solid #232a37; border-radius:8px;">cost</span>
+          <span class="mono" style="font-size:12px; color:#c8b3ff; padding:8px 18px; border:1px solid rgba(162,89,255,0.45); background:rgba(162,89,255,0.08); border-radius:8px; font-weight:700; letter-spacing:0.12em;">REPLAY</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex; gap:12px; padding-top:18px;">
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 14px; background:rgba(232,90,90,0.08); border:1px solid rgba(232,90,90,0.4); border-radius:8px;">
+        <span style="width:8px; height:8px; border-radius:50%; background:#e85a5a; box-shadow:0 0 10px #e85a5a;"></span>
+        <span class="mono" style="font-size:12px; color:#f2b5b5; letter-spacing:0.08em;">PROVIDER · groq · DOWN</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 14px; background:rgba(232,90,90,0.08); border:1px solid rgba(232,90,90,0.4); border-radius:8px;">
+        <span style="width:8px; height:8px; border-radius:50%; background:#e85a5a; box-shadow:0 0 10px #e85a5a;"></span>
+        <span class="mono" style="font-size:12px; color:#f2b5b5; letter-spacing:0.08em;">TOOL · kubectl · QUARANTINED</span>
+      </div>
+    </div>
+    <div style="position:relative; margin-top:14px; padding:18px 22px; background:#0e131b; border:1px solid #1d2330; border-radius:10px; font-family:'JetBrains Mono', monospace; font-size:13px; line-height:1.7; color:#c4ccd9; min-height:300px;">
+      <div><span style="color:#6b7484;">[t=0.42]</span> <span style="color:#9aa0ad;">llm.call</span> · groq</div>
+      <div><span style="color:#6b7484;">[t=0.51]</span> <span style="color:#e85a5a;">llm.error</span> · brownout</div>
+      <div><span style="color:#6b7484;">[t=0.53]</span> <span style="color:#a259ff; font-weight:600;">resilient.move</span> · groq → ollama</div>
+      <div><span style="color:#6b7484;">[t=1.02]</span> <span style="color:#9aa0ad;">tool.call</span> kubectl</div>
+      <div><span style="color:#6b7484;">[t=1.11]</span> <span style="color:#e85a5a;">tool.error</span> · exit=137</div>
+      <div><span style="color:#6b7484;">[t=1.13]</span> <span style="color:#a259ff; font-weight:600;">resilient.move</span> · kubectl → prometheus</div>
+      <div><span style="color:#6b7484;">[t=2.18]</span> <span style="color:#7eba6f;">verdict.ready</span></div>
+    </div>
+    <div style="position:relative; margin-top:14px; padding:22px 26px; background:linear-gradient(135deg, rgba(162,89,255,0.10), rgba(162,89,255,0.02)); border:1px solid rgba(162,89,255,0.4); border-radius:12px;">
+      <span class="mono" style="font-size:11px; font-weight:700; letter-spacing:0.18em; color:#c8b3ff;">ROOT CAUSE</span>
+      <div style="font-size:18px; line-height:1.55; color:#f2f5fa; padding-top:10px;">
+        CoreDNS reloaded with an <span style="padding:2px 8px; border-radius:6px; background:rgba(162,89,255,0.22); color:#ffffff; box-shadow:inset 0 0 0 1px rgba(162,89,255,0.5);">invalid Corefile forward stanza</span>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Replay modal — bigger container (1400×820), starts at tiny scale at click location, grows full -->
+  <div id="b07-modal" style="position:absolute; left:50%; top:50%; width:1400px; min-height:820px; background:#10151d; border:1px solid #2a3142; border-radius:18px; box-shadow:0 36px 100px -10px rgba(0,0,0,0.75), 0 0 0 1px rgba(162,89,255,0.18); overflow:hidden;">
+
+    <!-- Modal header -->
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:22px 28px; border-bottom:1px solid #1d2330;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span class="mono" style="font-size:11px; font-weight:700; letter-spacing:0.18em; color:#c8b3ff; padding:4px 10px; border:1px solid rgba(162,89,255,0.4); background:rgba(162,89,255,0.06); border-radius:6px;">SESSION REPLAY</span>
+        <span style="font-size:15px; color:#9aa0ad;">scenario · dns-chaos · 12 events</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <span class="mono" style="font-size:11px; color:#6b7484; letter-spacing:0.12em;">DURATION 2.18s</span>
+        <span class="mono" style="font-size:14px; color:#6b7484;">×</span>
+      </div>
+    </div>
+
+    <!-- Playback bar — thicker (10px) + playhead handle -->
+    <div style="padding:18px 28px 12px;">
+      <div style="position:relative; height:10px; background:#1d2330; border-radius:5px; overflow:visible;">
+        <div id="b07-progress" style="position:absolute; left:0; top:0; bottom:0; width:0%; background:linear-gradient(90deg, #a259ff, #c489ff); border-radius:5px; box-shadow:0 0 14px rgba(162,89,255,0.55);"></div>
+        <div id="b07-playhead" style="position:absolute; top:-5px; left:0; width:20px; height:20px; border-radius:50%; background:#ffffff; border:2.5px solid #a259ff; box-shadow:0 0 14px rgba(162,89,255,0.7); transform:translateX(-50%);"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding-top:8px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#6b7484;">
+        <span id="b07-time">0.00s</span>
+        <span style="color:#9aa0ad;">2.18s</span>
+      </div>
+    </div>
+
+    <!-- Events list -->
+    <div style="position:relative; margin:6px 28px 22px; padding:6px 0; background:#0c1118; border:1px solid #1a2030; border-radius:10px; overflow:hidden;">
+
+      <div class="mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:10px 22px; border-bottom:1px solid #1a2030; font-size:10px; color:#6b7484; letter-spacing:0.18em;">
+        <span>TIME</span>
+        <span>EVENT</span>
+        <span style="text-align:right;">LATENCY</span>
+        <span style="text-align:right;">PROVIDER</span>
+        <span></span>
+      </div>
+
+      <div id="b07-list" style="padding:8px 0;">
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[0.00s]</span>
+          <span class="name" style="color:#c4ccd9;">investigate.start</span>
+          <span class="latency" style="color:#6b7484; text-align:right;">—</span>
+          <span class="provider" style="color:#6b7484; text-align:right;">—</span>
+          <span class="status" style="color:#7eba6f; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[0.42s]</span>
+          <span class="name" style="color:#c4ccd9;">llm.call</span>
+          <span class="latency" style="color:#c8b3ff; text-align:right;">245ms</span>
+          <span class="provider" style="color:#9aa0ad; text-align:right;">groq</span>
+          <span class="status" style="color:#e85a5a; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[0.51s]</span>
+          <span class="name" style="color:#e85a5a;">llm.error · brownout</span>
+          <span class="latency" style="color:#e85a5a; text-align:right;">9ms</span>
+          <span class="provider" style="color:#9aa0ad; text-align:right;">groq</span>
+          <span class="status" style="color:#e85a5a; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[0.53s]</span>
+          <span class="name" style="color:#c8b3ff; font-weight:600;">resilient.move · fallback</span>
+          <span class="latency" style="color:#c8b3ff; text-align:right;">2ms</span>
+          <span class="provider" style="color:#c8b3ff; text-align:right;">tf-gateway</span>
+          <span class="status" style="color:#a259ff; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[0.78s]</span>
+          <span class="name" style="color:#c4ccd9;">llm.ok · 256 tok</span>
+          <span class="latency" style="color:#c8b3ff; text-align:right;">256ms</span>
+          <span class="provider" style="color:#9aa0ad; text-align:right;">ollama</span>
+          <span class="status" style="color:#7eba6f; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[1.02s]</span>
+          <span class="name" style="color:#c4ccd9;">tool.call · kubectl</span>
+          <span class="latency" style="color:#c8b3ff; text-align:right;">12ms</span>
+          <span class="provider" style="color:#9aa0ad; text-align:right;">kubectl</span>
+          <span class="status" style="color:#9aa0ad; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[1.11s]</span>
+          <span class="name" style="color:#e85a5a;">tool.error · exit=137</span>
+          <span class="latency" style="color:#e85a5a; text-align:right;">9ms</span>
+          <span class="provider" style="color:#9aa0ad; text-align:right;">kubectl</span>
+          <span class="status" style="color:#e85a5a; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[1.13s]</span>
+          <span class="name" style="color:#c8b3ff; font-weight:600;">resilient.move · substitute</span>
+          <span class="latency" style="color:#c8b3ff; text-align:right;">2ms</span>
+          <span class="provider" style="color:#c8b3ff; text-align:right;">tf-gateway</span>
+          <span class="status" style="color:#a259ff; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[1.41s]</span>
+          <span class="name" style="color:#c4ccd9;">prometheus.query</span>
+          <span class="latency" style="color:#c8b3ff; text-align:right;">283ms</span>
+          <span class="provider" style="color:#9aa0ad; text-align:right;">prometheus</span>
+          <span class="status" style="color:#7eba6f; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[1.66s]</span>
+          <span class="name" style="color:#c4ccd9;">hypothesis · Corefile reload</span>
+          <span class="latency" style="color:#c8b3ff; text-align:right;">251ms</span>
+          <span class="provider" style="color:#9aa0ad; text-align:right;">claude</span>
+          <span class="status" style="color:#7eba6f; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[1.92s]</span>
+          <span class="name" style="color:#c4ccd9;">prometheus.query · panic</span>
+          <span class="latency" style="color:#c8b3ff; text-align:right;">264ms</span>
+          <span class="provider" style="color:#9aa0ad; text-align:right;">prometheus</span>
+          <span class="status" style="color:#7eba6f; text-align:right;">●</span>
+        </div>
+        <div class="b07-event mono" style="display:grid; grid-template-columns:80px 1fr 110px 110px 40px; gap:14px; padding:11px 22px; border-radius:6px; font-size:13px; align-items:center;">
+          <span class="time" style="color:#6b7484;">[2.18s]</span>
+          <span class="name" style="color:#7eba6f; font-weight:600;">verdict.ready · cost=$0.00041</span>
+          <span class="latency" style="color:#c8b3ff; text-align:right;">14ms</span>
+          <span class="provider" style="color:#7eba6f; text-align:right;">claude</span>
+          <span class="status" style="color:#7eba6f; text-align:right;">●</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom caption below the modal -->
+  <div id="b07-caption" style="position:absolute; left:50%; top:985px; transform:translateX(-50%); text-align:center; opacity:0;">
+    <div class="mono" style="font-size:12px; color:#6b7484; letter-spacing:0.32em; margin-bottom:6px;">SCRUB · INSPECT ANY MOMENT</div>
+    <div style="font-size:20px; color:#c4ccd9; font-weight:500;">Every fallback recorded. Every decision auditable.</div>
+  </div>
+
+  <!-- 3D cursor — unified 96×120 size matching beats 3/6; finger tip rides progress bar -->
+  <div id="b07-cursor" style="position:absolute; left:261px; top:208px; pointer-events:none; z-index:60; opacity:0;">
+    <div id="b07-cursor-3d" style="filter:drop-shadow(0 22px 32px rgba(0,0,0,0.65)) drop-shadow(-8px 10px 12px rgba(162,89,255,0.28));">
+      <svg width="96" height="120" viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="b07-cursor-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffffff"/>
+            <stop offset="0.6" stop-color="#e8eaf0"/>
+            <stop offset="1" stop-color="#9da3b3"/>
+          </linearGradient>
+        </defs>
+        <path d="M9 4 v15 l-2 -1 q-3 -1.5 -4 1 v3 q0 1.5 1 3 l5 8 q1 2 3 2 h10 q2 0 3 -2 l2 -7 q0.5 -2 0.5 -4 v-4 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-2 q0 -2 -2 -2 t-2 2 v-9 q0 -2 -2 -2 t-2 2 z"
+              fill="url(#b07-cursor-grad)" stroke="#1a1a1f" stroke-width="2.2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+</div>
+<script src="https://unpkg.com/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  window.__timelines['b07'] = tl;
+
+  // ── Scenario pane: EXACT match to beat 6 end (scaled 3x with REPLAY button at viewport center)
+  gsap.set('#b07 #b07-scenario-pane', {
+    yPercent: -50,
+    x: -1697,
+    y: 936,
+    scale: 3,
+    rotationY: 0,
+    rotation: 0,
+    transformPerspective: 1200,
+    transformOrigin: '50% 50%'
+  });
+
+  // ── Replay modal: starts as a tiny point at the click location (viewport center), grows to full
+  gsap.set('#b07 #b07-modal', {
+    xPercent: -50,
+    yPercent: -50,
+    scale: 0.05,
+    opacity: 0,
+    transformOrigin: '50% 50%'
+  });
+
+  // Cursor 3D pose — softer tilt + finger tip origin matches 96×120 cursor (SVG 9,4 × scale-3 = 27,12)
+  gsap.set('#b07 #b07-cursor-3d', {
+    transformPerspective: 600,
+    rotationX: 18,
+    rotationY: -15,
+    rotation: -7,
+    scale: 0,
+    transformOrigin: '27px 12px'
+  });
+
+  // ── CROSSFADE-ZOOM: delayed until 0.2s so during the b06 overlap b07 sits at its static
+  //    starting pose (which is identical to b06's end). Once b06 is fully gone, modal grows
+  //    visibly from the click point — no "modal pops in mid-grown" jump.
+  tl.to('#b07 #b07-scenario-pane',
+    { opacity: 0, duration: 0.5, ease: 'power2.in' }, 0.25);
+  tl.to('#b07 #b07-modal',
+    { scale: 1, opacity: 1, duration: 0.65, ease: 'back.out(1.3)' }, 0.2);
+
+  // ── Scrubber playhead — cursor drags the progress bar, time + active event sync to it
+  const events = document.querySelectorAll('#b07 .b07-event');
+  const eventTimes = [0, 0.42, 0.51, 0.53, 0.78, 1.02, 1.11, 1.13, 1.41, 1.66, 1.92, 2.18];
+  const TOTAL = 2.18;
+  const eventFractions = eventTimes.map(t => t / TOTAL);
+
+  // Bigger modal: 1400 wide centered at 960 → modal left 260, right 1660
+  // Bar inset 28 each side → x range 288 → 1632, width 1344
+  // Modal top edge 130, header height ~67, bar offset 18+3 → bar mid y ≈ 218
+  const BAR_LEFT = 288;
+  const BAR_WIDTH = 1344;
+  const BAR_Y = 218;
+
+  const progressEl = document.querySelector('#b07 #b07-progress');
+  const playheadEl = document.querySelector('#b07 #b07-playhead');
+  const cursorEl   = document.querySelector('#b07 #b07-cursor');
+  const timeEl     = document.querySelector('#b07 #b07-time');
+  const defaultLatencyColors = Array.from(events).map(el => el.querySelector('.latency').style.color || '#c8b3ff');
+
+  // Set cursor top once (was redundantly written every frame in onUpdate)
+  gsap.set('#b07 #b07-cursor', { top: BAR_Y - 12 });
+
+  const playhead = { f: 0 };
+  function applyPlayhead() {
+    const f = Math.max(0, Math.min(1, playhead.f));
+    progressEl.style.width = (f * 100) + '%';
+    if (playheadEl) playheadEl.style.left = (f * 100) + '%';
+    cursorEl.style.left = (BAR_LEFT + f * BAR_WIDTH - 27) + 'px';
+    timeEl.textContent = (f * TOTAL).toFixed(2) + 's';
+
+    let activeIdx = 0;
+    for (let i = 0; i < eventFractions.length; i++) {
+      if (eventFractions[i] <= f) activeIdx = i;
+    }
+    events.forEach((el, i) => {
+      const isActive = i === activeIdx;
+      el.style.backgroundColor = isActive ? 'rgba(162,89,255,0.22)' : '';
+      el.style.boxShadow = isActive ? 'inset 0 0 0 1px rgba(162,89,255,0.6)' : '';
+      const lat = el.querySelector('.latency');
+      if (isActive) {
+        lat.style.color = '#ffffff';
+        lat.style.textShadow = '0 0 14px rgba(200,179,255,0.75)';
+      } else {
+        lat.style.color = defaultLatencyColors[i];
+        lat.style.textShadow = '';
+      }
+    });
+  }
+  applyPlayhead();
+
+  // Bottom caption fades in after the modal is fully visible
+  tl.to('#b07 #b07-caption', { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0.75);
+
+  // Cursor materializes on the bar after the zoom-out crossfade
+  tl.to('#b07 #b07-cursor', { opacity: 1, duration: 0.2 }, 0.95);
+  tl.to('#b07 #b07-cursor-3d',
+    { scale: 1, duration: 0.18, ease: 'back.out(1.6)' }, 0.95);
+
+  // SCRUB FORWARD
+  tl.to(playhead,
+    { f: 0.85, duration: 1.6, ease: 'power2.inOut', onUpdate: applyPlayhead }, 1.2);
+
+  // REWIND
+  tl.to(playhead,
+    { f: 0.25, duration: 0.9, ease: 'power2.inOut', onUpdate: applyPlayhead }, 3.1);
+
+  // SKIP TO END
+  tl.to(playhead,
+    { f: 1.0, duration: 1.0, ease: 'power3.out', onUpdate: applyPlayhead }, 4.2);
+
+  tl.to('#b07 #b07-cursor',
+    { opacity: 0, duration: 0.35, ease: 'power2.in' }, 5.6);
+
+  // Modal + caption fade out at end so beat 8 fades in cleanly (no abandoned modal snap)
+  tl.to('#b07 #b07-modal',
+    { opacity: 0, duration: 0.55, ease: 'power2.in' }, 6.7);
+  tl.to('#b07 #b07-caption',
+    { opacity: 0, duration: 0.55, ease: 'power2.in' }, 6.7);
+</script>
+</body>
+</html>
